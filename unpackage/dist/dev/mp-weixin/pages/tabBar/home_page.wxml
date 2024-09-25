@@ -1,0 +1,1 @@
+<view class="uni-flex,uni-column"><view class="uni-flex,uni-row,input-panel"><text> 位置:</text><input class="uni-input" placeholder=""/></view><view class="uni-flex,uni-row,input-panel"><text> 费用:</text><input class="uni-input" placeholder=""/></view><map style="width:100%;height:900rpx"></map></view>
