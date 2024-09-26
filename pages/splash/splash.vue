@@ -14,13 +14,13 @@
 
 		created() {
 
-			// uni.navigateTo({
-			// 	url: "/pages/parking_post_page/parking_post_page"
-			// });
-			
-			uni.switchTab({
-				url: "/pages/tabBar/home_page",
+			uni.navigateTo({
+				url: "/pages/login/login"
 			});
+			
+			// uni.switchTab({
+			// 	url: "/pages/tabBar/home_page",
+			// });
 
 		},
 

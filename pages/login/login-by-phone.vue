@@ -7,10 +7,11 @@
 
 
 
-		<button class="custom_button_wexin" @click="">微信一键登录</button>
+		<button class="custom_button_wexin" @click="uni.navigateTo({
+			
+		})">微信一键登录</button>
 		<view style="height: 40rpx;"></view>
 
-		<button class="custom_button_phone" @click="handleLoginByPhone()">其他手机号登录</button>
 
 
 		<view style="height: 40rpx;"></view>
@@ -28,7 +29,6 @@
 
 			}
 		},
-		
 		props: {
 			type: {
 				type: String,
@@ -42,10 +42,8 @@
 
 			},
 
-			handleLoginByPhone() {
-				uni.navigateTo({
-					url:"/pages/login/login-by-phone"
-				})
+			handleClose() {
+				uni.navigateBack();
 			}
 
 		}
@@ -58,7 +56,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		width: 500rpx;
+		width: 500rpx;		
 		height: 80rpx;
 		border-radius: 100rpx;
 		color: white;

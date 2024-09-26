@@ -86,6 +86,10 @@
 		font-size: 38rpx;
 		color: #808080;
 	}
+	:root {
+	  --theme-color: #0092c8;  
+	  --text-color: #333333;
+	}
 
 	/* #endif*/
 </style>

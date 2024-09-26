@@ -5,8 +5,8 @@ const _sfc_main = {
     return {};
   },
   created() {
-    common_vendor.index.switchTab({
-      url: "/pages/tabBar/home_page"
+    common_vendor.index.navigateTo({
+      url: "/pages/login/login"
     });
   },
   methods: {}

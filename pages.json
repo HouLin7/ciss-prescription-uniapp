@@ -34,14 +34,13 @@
 			"path" : "pages/parking_post_page/parking_post_page",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "发布"
 			}
 		},
 		{
-			"path" : "pages/parking_post_page/parking_post_unlogin_page",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/login/login-by-phone",
+			"style": {
+				"navigationBarTitleText": "登陆"
 			}
 		}
 
@@ -62,8 +61,8 @@
 			},
 			{
 				"pagePath": "pages/parking_post_page/parking_post_page",
-				"iconPath": "static/post-status.png",
-				"selectedIconPath": "static/post-status.png",
+				"iconPath": "static/post_status.png",
+				"selectedIconPath": "static/post_status.png",
 				"text": "发布"
 			},
 			
