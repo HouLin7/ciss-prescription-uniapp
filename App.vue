@@ -1,14 +1,14 @@
-<script>
+<script>	
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			console.log('App Launch')			
 		},
 		onShow: function() {
 			console.log('App Show')
 		},
 		onHide: function() {
 			console.log('App Hide')
-		}
+		},		
 	}
 </script>
 
@@ -18,6 +18,7 @@
 	/* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */
 	@import './common/uni.css';
 	@import '@/static/customicons.css';
+
 	/* H5 兼容 pc 所需 */
 	/* #ifdef H5 */
 	@media screen and (min-width: 768px) {
@@ -86,9 +87,10 @@
 		font-size: 38rpx;
 		color: #808080;
 	}
+
 	:root {
-	  --theme-color: #0092c8;  
-	  --text-color: #333333;
+		--theme-color: #1B76F8;
+		--text-color: #333333;
 	}
 
 	/* #endif*/

@@ -1,0 +1,1 @@
+export const amapAppKey = "57aa4246d0ae99a310e2bfcac69ec5ef";

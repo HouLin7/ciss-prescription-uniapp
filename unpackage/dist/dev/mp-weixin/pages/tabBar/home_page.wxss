@@ -1,8 +1,0 @@
-
-.input-panel {
-		align-items: center;
-		justify-content: space-between;
-		padding-left: 15rpx;
-		padding-right: 15rpx;
-		padding-bottom: 15rpx;
-}

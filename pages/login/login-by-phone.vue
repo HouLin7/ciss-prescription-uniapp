@@ -1,18 +1,28 @@
 <template>
-	<view style="padding-left: 40rpx;padding-right: 40rpx; align-items:center" class="uni-flex uni-column">
+	<view style="padding-left: 40rpx;padding-right: 40rpx;" class="uni-flex uni-column">
 
-		<view style="height: 140rpx;"></view>
-		<image mode="aspectFit" src="/static/logo.png" @click="handleClose" style="height: 140rpx;width: 140rpx;" />
+		<view style="height: 100rpx;"></view>
+		<view class="uni-center">
+			<image mode="aspectFit" src="/static/logo.png" @click="handleClose" style="height: 140rpx;width: 140rpx;" />
+		</view>
+
 		<view style="height: 100rpx;"></view>
 
 
+		<view class="uni-row uni-flex" style="align-items: center;justify-content: start;">
+			<view style="padding-right: 10rpx;">+86</view> 
+			<input placeholder="请输入手机号" type="number" name="phone" value=""/>
+		</view>
 
-		<button class="custom_button_wexin" @click="uni.navigateTo({
-			
-		})">微信一键登录</button>
+		<view>
+			<view style="height: 1rpx;flex: 1; background-color: grey;opacity: 0.5;margin-top: 10rpx;"></view>
+		</view>
+
+
+
+		<view style="height: 100rpx;"></view>
+		<button class="custom_button_wexin" @click="handleLogin()">登陆并同意注册</button>
 		<view style="height: 40rpx;"></view>
-
-
 
 		<view style="height: 40rpx;"></view>
 		<view class="uni-flex uni-row">
@@ -56,7 +66,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		width: 500rpx;		
+		width: 500rpx;
 		height: 80rpx;
 		border-radius: 100rpx;
 		color: white;

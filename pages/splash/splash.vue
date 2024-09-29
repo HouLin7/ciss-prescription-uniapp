@@ -12,15 +12,11 @@
 			}
 		},
 
-		created() {
-
-			uni.navigateTo({
-				url: "/pages/login/login"
-			});
+		created() {		
 			
-			// uni.switchTab({
-			// 	url: "/pages/tabBar/home_page",
-			// });
+			uni.switchTab({
+				url: "/pages/tabBar/home_page",
+			});
 
 		},
 

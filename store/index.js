@@ -10,7 +10,7 @@ import { createStore } from 'vuex'
 const store = createStore({
 // #endif
 	state: {
-		hasLogin: false,
+		hasLogin: true,
 		isUniverifyLogin: false,
 		loginProvider: "",
 		openid: null,
@@ -22,7 +22,8 @@ const store = createStore({
 		leftWinActive: '/pages/component/view/view',
 		activeOpen: '',
 		menu: [],
-		univerifyErrorMsg: ''
+		univerifyErrorMsg: '',
+		appName:"小白马",
 	},
 	mutations: {
 		login(state, provider) {

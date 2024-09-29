@@ -1,6 +1,6 @@
 <template>
-	<view class="uni-flex,uni-column" style="padding: 20rpx;">
-		<view class="uni-flex,uni-row" style="align-items: center;">
+	<view class="uni-flex uni-column" style="padding: 20rpx;">
+		<view class="uni-flex uni-row" style="align-items: center;">
 
 			<image mode="aspectFit" :src="avatraUrl" class="avatar"></image>
 
@@ -46,9 +46,9 @@
 	}
 
 	.avatar {
-		width: 150px;
+		width: 150rpx;
 		/* 或者你需要的尺寸 */
-		height: 150px;
+		height: 150rpx;
 		/* 或者你需要的尺寸 */
 		border-radius: 50%;
 		/* 圆形头像 */
