@@ -14,7 +14,8 @@
 							<view>
 								{{currentSelection.province}} {{currentSelection.city}} {{currentSelection.area}}
 							</view>
-							<view class="arrow-down" />
+							<!-- <view class="arrow-down" /> -->
+							<uni-icons type="arrowdown"></uni-icons>
 						</view>
 					</picker>
 				</view>

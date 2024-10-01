@@ -1,101 +1,100 @@
 <template>
 
 	<view class="root-container">
-		<view class="uni-flex uni-column" style="padding: 20rpx;height: 100vh;">
-			<view class="uni-flex uni-row">
-				<uni-easyinput class="uni-list-cell-db" placeholder="请输入小区名称" suffix-icon="search" icon-click="" />
+		<view class="search-bar">	
+				<uni-easyinput placeholder="请输入小区名称" suffix-icon="search" icon-click="" />
+				<view class="uni-flex uni-row"
+					style="padding-top: 20rpx; align-items: center; background: white">
+					<view class="uni-flex uni-row" style="flex: 1; align-items: center;justify-content: center;"
+						@click="priceOrderClick">
+						<view class="text-label">价格</view>
+						<uni-icons size="18" :type="priceIconName" color="#666666"></uni-icons>
+					</view>
+					<view class="uni-flex uni-row" style="flex: 1;align-items: center;justify-content: center;"
+						@click="distanceClick">
+						<view class="text-label">距离</view>
+						<uni-icons size="18" :type="distanceIconName" color="#666666"></uni-icons>
+					</view>
+					<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="regionClick">
+						<view class="text-label">区域</view>
+					</view>
+					<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="filterClick">
+						<view class="text-label">筛选</view>
+					</view>
+					<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="changeReviewModel">
+						<image v-show="reviewModel==0" src="../../static/icons/item_list_review.png"
+							style="width: 30rpx;height: 30rpx;"></image>
+						<image v-show="reviewModel==1" src="../../static/icons/map_list_review.png"
+							style="width: 30rpx;height: 30rpx;"></image>
+					</view>
+				</view>
+			
+
+		</view>
+
+		<uni-popup ref="popup" type="bottom">
+			<view class="uni-flex uni-row" v-show="isFilterCity" style="height: 600rpx; background-color: white;">
+				<!-- 筛选条件内容 -->
+				<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
+					<uni-list class="uni-list">
+						<uni-list-item class="uni-list-cell" v-for="(item,index) in provices" :key="index"
+							:title="item" />
+					</uni-list>
+				</scroll-view>
+
+				<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
+					<uni-list class="uni-list">
+						<uni-list-item class="uni-list-cell" v-for="(item,index) in provices" :key="index"
+							:title="item" />
+					</uni-list>
+				</scroll-view>
+
+				<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
+					<uni-list class="uni-list">
+						<uni-list-item class="uni-list-cell" v-for="(item,index) in provices" :key="index"
+							:title="item" />
+					</uni-list>
+				</scroll-view>
 			</view>
-			<view style="height: 10rpx;"></view>
 
-			<view class="uni-flex uni-row"
-				style="padding-top: 20rpx;padding-bottom: 20rpx; align-items: center; background: white">
-				<view class="uni-flex uni-row" style="row;flex: 1; align-items: center;justify-content: center;"
-					@click="priceOrderClick">
-					<view class="text-label">价格</view>
-					<uni-icons size="18" :type="priceIconName" color="#666666"></uni-icons>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;align-items: center;justify-content: center;"
-					@click="distanceClick">
-					<view class="text-label">距离</view>
-					<uni-icons size="18" :type="distanceIconName" color="#666666"></uni-icons>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="regionClick">
-					<view class="text-label">区域</view>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="filterClick">
-					<view class="text-label">筛选</view>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="changeReviewModel">
-					<image v-show="reviewModel==0" src="../../static/icons/item_list_review.png"
-						style="width: 30rpx;height: 30rpx;"></image>
-					<image v-show="reviewModel==1" src="../../static/icons/map_list_review.png"
-						style="width: 30rpx;height: 30rpx;"></image>
-				</view>
+			<view v-show="!isFilterCity" style="height: 600rpx; background-color: white;" class="uni-flex uni-column">
+				<!-- 筛选条件内容 -->
+				<text>条件1</text>
+				<text>条件2</text>
+				<text>条件3</text>
 			</view>
-			<uni-popup ref="popup" type="bottom">
-				<view class="uni-flex uni-row" v-show="isFilterCity" style="height: 600rpx; background-color: white;">
-					<!-- 筛选条件内容 -->
-					<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
-						<uni-list class="uni-list">
-							<uni-list-item class="uni-list-cell" v-for="(item,index) in provices" :key="index"
-								:title="item" />
-						</uni-list>
-					</scroll-view>
 
-					<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
-						<uni-list class="uni-list">
-							<uni-list-item class="uni-list-cell" v-for="(item,index) in provices" :key="index"
-								:title="item" />
-						</uni-list>
-					</scroll-view>
+		</uni-popup>
 
-					<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
-						<uni-list class="uni-list">
-							<uni-list-item class="uni-list-cell" v-for="(item,index) in provices" :key="index"
-								:title="item" />
-						</uni-list>
-					</scroll-view>
-				</view>
+		<map v-show="reviewModel==1" style="height: 1000rpx; width: 100%;" :markers="allMarkers"
+			:latitude="myLocation['latitude']" :longitude="myLocation['longitude']" />
 
-				<view v-show="!isFilterCity" style="height: 600rpx; background-color: white;"
-					class="uni-flex uni-column">
-					<!-- 筛选条件内容 -->
-					<text>条件1</text>
-					<text>条件2</text>
-					<text>条件3</text>
-				</view>
+		<uni-list class="search-results" v-show="reviewModel!==1" scroll-y="true">
+			<uni-list-item v-for="(item,index) in parkingList" :key="index" @click="parkingItemCLick(index,item)"
+				showArrow="true">
+				<template #header>
+					<image src="../../static/uni.png" style="width: 100rpx;height: 100rpx; border-radius: 10rpx;" />
+				</template>
+				<template #body>
+					
+					<view class="uni-flex uni-column" style="margin-left: 10rpx;">
+						<view class="text-value"> {{ `${item.district}  ${item.community}` }}</view>
 
-			</uni-popup>
+						<view v-show="item.carParkingNo!==undefined" class="uni-flex uni-row">
+							<view class="text-label">车位编号 </view>
+							<view class="text-value"> {{item.carParkingNo}}</view>
+						</view>
 
-			<map v-show="reviewModel==1" style="height: 1000rpx; width: 100%;" :markers="allMarkers"
-				:latitude="myLocation['latitude']" :longitude="myLocation['longitude']" />
-
-			<uni-list v-show="reviewModel!==1" scroll-y="true">
-				<view v-for="(item,index) in parkingList" :key="index" class="uni-flex uni-row "
-					style="align-items: center; padding: 10rpx 15rpx; justify-content: space-between;"
-					@click="parkingItemCLick(index,item)">
-					<view class="uni-flex">
-						<image src="../../static/uni.png" style="width: 100rpx;height: 100rpx; border-radius: 10rpx;" />
-						<view style="width: 20rpx;"></view>
-						<view class="uni-flex uni-column ">
-							<view class="text-value"> {{ `${item.district}  ${item.community}` }}</view>
-
-							<view v-show="item.carParkingNo!==undefined" class="uni-flex uni-row">
-								<view class="text-label">车位编号 </view>
-								<view class="text-value"> {{item.carParkingNo}}</view>
-							</view>
-
-							<view class="uni-row uni-flex">
-								<view class="text-label">出租价格 </view>
-								<view class="text-value"> {{item.price}} 元/日</view>
-							</view>
+						<view class="uni-row uni-flex">
+							<view class="text-label">出租价格 </view>
+							<view class="text-value"> {{item.price}} 元/日</view>
 						</view>
 					</view>
 
-					<uni-icons size="16" color="#bbb" type="arrowright" />
-				</view>
-			</uni-list>
-		</view>
+				</template>
+
+			</uni-list-item>
+		</uni-list>
 	</view>
 
 </template>
@@ -111,8 +110,7 @@
 
 	export default {
 
-		onLoad() {
-			console.log('onLoad');
+		onReady() {
 			setTimeout(() => {
 					if (this.reviewModel == 1) {
 						this.findMySelfLocation();
@@ -230,8 +228,31 @@
 
 
 <style>
+	.search-bar {
+		display: flex;
+		flex-direction: column;	
+		justify-content: space-between;	
+		margin: 10rpx 10rpx;
+		padding: 10rpx 10rpx;
+		background-color: white;								
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		/* 给搜索栏一个阴影效果 */
+	}
+
+	.search-results {
+		flex: 1;		
+		/* 搜索栏的高度 */
+		/* padding: 10rpx; */
+		overflow-y: auto;
+		margin: 10rpx 10rpx;
+		/* background-color: #f5f5f5; */
+	}
+
 	.root-container {
-		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		/* 设置页面的高度为全屏 */
 	}
 
 	.text-label {
