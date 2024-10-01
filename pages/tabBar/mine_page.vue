@@ -1,6 +1,6 @@
 <template>
-	<view class="uni-flex uni-column" style="padding: 20rpx;">
-		<view class="uni-flex uni-row" style="align-items: center;">
+	<view class="uni-flex uni-column" style="padding: 0rpx;">
+		<view class="uni-flex uni-row" style="align-items: center;background-color: white;padding: 20rpx;">
 
 			<image mode="aspectFit" :src="avatraUrl" class="avatar"></image>
 
@@ -36,7 +36,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.container {
 		display: flex;
 		flex-direction: column;
@@ -50,9 +50,9 @@
 		/* 或者你需要的尺寸 */
 		height: 150rpx;
 		/* 或者你需要的尺寸 */
-		border-radius: 50%;
+		border-radius: 10%;
 		/* 圆形头像 */
-		border: 3px solid white;
+		border: 1px solid white;
 		/* 可选的边框 */
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 		/* 可选的阴影效果 */

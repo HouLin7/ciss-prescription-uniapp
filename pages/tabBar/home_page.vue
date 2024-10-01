@@ -1,43 +1,35 @@
 <template>
 
 	<view class="root-container">
-		<view v-show="isFilterCity" class="filter-panel">
-			<view class="uni-flex uni-row">
-				<view class="uni-flex uni-column" style="flex: 1;">
-
-					<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper"
-						@scrolltolower="lower" @scroll="scroll">
-						<view v-for="(item,index) in provices" :key="index">
-							{{item}}
-						</view>
-					</scroll-view>
-
-
-				</view>
-				<view class="uni-flex uni-column" style="flex: 2;">
-					123123sdfsdfds
-				</view>
-			</view>
-		</view>
-		<view class="uni-flex uni-column" style="padding: 20rpx;background-color: white;height: 100vh;">
+		<view class="uni-flex uni-column" style="padding: 20rpx;height: 100vh;">
 			<view class="uni-flex uni-row">
 				<uni-easyinput class="uni-list-cell-db" placeholder="请输入小区名称" suffix-icon="search" icon-click="" />
 			</view>
 			<view style="height: 10rpx;"></view>
 
-			<view class="uni-flex uni-row" style="padding: 20rpx; align-items: center;">
-				<view class="uni-flex uni-row" style="row;flex: 1; align-items: center;" @click="priceOrderClick">
-					<view class="text_label">价格</view>
+			<view class="uni-flex uni-row"
+				style="padding-top: 20rpx;padding-bottom: 20rpx; align-items: center; background: white">
+				<view class="uni-flex uni-row" style="row;flex: 1; align-items: center;justify-content: center;"
+					@click="priceOrderClick">
+					<view class="text-label">价格</view>
 					<uni-icons size="18" :type="priceIconName" color="#666666"></uni-icons>
 				</view>
-				<view class="uni-flex uni-row" style="flex: 1;" @click="distanceClick">
-					<view class="text_label">距离</view>
+				<view class="uni-flex uni-row" style="flex: 1;align-items: center;justify-content: center;"
+					@click="distanceClick">
+					<view class="text-label">距离</view>
+					<uni-icons size="18" :type="distanceIconName" color="#666666"></uni-icons>
 				</view>
-				<view class="uni-flex uni-row" style="flex: 1;" @click="regionClick">
-					<view class="text_label">区域</view>
+				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="regionClick">
+					<view class="text-label">区域</view>
 				</view>
-				<view class="uni-flex uni-row" style="flex: 1;" @click="filterClick">
-					<view class="text_label">筛选</view>
+				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="filterClick">
+					<view class="text-label">筛选</view>
+				</view>
+				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="changeReviewModel">
+					<image v-show="reviewModel==0" src="../../static/icons/item_list_review.png"
+						style="width: 30rpx;height: 30rpx;"></image>
+					<image v-show="reviewModel==1" src="../../static/icons/map_list_review.png"
+						style="width: 30rpx;height: 30rpx;"></image>
 				</view>
 			</view>
 			<uni-popup ref="popup" type="bottom">
@@ -75,7 +67,34 @@
 
 			</uni-popup>
 
-			<map style="height: 1000rpx; width: 100%;" :markers="allMarkers" :latitude="myLocation['latitude']" :longitude="myLocation['longitude']" />
+			<map v-show="reviewModel==1" style="height: 1000rpx; width: 100%;" :markers="allMarkers"
+				:latitude="myLocation['latitude']" :longitude="myLocation['longitude']" />
+
+			<uni-list v-show="reviewModel!==1" scroll-y="true">
+				<view v-for="(item,index) in parkingList" :key="index" class="uni-flex uni-row "
+					style="align-items: center; padding: 10rpx 15rpx; justify-content: space-between;"
+					@click="parkingItemCLick(index,item)">
+					<view class="uni-flex">
+						<image src="../../static/uni.png" style="width: 100rpx;height: 100rpx; border-radius: 10rpx;" />
+						<view style="width: 20rpx;"></view>
+						<view class="uni-flex uni-column ">
+							<view class="text-value"> {{ `${item.district}  ${item.community}` }}</view>
+
+							<view v-show="item.carParkingNo!==undefined" class="uni-flex uni-row">
+								<view class="text-label">车位编号 </view>
+								<view class="text-value"> {{item.carParkingNo}}</view>
+							</view>
+
+							<view class="uni-row uni-flex">
+								<view class="text-label">出租价格 </view>
+								<view class="text-value"> {{item.price}} 元/日</view>
+							</view>
+						</view>
+					</view>
+
+					<uni-icons size="16" color="#bbb" type="arrowright" />
+				</view>
+			</uni-list>
 		</view>
 	</view>
 
@@ -85,33 +104,43 @@
 	import {
 		getMyLocation
 	} from '../../common/my-common-utisl';
-	import mockData from '../../mock_data/mock-test-data';
+	import {
+		cityList,
+		parkingInfoList
+	} from '../../mock_data/mock-test-data';
 
 	export default {
 
-		created() {
-			console.log('created');
-			setTimeout(()=>{
-					this.findMySelfLocation();		
+		onLoad() {
+			console.log('onLoad');
+			setTimeout(() => {
+					if (this.reviewModel == 1) {
+						this.findMySelfLocation();
+					}
 				},
-			1000);				
+				1000);
+			this.parkingList = parkingInfoList;
 		},
 
 		computed: {
-			
-			allMarkers: function(){
+
+			allMarkers: function() {
 				return [this.myselfMarker];
 			},
-			
-			myselfMarker: function(){	
-					return {
-						...this.myLocation,
-						'iconPath':'/static/location.png',
-						'title' :'我的位置',
-					}
-				
+
+			myselfMarker: function() {
+				return {
+					...this.myLocation,
+					'iconPath': '/static/location.png',
+					'title': '我的位置',
+				}
+
 			},
-			
+
+			distanceIconName: function() {
+				return this.distanceOrderFlag === 0 ? "arrow-up" : "arrow-down";
+			},
+
 			priceIconName: function() {
 				return this.priceOrderFlag === 0 ? "arrow-up" : "arrow-down";
 			},
@@ -119,24 +148,41 @@
 
 		data() {
 			return {
+				parkingList: parkingInfoList,
 				scrollTop: 0,
 				priceOrderFlag: 0,
 				distanceOrderFlag: 0,
 				isFilterPanelVisible: false,
 				isFilterCity: false,
-				myLocation: {"longitude":null,"latitude":null},
-				provices: mockData.cityList.map(currVaue => currVaue.name),
+				reviewModel: 0,
+				myLocation: {
+					"longitude": null,
+					"latitude": null
+				},
+				provices: cityList.map(currVaue => currVaue.name),
 			}
 		},
 
 		methods: {
 
-			findMySelfLocation(){
+			parkingItemCLick(index, item) {
+
+			},
+
+			changeReviewModel() {
+				if (this.reviewModel == 0) {
+					this.reviewModel = 1;
+					this.findMySelfLocation();
+				} else {
+					this.reviewModel = 0;
+				}
+			},
+			findMySelfLocation() {
 				getMyLocation().then((res) => {
-				
-				this.myLocation.longitude = res.longitude;
-				this.myLocation.latitude = res.latitude;
-				
+
+					this.myLocation.longitude = res.longitude;
+					this.myLocation.latitude = res.latitude;
+
 				}).catch((error) => {
 					uni.showToast({
 						title: JSON.stringify(error),
@@ -144,22 +190,26 @@
 					})
 				});
 			},
-		
+
 			filterClick() {
+				if (this.isFilterCity === true) {
+					this.isFilterCity = false;
+				}
 				this.$refs.popup.open();
 			},
-			
-			distanceClick(){
-				console.log("distanceClick");												
-			},
-			
-			regionClick() {
-				if (this.isFilterCity == true) {
-					this.isFilterCity = false;
+
+			distanceClick() {
+				if (this.distanceOrderFlag === 0) {
+					this.distanceOrderFlag = 1;
 				} else {
+					this.distanceOrderFlag = 0;
+				}
+			},
+
+			regionClick() {
+				if (this.isFilterCity === false) {
 					this.isFilterCity = true;
 				}
-
 				this.$refs.popup.open();
 
 			},
@@ -184,9 +234,15 @@
 		position: relative;
 	}
 
-	.text_label {
+	.text-label {
+		margin-right: 10rpx;
 		font-size: 24rpx;
 		color: #666666;
+	}
+
+	.text-value {
+		font-size: 24rpx;
+		color: #333;
 	}
 
 	.input-panel {

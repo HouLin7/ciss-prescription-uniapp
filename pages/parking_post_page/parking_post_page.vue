@@ -1,54 +1,95 @@
 <template>
 
 	<view class="counter">
-
 		<view v-if="hasLogin" style="counter">
-			<view style="color: gray; font-size: 22rpx;">城市</view>
-			<view class="uni-flex uni-row" style="justify-items: center;">
-				<uni-easyinput v-model="city" icon-click="">
-					<template #right>
-						<image src="/static/location.png" style="height: 60rpx;width: 60rpx;"
-							@click="getMyLocation()" />
-					</template>
-				</uni-easyinput>
-			</view>
-			<view class="divier"></view>
 
-			<view style="color: gray; font-size: 22rpx;">小区</view>
-			<view class="uni-flex uni-row" style="justify-items: center;">
-				<uni-easyinput v-model="town" icon-click="">
-				</uni-easyinput>
-			</view>
+			<uni-section type="line" title="位置信息" class="my-uni-section">
 
-			<view class="divier"></view>
+				<view class="uni-flex" style="align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+					<view class="label-text">所在城市</view>
+					<view style="width: 10rpx;"></view>
+					<picker style="flex: 1;" mode="multiSelector" :range="cityRange" @change="onPickerChange"
+						@columnchange="onColumnChange">
+						<view class="uni-flex picker" style="justify-content: space-between;">
+							<view>
+								{{currentSelection.province}} {{currentSelection.city}} {{currentSelection.area}}
+							</view>
+							<view class="arrow-down" />
+						</view>
+					</picker>
+				</view>
 
-			<view style="color: gray; font-size: 22rpx;">车位编号</view>
-			<view class="uni-flex uni-row" style="justify-items: center;">
-				<uni-easyinput type="text" v-model="parking_no" icon-click="">
-				</uni-easyinput>
-			</view>
+				<view style="height: 10rpx;"></view>
 
-			<view class="divier"></view>
+				<view class="uni-flex" style="align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+					<view class="label-text">所在小区</view>
+					<view style="width: 10rpx;"></view>
 
-			<uni-section type="line" title="每日可共享时间段" sub-title="备注说明" style="padding-bottom: 10rpx;">
+					<view class="uni-flex uni-row" style="justify-items: center; flex: 1;">
+						<uni-easyinput v-model="district" icon-click="">
+							<template #right>
+								<image mode="aspectFit" src="/static/location.png" style="height: 80rpx;width: 80rpx;"
+									@click="chooseLocation()" />
+							</template>
+						</uni-easyinput>
+					</view>
+				</view>
+
+			</uni-section>
+
+			<view style="height: 10rpx;" />
+
+			<uni-section type="line" title="车位信息" class="my-uni-section">
+
+				<view class="uni-flex" style="justify-content: space-between; align-items: center;padding-left: 20rpx;">
+					<view class="uni-flex" style="align-items: center;">
+						<view class="label-text">车位编号</view>
+						<view style="width: 10rpx;" />
+						<view class="uni-flex uni-row" style="justify-items: center">
+							<uni-easyinput type="text" v-model="parking_no" />
+						</view>
+					</view>
+
+					<checkbox-group @change="checkboxChange"
+						style="display: flex;  justify-content: flex-end; flex: 1;margin-right: 10rpx;">
+						<checkbox value="1" :checked="canChargeBattery==1">充电桩</checkbox>
+					</checkbox-group>
+
+				</view>
+
+				<view style="height: 10rpx;" />
+
+				<view class="uni-flex"
+					style="justify-content: space-between; align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+
+					<view class="label-text">出租价格</view>
+					<view style="width: 10rpx;" />
+					<uni-easyinput type="number" v-model="priceUnit" />
+					<view style="width: 10rpx;" />
+					<text>元/月</text>
+				</view>
+
+			</uni-section>
+
+			<view style="height: 10rpx;" />
+
+			<uni-section type="line" title="每日可共享时间段" sub-title="备注说明" class="my-uni-section">
 
 				<view class="uni-flex uni-column" style="justify-items: center;padding-right: 10rpx;">
 					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
-						<view class="uni-list-cell-left">开始时间</view>
+						<view class="uni-list-cell-left label-text">开始时间</view>
 						<view class="uni-list-cell-db">
-							<picker mode="time" :value="startTime" start="09:00" end="21:01" @change="bindTimeChange">
+							<picker mode="time" :value="startTime" start="09:00" end="21:01"
+								@change="bindStartTimeChange">
 								<view class="uni-input">{{startTime}}</view>
 							</picker>
 						</view>
 					</view>
-					<view class="divier" style="margin-left: 40rpx;"></view>
-
+					<view style="height: 10rpx;"></view>
 					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
-						<view class="uni-list-cell-left">
-							结束时间
-						</view>
+						<view class="uni-list-cell-left label-text">结束时间</view>
 						<view class="uni-list-cell-db">
-							<picker mode="time" :value="endTime" start="09:0" end="21:01" @change="bindTimeChange">
+							<picker mode="time" :value="endTime" start="09:0" end="21:01" @change="bindEndTimeChange">
 								<view class="uni-input">{{endTime}}</view>
 							</picker>
 						</view>
@@ -59,12 +100,11 @@
 
 			<view style="height: 20rpx;" />
 
-
-			<uni-section type="line" title="可租赁时间周期" sub-title="备注说明" style="padding-bottom: 10rpx;">
+			<uni-section type="line" title="可租赁时间周期" class="my-uni-section">
 
 				<view class="uni-flex uni-column" style="justify-items: center;padding-right: 10rpx;">
 					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
-						<view class="uni-list-cell-left">
+						<view class="uni-list-cell-left label-text">
 							开始日期
 						</view>
 						<view class="uni-list-cell-db">
@@ -75,10 +115,10 @@
 						</view>
 					</view>
 
-					<view class="divier" style="margin-left: 40rpx;"></view>
+					<view style=" height: 10rpx; margin-left: 40rpx;"></view>
 
 					<view class="uni-flex uni-row" style="flex: 1; align-items: center;">
-						<view class="uni-list-cell-left">结束日期</view>
+						<view class="uni-list-cell-left label-text">结束日期</view>
 						<view class="uni-list-cell-db">
 							<picker mode="date" :value="selectEndDate" :start="startDate" :end="endDate"
 								@change="bindEndDateChange">
@@ -89,9 +129,7 @@
 				</view>
 			</uni-section>
 
-
-
-
+			<button type="primary" size="default" style="margin-top: 10rpx;" @click="postInfo" >发布信息</button>
 		</view>
 
 		<view v-if="!hasLogin" style="display: flex;flex-direction: column;padding-top: 20rpx;align-items: center;">
@@ -110,6 +148,8 @@
 </template>
 
 <script lang="ts">
+	import { cityList, areaList, provinceList } from '../../mock_data/mock-test-data';
+
 	function getDate(type) {
 		const date = new Date();
 
@@ -131,7 +171,6 @@
 	import {
 		mapState
 	} from 'vuex'
-	// import { getLocation } from '../../common/MyCommonUtil';
 	import {
 		AMapWX
 	} from '../../common/amap-wx';
@@ -153,30 +192,69 @@
 
 		data() {
 			return {
+				// 选项数组
+				options: ['选项1', '选项2', '选项3', '选项4'],
+				// 当前选中的索引
+				selectedIndex: 0,
+				priceUnit: 0,
 				amapPlugin: null,
 				locationInfo: null,
 				isLogined: false,
 				city: "", //城市
-				town: "", //街道
+				district: "", //行政区
 				HousingEstate: "", //小区
 				parking_no: "", //车位编号
 				startTime: '09:00',
 				endTime: '18:00',
 				multiIndex: [0, 0, 0],
 
+				canChargeBattery: '0',
 				selectstartDate: "",
-
+				longitude: 0,
+				latitude: 0,
 				selectEndDate: "",
 				startDate: getDate('start'),
 				endDate: getDate('end'),
+				selectedIndexes: [0, 0, 0], // 选择的省市区索引
+				currentSelection: {
+					province: '',
+					city: '',
+					area: ''
+				},
 			}
 		},
 
+		watch: {
+			// canChargeBattery: function (newVal) {
+			// uni.showToast({
+			// 	title: `${newVal}`,
+			// })
+			// },
+		},
 		computed: {
-			...mapState(['hasLogin'])
+			...mapState(['hasLogin']),
+			cityRange: function () {
+				var result = [[...provinceList.map((e) => e.name)], [...cityList.map((e) => e.name)], [...areaList.map((e) => e.name)]];
+				return result;
+			}
 		},
 
 		methods: {
+
+			postInfo() {
+
+				uni.showToast({
+					title: "我要发布信息",					
+				})
+			},
+
+			checkboxChange: function (e : { "detail" : { "value" : [] } }) {
+				if (e.detail.value.length === 0) {
+					this.canChargeBattery = '0';
+				} else {
+					this.canChargeBattery = '' + e.detail.value[0];
+				}
+			},
 
 			bindEndDateChange: function (e) {
 				this.selectEndDate = e.detail.value
@@ -184,25 +262,38 @@
 			bindStartDateChange: function (e) {
 				this.selectstartDate = e.detail.value
 			},
-			bindTimeChange: function (e) {
-				this.time = e.detail.value
+			bindStartTimeChange: function (e) {
+				this.startTime = e.detail.value
 			},
+			bindEndTimeChange: function (e) {
+				this.endTime = e.detail.value
+			},
+
+			chooseLocation() {
+				uni.chooseLocation({
+					success: (data) => {
+						this.latitude = data.latitude;
+						this.longitude = data.longitude;
+						console.log(JSON.stringify(data));
+					}
+				})
+			},
+
 			getMyLocation() {
 				uni.showLoading({
-					title: '获取信息中'
+					title: '获取位置信息中'
 				});
 
 				this.amapPlugin.getRegeo({
-					success: (data: AmapPoiItem[]) => {
+					success: (data : AmapPoiItem[]) => {
 						console.log(data);
 						var addressInfo : AmapPoiItem = data[0];
-						// console.log(JSON.stringify(addressInfo.regeocodeData));
-						// console.log(JSON.stringify(addressInfo.regeocodeData.addressComponent));
-						this.city = addressInfo.regeocodeData.addressComponent.province.toString();
-						
+						if (addressInfo.regeocodeData.addressComponent.cityCode)
+							this.city = addressInfo.regeocodeData.addressComponent.province.toString();
+						this.district = addressInfo.regeocodeData.addressComponent.district.toString();
 						uni.hideLoading();
 					},
-					fail: (error: { errMsg: string;}) => {
+					fail: (error : { errMsg : string; }) => {
 						uni.hideLoading();
 						console.log(JSON.stringify(error));
 						uni.showToast({
@@ -210,16 +301,6 @@
 						})
 					},
 				});
-				
-				// commonUtils.getMyLocation().then((res) => {
-				// 	locationInfo = res;
-				// 	this.city = res.city;
-				// }).catch((e) => {
-				// 	uni.showToast({
-				// 		icon: "fail",
-				// 		title: e.msg,
-				// 	})
-				// });
 			},
 			turnLoginPage() {
 
@@ -228,15 +309,64 @@
 				})
 			},
 
+			// 监听 picker 的选择
+			onPickerChange(e) {
+				const val = e.detail.value;
+				this.selectedIndexes = val;
+				this.updateCurrentSelection();
+			},
+
+			// 更新当前的省市区显示
+			updateCurrentSelection() {
+				const provinceIndex = this.selectedIndexes[0];
+				const cityIndex = this.selectedIndexes[1];
+				const areaIndex = this.selectedIndexes[2];
+
+				this.currentSelection.province = this.cityRange[0][provinceIndex];
+				this.currentSelection.city = this.cityRange[1][cityIndex];
+				this.currentSelection.area = this.cityRange[2][areaIndex];
+			},
+
+			// 监听 picker 列改变
+			onColumnChange(e) {
+				const { column, value } = e.detail;
+				if (column === 0) { // 当省份列发生变化时
+					const selectedProvince = this.provinces[value];
+					this.range[1] = selectedProvince.cities.map(city => city.name); // 更新城市列
+					this.range[2] = selectedProvince.cities[0].areas; // 更新区列为第一城市的区
+					this.selectedIndexes[0] = value;
+					this.selectedIndexes[1] = 0;
+					this.selectedIndexes[2] = 0;
+				} else if (column === 1) { // 当城市列发生变化时
+					const selectedProvinceIndex = this.selectedIndexes[0];
+					const selectedCity = this.provinces[selectedProvinceIndex].cities[value];
+					this.range[2] = selectedCity.areas; // 更新区列
+					this.selectedIndexes[1] = value;
+					this.selectedIndexes[2] = 0;
+				}
+			}
+
 
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
+	@import '@/uni_modules/uni-scss/index.scss';
+
+	.my-uni-section {
+		padding-bottom: 10rpx;
+		border-radius: 10rpx;
+	}
+
+	.label-text {
+		color: $uni-text-color;
+		font-size: 24rpx;
+	}
+
 	.divier {
-		margin-top: 15rpx;
-		margin-bottom: 15rpx;
+		margin-top: 10rpx;
+		margin-bottom: 10rpx;
 		background-color: #999999;
 		height: 1rpx;
 	}
@@ -256,5 +386,24 @@
 	.item {
 		line-height: 100rpx;
 		text-align: center;
+	}
+
+	.picker {
+		padding-left: 15rpx;
+		padding-right: 15rpx;
+		height: 80rpx;
+		display: flex;
+		align-items: center;
+		background-color: white;
+		border: 1px solid #ddd;
+		border-radius: 8rpx;
+	}
+
+	.arrow-down {
+		width: 0;
+		height: 0;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 8px solid #666;
 	}
 </style>

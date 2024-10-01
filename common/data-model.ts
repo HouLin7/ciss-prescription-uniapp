@@ -1,8 +1,20 @@
-interface RegionItem {
+export interface RegionItem {
 	name : String;
 	id : String;
 }
 
+export interface ParkingItem{
+	provice:string, //省份
+	city: string,//城市
+	district:string,
+	price: number,
+	community: string,
+	startDate: string,
+	endDate: string,
+	carParkingNo: string,
+	startTime: string,
+	endTime: string,
+}
 /**
  * 高得地图定位返回数据
  */
@@ -16,11 +28,11 @@ export interface AmapPoiItem {
 
 }
 
-interface RegeoCodeData {
+export interface RegeoCodeData {
 	addressComponent : AddressComponment;
 }
 
-interface AddressComponment {
+export interface AddressComponment {
 	adcode : String;
 	cityCode : String;
 	country : String;
