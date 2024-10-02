@@ -3,15 +3,16 @@
 
 		<view style="height: 100rpx;"></view>
 		<view class="uni-center">
-			<image mode="aspectFit" src="/static/logo.png" @click="handleClose" style="height: 140rpx;width: 140rpx;" />
+			<image mode="aspectFit" src="/static/logo.png" style="height: 140rpx;width: 140rpx;" />
 		</view>
+		<view>{{appName}}</view>
 
 		<view style="height: 100rpx;"></view>
 
 
 		<view class="uni-row uni-flex" style="align-items: center;justify-content: start;">
-			<view style="padding-right: 10rpx;">+86</view> 
-			<input placeholder="请输入手机号" type="number" name="phone" value=""/>
+			<view style="padding-right: 10rpx;">+86</view>
+			<input placeholder="请输入手机号" type="number" name="phone" value="" />
 		</view>
 
 		<view>
@@ -33,11 +34,18 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
 
 			}
+		},
+
+		computed: {
+			...mapState(["appName"]),			
 		},
 		props: {
 			type: {
@@ -48,19 +56,15 @@
 
 		methods: {
 
-			handleLogin() {
-
-			},
-
 			handleClose() {
 				uni.navigateBack();
-			}
+			},
 
 		}
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">	
 	.custom_button_wexin {
 		display: flex;
 		flex-direction: row;
@@ -70,7 +74,7 @@
 		height: 80rpx;
 		border-radius: 100rpx;
 		color: white;
-		background-color: var(--theme-color);
+		background-color: $uni-color-primary;
 	}
 
 	.custom_button_phone {

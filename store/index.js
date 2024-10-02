@@ -25,7 +25,11 @@ const store = createStore({
 		univerifyErrorMsg: '',
 		appName:"小白马",
 	},
-	mutations: {
+	mutations: {	
+		setHasLogin(state, flag) {
+			state.hasLogin = flag
+		},
+
 		login(state, provider) {
 			state.hasLogin = true;
 			state.loginProvider = provider;

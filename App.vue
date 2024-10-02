@@ -1,14 +1,28 @@
-<script>	
+<script>
+	import {
+		mapMutations
+	} from 'vuex'
 	export default {
+
+		methods: {
+			...mapMutations(['setHasLogin']),
+
+		},
+
 		onLaunch: function() {
-			console.log('App Launch')			
+			console.log('App Launch')
+			var flag = uni.getStorageSync("hasLogin");
+			if (flag !== true) {
+				flag = false;
+			}
+			// this.setHasLogin(flag);
 		},
 		onShow: function() {
 			console.log('App Show')
 		},
 		onHide: function() {
 			console.log('App Hide')
-		},		
+		},
 	}
 </script>
 

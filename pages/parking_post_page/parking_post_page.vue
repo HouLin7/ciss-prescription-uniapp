@@ -1,11 +1,11 @@
 <template>
 
 	<view class="counter">
-		<view v-if="hasLogin" style="counter">
+		<view v-if="hasLogin">
 
 			<uni-section type="line" title="位置信息" class="my-uni-section">
 
-				<view class="uni-flex" style="align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+				<view class="uni-flex" style="align-items: center;padding: 0rpx 20rpx; ">
 					<view class="label-text">所在城市</view>
 					<view style="width: 10rpx;"></view>
 					<picker style="flex: 1;" mode="multiSelector" :range="cityRange" @change="onPickerChange"
@@ -25,11 +25,10 @@
 				<view class="uni-flex" style="align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
 					<view class="label-text">所在小区</view>
 					<view style="width: 10rpx;"></view>
-
 					<view class="uni-flex uni-row" style="justify-items: center; flex: 1;">
 						<uni-easyinput v-model="district" icon-click="">
 							<template #right>
-								<image mode="aspectFit" src="/static/location.png" style="height: 80rpx;width: 80rpx;"
+								<image mode="aspectFit" src="/static/location.png" style="height: 60rpx;width: 60rpx;"
 									@click="chooseLocation()" />
 							</template>
 						</uni-easyinput>
@@ -86,7 +85,7 @@
 							</picker>
 						</view>
 					</view>
-					<view style="height: 10rpx;"></view>
+					
 					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
 						<view class="uni-list-cell-left label-text">结束时间</view>
 						<view class="uni-list-cell-db">
@@ -99,15 +98,13 @@
 			</uni-section>
 
 
-			<view style="height: 20rpx;" />
+			<view style="height: 10rpx;" />
 
 			<uni-section type="line" title="可租赁时间周期" class="my-uni-section">
 
 				<view class="uni-flex uni-column" style="justify-items: center;padding-right: 10rpx;">
 					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
-						<view class="uni-list-cell-left label-text">
-							开始日期
-						</view>
+						<view class="uni-list-cell-left label-text">开始日期</view>
 						<view class="uni-list-cell-db">
 							<picker mode="date" :value="selectstartDate" :start="startDate" :end="endDate"
 								@change="bindStartDateChange">
@@ -116,7 +113,7 @@
 						</view>
 					</view>
 
-					<view style=" height: 10rpx; margin-left: 40rpx;"></view>
+					<!-- <view style=" height: 5rpx"/> -->
 
 					<view class="uni-flex uni-row" style="flex: 1; align-items: center;">
 						<view class="uni-list-cell-left label-text">结束日期</view>
@@ -130,7 +127,7 @@
 				</view>
 			</uni-section>
 
-			<button type="primary" size="default" style="margin-top: 10rpx;" @click="postInfo" >发布信息</button>
+			<button type="primary" size="default" style="margin-top: 20rpx;" @click="postInfo" >发布信息</button>
 		</view>
 
 		<view v-if="!hasLogin" style="display: flex;flex-direction: column;padding-top: 20rpx;align-items: center;">
@@ -171,7 +168,7 @@
 
 	import {
 		mapState
-	} from 'vuex'
+	} from 'vuex';
 	import {
 		AMapWX
 	} from '../../common/amap-wx';
@@ -356,8 +353,9 @@
 	@import '@/uni_modules/uni-scss/index.scss';
 
 	.my-uni-section {
+		border: 1px solid #ddd;	
 		padding-bottom: 10rpx;
-		border-radius: 10rpx;
+		border-radius: 10rpx;		
 	}
 
 	.label-text {
@@ -373,7 +371,7 @@
 	}
 
 	.counter {
-		padding: 15rpx;
+		padding: 10rpx 15rpx;
 		display: flex;
 		flex-direction: column;
 	}

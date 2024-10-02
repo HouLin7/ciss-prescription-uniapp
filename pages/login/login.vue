@@ -1,18 +1,16 @@
 <template>
-	<view style="padding-left: 40rpx;padding-right: 40rpx; align-items:center" class="uni-flex uni-column">
+	<view style="padding: 40rpx 20rpx; align-items:center" class="uni-flex uni-column">
 
 		<view style="height: 140rpx;"></view>
-		<image mode="aspectFit" src="/static/logo.png" @click="handleClose" style="height: 140rpx;width: 140rpx;" />
+		<image mode="aspectFit" src="/static/logo.png" style="height: 140rpx;width: 140rpx;" />
+		<view style="height: 10rpx;"></view>
+		<view>{{appName}}</view>
 		<view style="height: 100rpx;"></view>
 
-
-
-		<button class="custom_button_wexin" @click="">微信一键登录</button>
+		<button class="custom_button_wexin" @click="handleLoginByWexin">微信一键登录</button>
 		<view style="height: 40rpx;"></view>
 
-		<button class="custom_button_phone" @click="handleLoginByPhone()">其他手机号登录</button>
-
-
+		<button class="custom_button_phone" @click="handleLoginByPhone">手机号登录</button>
 		<view style="height: 40rpx;"></view>
 		<view class="uni-flex uni-row">
 			<checkbox color="#0000ff"></checkbox>
@@ -22,13 +20,16 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
 
 			}
 		},
-		
+
 		props: {
 			type: {
 				type: String,
@@ -36,15 +37,37 @@
 			}
 		},
 
+		computed: {
+			...mapState(["appName"]),
+		},
 		methods: {
 
-			handleLogin() {
-
+			handleLoginByWexin() {
+				uni.login({
+					provider:"weixin",
+					success(data) {
+						console.log(JSON.stringify(data));
+					},
+					fail(e) {
+						console.log(JSON.stringify(e));						
+					},
+				});
+				uni.getUserProfile({
+					desc:"测试使用",
+					success: (data) => {
+						console.log(JSON.stringify(data));
+						
+					},
+					fail(e) {
+						console.log(JSON.stringify(e));						
+					},
+				})
+				
 			},
 
 			handleLoginByPhone() {
 				uni.navigateTo({
-					url:"/pages/login/login-by-phone"
+					url: "/pages/login/login-by-phone"
 				})
 			}
 
@@ -52,7 +75,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.custom_button_wexin {
 		display: flex;
 		flex-direction: row;
@@ -62,7 +85,7 @@
 		height: 80rpx;
 		border-radius: 100rpx;
 		color: white;
-		background-color: var(--theme-color);
+		background-color: $uni-color-primary;
 	}
 
 	.custom_button_phone {
