@@ -20,87 +20,120 @@
 					</picker>
 				</view>
 
-				<view style="height: 10rpx;"></view>
+				<view style="height: 10rpx;" />
 
 				<view class="uni-flex" style="align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
 					<view class="label-text">所在小区</view>
 					<view style="width: 10rpx;"></view>
+					<view class="uni-flex uni-row picker"
+						style="justify-content: flex-end; justify-items: center; flex: 1;" @click="chooseLocation">
+						<view>{{district}}</view>
+						<image mode="aspectFit" src="/static/location.png" style="height: 40rpx;width: 40rpx ;" />
+					</view>
+				</view>
+				<view style="height: 10rpx;" />
+				<view class="uni-flex" style="align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+					<view class="label-text">详细地址</view>
+					<view style="width: 10rpx;"></view>
 					<view class="uni-flex uni-row" style="justify-items: center; flex: 1;">
-						<uni-easyinput v-model="district" icon-click="">
-							<template #right>
-								<image mode="aspectFit" src="/static/location.png" style="height: 60rpx;width: 60rpx;"
-									@click="chooseLocation()" />
-							</template>
+						<uni-easyinput v-model="detailAddress" placeholder="楼号 单元 ">
 						</uni-easyinput>
 					</view>
 				</view>
-
+				<view style="height: 20rpx;" />
 			</uni-section>
 
-			<view style="height: 10rpx;" />
+			<!-- <view style="height: 10rpx;" /> -->
 
 			<uni-section type="line" title="车位信息" class="my-uni-section">
 
 				<view class="uni-flex" style="justify-content: space-between; align-items: center;padding-left: 20rpx;">
-					<view class="uni-flex" style="align-items: center;">
-						<view class="label-text">车位编号</view>
-						<view style="width: 10rpx;" />
-						<view class="uni-flex uni-row" style="justify-items: center">
-							<uni-easyinput type="text" v-model="parking_no" />
-						</view>
-					</view>
 
-					<checkbox-group @change="checkboxChange"
-						style="display: flex;  justify-content: flex-end; flex: 1;margin-right: 10rpx;">
-						<checkbox value="1" :checked="canChargeBattery==1">充电桩</checkbox>
-					</checkbox-group>
+					<view class="label-text" style="margin-right: 10rpx; width: 120rpx;">充电桩</view>
+
+					<radio-group @change="chargeCheckboxChange"
+						style=" margin-right: 10rpx; justify-content: flex-start;">
+						<radio value="1" :checked="canChargeBattery==1">有充电桩</radio>
+						<radio value="0" :checked="canChargeBattery==0" style="margin-left: 30rpx;">无充电桩</radio>
+					</radio-group>
 
 				</view>
 
-				<view style="height: 10rpx;" />
+				<view style="height: 15rpx;" />
 
 				<view class="uni-flex"
-					style="justify-content: space-between; align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+					style="justify-content: flex-start; align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
 
 					<view class="label-text">出租价格</view>
 					<view style="width: 10rpx;" />
-					<uni-easyinput type="number" v-model="priceUnit" />
+					<uni-easyinput type="number" v-model="priceUnit" style="width: 100rpx;" />
 					<view style="width: 10rpx;" />
 					<text>元/月</text>
 				</view>
-
+				<view style="height: 20rpx;" />
 			</uni-section>
 
-			<view style="height: 10rpx;" />
+			<!-- <view style="height: 10rpx;" /> -->
 
-			<uni-section type="line" title="每日可共享时间段" sub-title="备注说明" class="my-uni-section">
+			<uni-section type="line" title="工作日可共享时间段" class="my-uni-section">
 
-				<view class="uni-flex uni-column" style="justify-items: center;padding-right: 10rpx;">
-					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
-						<view class="uni-list-cell-left label-text">开始时间</view>
-						<view class="uni-list-cell-db">
+				<view class="uni-flex uni-row" style="justify-content: center;padding-left: 30rpx;">
+					<checkbox-group @change="chargeCheckboxChange">
+						<label>
+							<checkbox value="1" :checked="weekDayList.has(1)">周一</checkbox>
+						</label>
+
+						<label>
+							<checkbox value="2" :checked="weekDayList.has(2)">周二</checkbox>
+						</label>
+						<label>
+							<checkbox value="3" :checked="weekDayList.has(3)">周三</checkbox>
+						</label>
+						<label>
+							<checkbox value="4" :checked="weekDayList.has(4)">周四</checkbox>
+						</label>
+						<label>
+							<checkbox value="5" :checked="weekDayList.has(5)">周五</checkbox>
+						</label>
+					</checkbox-group>
+				</view>
+
+				<view style="height: 15rpx;" />
+				<view class="uni-flex uni-row" style="justify-items: center;padding: 0rpx 20rpx">
+
+					<view class="label-text uni-flex" style="align-items: center; margin-right: 10rpx;">时间段</view>
+
+
+					<view class="uni-flex uni-row"
+						style="padding: 0rpx 40rpx;justify-content: space-between;flex: 1;align-items: center;">
+						<view style="flex: 3;">
 							<picker mode="time" :value="startTime" start="09:00" end="21:01"
 								@change="bindStartTimeChange">
-								<view class="uni-input">{{startTime}}</view>
+								<view class="picker">{{startTime}}</view>
 							</picker>
 						</view>
-					</view>
-					
-					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
-						<view class="uni-list-cell-left label-text">结束时间</view>
-						<view class="uni-list-cell-db">
+						<view style="flex:2; display: flex; justify-content: center; align-items: center;">--</view>
+
+						<view style="flex: 3;">
 							<picker mode="time" :value="endTime" start="09:0" end="21:01" @change="bindEndTimeChange">
-								<view class="uni-input">{{endTime}}</view>
+								<view class="picker">{{endTime}}</view>
 							</picker>
 						</view>
 					</view>
+
 				</view>
+
+				<view style="height: 15rpx;" />
+				<view class="uni-flex uni-row" style="margin-left: 20rpx; align-items: center;">
+					<view class="label-text" style="margin-right: 20rpx;">可租月数</view>
+					<uni-easyinput type="number" placeholder="不少于1个月"></uni-easyinput>
+					<view style="flex: 1;" />
+				</view>
+				<view style="height: 20rpx;" />
 			</uni-section>
 
 
-			<view style="height: 10rpx;" />
-
-			<uni-section type="line" title="可租赁时间周期" class="my-uni-section">
+			<!-- 	<uni-section type="line" title="可租赁时间周期" class="my-uni-section">
 
 				<view class="uni-flex uni-column" style="justify-items: center;padding-right: 10rpx;">
 					<view class="uni-flex uni-row" style="flex: 1; padding-bottom: 10rpx;align-items: center;">
@@ -113,8 +146,6 @@
 						</view>
 					</view>
 
-					<!-- <view style=" height: 5rpx"/> -->
-
 					<view class="uni-flex uni-row" style="flex: 1; align-items: center;">
 						<view class="uni-list-cell-left label-text">结束日期</view>
 						<view class="uni-list-cell-db">
@@ -125,9 +156,20 @@
 						</view>
 					</view>
 				</view>
+				<view style="height: 20rpx;" />
+			</uni-section> -->
+
+			<uni-section type="line" title="车位照片" class="my-uni-section">
+				<view class="uni-flex uni-column" style="padding: 0 20rpx;">
+					<uni-file-picker @select="select" limit="9" file-mediatype="image" title="最多选择9张"></uni-file-picker>
+					<view style="height: 10rpx;" />
+				</view>
+
 			</uni-section>
 
-			<button type="primary" size="default" style="margin-top: 20rpx;" @click="postInfo" >发布信息</button>
+
+
+			<button type="primary" size="default" style="margin-top: 10rpx;" @click="postInfo">发布信息</button>
 		</view>
 
 		<view v-if="!hasLogin" style="display: flex;flex-direction: column;padding-top: 20rpx;align-items: center;">
@@ -140,6 +182,7 @@
 			<button type="primary" style="width: 300rpx;" @click="turnLoginPage">登陆</button>
 
 		</view>
+
 
 
 	</view>
@@ -200,12 +243,14 @@
 				isLogined: false,
 				city: "", //城市
 				district: "", //行政区
+				detailAddress: "",
 				HousingEstate: "", //小区
 				parking_no: "", //车位编号
 				startTime: '09:00',
 				endTime: '18:00',
 				multiIndex: [0, 0, 0],
 
+				weekDayList: new Set([1, 2, 3, 4, 5]),
 				canChargeBattery: '0',
 				selectstartDate: "",
 				longitude: 0,
@@ -239,14 +284,22 @@
 
 		methods: {
 
+			select(e) {
+				console.log('选择文件：', e)
+			},
+
 			postInfo() {
 
 				uni.showToast({
-					title: "我要发布信息",					
+					title: "我要发布信息",
 				})
 			},
 
-			checkboxChange: function (e : { "detail" : { "value" : [] } }) {
+			chargeCheckboxChange: function (e : { "detail" : { "value" : [] } }) {
+				this.weekDayList.add(e.detail.value[0]);
+			},
+
+			weekDayCheckboxChange: function (e : { "detail" : { "value" : [] } }) {
 				if (e.detail.value.length === 0) {
 					this.canChargeBattery = '0';
 				} else {
@@ -353,9 +406,8 @@
 	@import '@/uni_modules/uni-scss/index.scss';
 
 	.my-uni-section {
-		border: 1px solid #ddd;	
-		padding-bottom: 10rpx;
-		border-radius: 10rpx;		
+		border: 1px solid #ddd;
+		border-radius: 10rpx;
 	}
 
 	.label-text {
@@ -371,7 +423,7 @@
 	}
 
 	.counter {
-		padding: 10rpx 15rpx;
+		padding: 0rpx 15rpx;
 		display: flex;
 		flex-direction: column;
 	}
@@ -390,7 +442,7 @@
 	.picker {
 		padding-left: 15rpx;
 		padding-right: 15rpx;
-		height: 80rpx;
+		height: 60rpx;
 		display: flex;
 		align-items: center;
 		background-color: white;

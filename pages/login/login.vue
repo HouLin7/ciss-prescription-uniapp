@@ -44,25 +44,25 @@
 
 			handleLoginByWexin() {
 				uni.login({
-					provider:"weixin",
+					provider: "weixin",
 					success(data) {
 						console.log(JSON.stringify(data));
 					},
 					fail(e) {
-						console.log(JSON.stringify(e));						
+						console.log(JSON.stringify(e));
 					},
 				});
 				uni.getUserProfile({
-					desc:"测试使用",
+					desc: "测试使用",
 					success: (data) => {
 						console.log(JSON.stringify(data));
-						
+
 					},
 					fail(e) {
-						console.log(JSON.stringify(e));						
+						console.log(JSON.stringify(e));
 					},
 				})
-				
+
 			},
 
 			handleLoginByPhone() {

@@ -5,7 +5,8 @@
 		<view class="uni-center">
 			<image mode="aspectFit" src="/static/logo.png" style="height: 140rpx;width: 140rpx;" />
 		</view>
-		<view>{{appName}}</view>
+
+		<view class="uni-flex uni-row" style="justify-content: center;margin-top: 10rpx;">{{appName}}</view>
 
 		<view style="height: 100rpx;"></view>
 
@@ -45,7 +46,7 @@
 		},
 
 		computed: {
-			...mapState(["appName"]),			
+			...mapState(["appName"]),
 		},
 		props: {
 			type: {
@@ -64,7 +65,7 @@
 	}
 </script>
 
-<style scoped lang="scss">	
+<style scoped lang="scss">
 	.custom_button_wexin {
 		display: flex;
 		flex-direction: row;
