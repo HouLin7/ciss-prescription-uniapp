@@ -2,7 +2,7 @@
 
 	<view class="root-container">
 		<view class="search-bar">	
-				<uni-easyinput placeholder="请输入小区名称" suffix-icon="search" icon-click="" />
+				<uni-search-bar placeholder="请输入小区名称"></uni-search-bar> 
 				<view class="uni-flex uni-row"
 					style="padding-top: 20rpx; align-items: center; background: white">
 					<view class="uni-flex uni-row" style="flex: 1; align-items: center;justify-content: center;"

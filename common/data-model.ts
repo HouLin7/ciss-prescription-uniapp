@@ -3,18 +3,22 @@ export interface RegionItem {
 	id : String;
 }
 
-export interface ParkingItem{
-	provice:string, //省份
-	city: string,//城市
-	district:string,
-	price: number,
-	community: string,
-	startDate: string,
-	endDate: string,
-	carParkingNo: string,
-	startTime: string,
-	endTime: string,
+export interface ParkingSpaceItem {
+	provice : string, //省份
+	city : string,//城市
+	district : string, //地区/县
+	housingEstate : String,// 小区名称
+	detailAddress : String,//具体地址
+	price : number,
+	community : string,
+	rentDays : number,// 租赁天数
+	weekDays : number[],//可租赁的工作日
+	carParkingNo : string,// 车位编号
+	startTime : string, // 每日开始时间
+	endTime : string, //每日结束时间
+	attachmentList ?: [], //附件照片
 }
+
 /**
  * 高得地图定位返回数据
  */
@@ -36,7 +40,7 @@ export interface AddressComponment {
 	adcode : String;
 	cityCode : String;
 	country : String;
-	province? : String;
+	province ?: String;
 	towncode : String;
 	township : String;
 	district : String;

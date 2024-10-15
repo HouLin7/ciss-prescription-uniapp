@@ -161,13 +161,13 @@
 
 			<uni-section type="line" title="车位照片" class="my-uni-section">
 				<view class="uni-flex uni-column" style="padding: 0 20rpx;">
-					<uni-file-picker @select="select" limit="9" file-mediatype="image" title="最多选择9张"></uni-file-picker>
+					<uni-file-picker @select="select" limit="9" file-mediatype="image" title="最多选择9张"
+						file-extname="png,jpg">
+					</uni-file-picker>
 					<view style="height: 10rpx;" />
 				</view>
 
 			</uni-section>
-
-
 
 			<button type="primary" size="default" style="margin-top: 10rpx;" @click="postInfo">发布信息</button>
 		</view>
@@ -219,16 +219,25 @@
 		amapAppKey
 	} from '../../common/constants';
 	import {
-		AmapPoiItem
+		AmapPoiItem, ParkingSpaceItem
 	} from '../../common/data-model';
 	export default {
 
-		created() {
+		onLoad() {
 			this.selectEndDate = getDate("");
 			this.selectstartDate = getDate("");
 			this.amapPlugin = new AMapWX({
 				key: amapAppKey
 			});
+		},
+
+		props: {
+
+			postParkingItem: {
+				type: Object as () => ParkingSpaceItem,
+				default: null,
+			}
+
 		},
 
 		data() {
@@ -283,6 +292,7 @@
 		},
 
 		methods: {
+
 
 			select(e) {
 				console.log('选择文件：', e)

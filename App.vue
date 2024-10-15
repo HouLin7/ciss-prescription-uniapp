@@ -15,7 +15,7 @@
 			if (flag !== true) {
 				flag = false;
 			}
-			// this.setHasLogin(flag);
+			this.setHasLogin(true);
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -105,6 +105,14 @@
 	:root {
 		--theme-color: #1B76F8;
 		--text-color: #333333;
+	}
+
+	.input_box {
+		background-color: #fff;
+		opacity: 1;
+		border-radius: 8rpx;
+		border: 1px solid #ddd;
+		height: 70rpx;
 	}
 
 	/* #endif*/

@@ -12,21 +12,43 @@
 
 		</view>
 
-		<view style="height: 100rpx;"></view>
+		<view style="height: 60rpx;"></view>
 
-		<uni-list>
-			<uni-list-item showArrow title="我已共享的车位" />
-			<uni-list-item showArrow title="我的订单" rightText="" />
-		</uni-list>
-		
+		<!-- <uni-list> -->
+			<uni-list-item showArrow title="发布的共享车位" clickable="true" @click="turnMySpacePost" />
+			<uni-list-item showArrow title="租赁他人车位订单"clickable="true"  @click="turnMyTenantSpaceOrder" />
+			<uni-list-item showArrow title="自己的车位出租订单" clickable="true" @click="turnMySpaceOwnerOrder" />
+									
+		<!-- </uni-list> -->
+
 
 	</view>
 </template>
 
 <script>
 	export default {
-		
-		
+
+		methods: {
+			//发布的租赁信息
+			turnMySpacePost(e) {
+
+
+			},
+			//自己的车位出租
+			turnMySpaceOwnerOrder(e) {
+				uni.navigateTo({
+					url: '/pages/my-order/my-owner-space-order-list/my-owner-space-order-list'
+				})
+			},
+
+			//租赁别人车位订单
+			turnMyTenantSpaceOrder(e) {
+				uni.navigateTo({
+					url: '/pages/my-order/my-order-list/my-order-list'
+				})
+			},
+
+		},
 		data() {
 			return {
 				avatraUrl: "/static/logo.png",
