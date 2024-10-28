@@ -10,10 +10,12 @@ import { createStore } from 'vuex'
 const store = createStore({
 // #endif
 	state: {
-		hasLogin: true,
+		userId:0,//当前登陆用户ID
+		hasLogin: false,
 		isUniverifyLogin: false,
 		loginProvider: "",
 		openid: null,
+		
 		testvuex: false,
 		colorIndex: 0,
 		colorList: ['#FF0000', '#00FF00', '#0000FF'],

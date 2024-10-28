@@ -47,7 +47,8 @@
 			"path" : "pages/my-order/my-order-list/my-order-list",
 			"style" : 
 			{
-				"navigationBarTitleText" : "租赁他人的出租订单"
+				"navigationBarTitleText" : "租赁他人的出租订单",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -56,15 +57,8 @@
 			{
 				"navigationBarTitleText" : "我自己车位的出租订单"
 			}
-		},
-		{
-			"path" : "pages/my-order/order-list-item/order-list-item",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
 		}
-
+		
 	],
 
 	"tabBar": {

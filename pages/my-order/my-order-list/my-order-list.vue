@@ -22,8 +22,7 @@
 </template>
 
 <script>
-	import orderListItem from '../order-list-item/order-list-item.vue';
-
+	import orderListItem from "/components/order-list-item/order-list-item";
 	export default {
 
 		components: {

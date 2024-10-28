@@ -8,16 +8,19 @@
 				<view class="uni-flex" style="align-items: center;padding: 0rpx 20rpx; ">
 					<view class="label-text">所在城市</view>
 					<view style="width: 10rpx;"></view>
-					<picker style="flex: 1;" mode="multiSelector" :range="cityRange" @change="onPickerChange"
-						@columnchange="onColumnChange">
+					<view class="input_box" style=" flex: 1;">
+						{{city}}
+					</view>
+					<!-- 					<picker style="flex: 1;" mode="multiSelector" :disabled="!isEditable" :range="cityRange"
+						@change="onPickerChange" @columnchange="onColumnChange">
 						<view class="uni-flex picker" style="justify-content: space-between;">
 							<view>
 								{{currentSelection.province}} {{currentSelection.city}} {{currentSelection.area}}
-							</view>
-							<!-- <view class="arrow-down" /> -->
+							</view> -->
+					<!-- <view class="arrow-down" />
 							<uni-icons type="arrowdown"></uni-icons>
 						</view>
-					</picker>
+					</picker> -->
 				</view>
 
 				<view style="height: 10rpx;" />
@@ -36,8 +39,7 @@
 					<view class="label-text">详细地址</view>
 					<view style="width: 10rpx;"></view>
 					<view class="uni-flex uni-row" style="justify-items: center; flex: 1;">
-						<uni-easyinput v-model="detailAddress" placeholder="楼号 单元 ">
-						</uni-easyinput>
+						<uni-easyinput v-model="detailAddress" placeholder="楼号 单元 " :disabled="!isEditable" />
 					</view>
 				</view>
 				<view style="height: 20rpx;" />
@@ -53,8 +55,9 @@
 
 					<radio-group @change="chargeCheckboxChange"
 						style=" margin-right: 10rpx; justify-content: flex-start;">
-						<radio value="1" :checked="canChargeBattery==1">有充电桩</radio>
-						<radio value="0" :checked="canChargeBattery==0" style="margin-left: 30rpx;">无充电桩</radio>
+						<radio value="1" :checked="canChargeBattery==1" :disabled="!isEditable">有充电桩</radio>
+						<radio value="0" :checked="canChargeBattery==0" style="margin-left: 30rpx;"
+							:disabled="!isEditable">无充电桩</radio>
 					</radio-group>
 
 				</view>
@@ -62,38 +65,57 @@
 				<view style="height: 15rpx;" />
 
 				<view class="uni-flex"
-					style="justify-content: flex-start; align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
+					style="justify-content: space-between; align-items: center;padding-left: 20rpx;padding-right: 20rpx; ">
 
 					<view class="label-text">出租价格</view>
 					<view style="width: 10rpx;" />
-					<uni-easyinput type="number" v-model="priceUnit" style="width: 100rpx;" />
+					<uni-easyinput type="number" v-model="priceUnit" style="width: 80rpx;" :disabled="!isEditable" />
 					<view style="width: 10rpx;" />
 					<text>元/月</text>
+				</view>
+				<view style="height: 15rpx;" />
+				<view class="uni-flex uni-row" style="margin-left: 20rpx; align-items: center;">
+
+					<view class="uni-flex uni-row" style="align-items: center;justify-content: space-between;">
+						<view class="label-text" style="margin-right: 10rpx;">可租月数</view>
+						<!-- <uni-easyinput style="width: 200rpx;" type="number"
+							:placeholder="`最少月数（不少于${min_rental_month_count}）`" /> -->
+						<uni-easyinput style="width: 200rpx;" type="number" :placeholder="`最少月数`" />
+						<view style="margin: 0rpx 20rpx;">--</view>
+						<uni-easyinput style="width: 200rpx;" type="number" :placeholder="`最大月数`" />
+					</view>
+
 				</view>
 				<view style="height: 20rpx;" />
 			</uni-section>
 
 			<!-- <view style="height: 10rpx;" /> -->
 
-			<uni-section type="line" title="工作日可共享时间段" class="my-uni-section">
+			<uni-section type="line" title="每周可共享时间段" class="my-uni-section">
 
-				<view class="uni-flex uni-row" style="justify-content: center;padding-left: 30rpx;">
+				<view class="uni-flex uni-row" style="justify-content: center;padding-left: 20rpx;">
 					<checkbox-group @change="chargeCheckboxChange">
 						<label>
-							<checkbox value="1" :checked="weekDayList.has(1)">周一</checkbox>
+							<checkbox value="1" :checked="weekDayList.has(1)" :disabled="!isEditable">周一</checkbox>
 						</label>
 
 						<label>
-							<checkbox value="2" :checked="weekDayList.has(2)">周二</checkbox>
+							<checkbox value="2" :checked="weekDayList.has(2)" :disabled="!isEditable">周二</checkbox>
 						</label>
 						<label>
-							<checkbox value="3" :checked="weekDayList.has(3)">周三</checkbox>
+							<checkbox value="3" :checked="weekDayList.has(3)" :disabled="!isEditable">周三</checkbox>
 						</label>
 						<label>
-							<checkbox value="4" :checked="weekDayList.has(4)">周四</checkbox>
+							<checkbox value="4" :checked="weekDayList.has(4)" :disabled="!isEditable">周四</checkbox>
 						</label>
 						<label>
-							<checkbox value="5" :checked="weekDayList.has(5)">周五</checkbox>
+							<checkbox value="5" :checked="weekDayList.has(5)" :disabled="!isEditable">周五</checkbox>
+						</label>
+						<label>
+							<checkbox value="6" :checked="weekDayList.has(6)" :disabled="!isEditable">周六</checkbox>
+						</label>
+						<label>
+							<checkbox value="7" :checked="weekDayList.has(7)" :disabled="!isEditable">周日</checkbox>
 						</label>
 					</checkbox-group>
 				</view>
@@ -107,7 +129,7 @@
 					<view class="uni-flex uni-row"
 						style="padding: 0rpx 40rpx;justify-content: space-between;flex: 1;align-items: center;">
 						<view style="flex: 3;">
-							<picker mode="time" :value="startTime" start="09:00" end="21:01"
+							<picker mode="time" :value="startTime" start="09:00" end="21:01" :disabled="!isEditable"
 								@change="bindStartTimeChange">
 								<view class="picker">{{startTime}}</view>
 							</picker>
@@ -115,7 +137,8 @@
 						<view style="flex:2; display: flex; justify-content: center; align-items: center;">--</view>
 
 						<view style="flex: 3;">
-							<picker mode="time" :value="endTime" start="09:0" end="21:01" @change="bindEndTimeChange">
+							<picker mode="time" :value="endTime" start="09:0" end="21:01" @change="bindEndTimeChange"
+								:disabled="!isEditable">
 								<view class="picker">{{endTime}}</view>
 							</picker>
 						</view>
@@ -123,15 +146,8 @@
 
 				</view>
 
-				<view style="height: 15rpx;" />
-				<view class="uni-flex uni-row" style="margin-left: 20rpx; align-items: center;">
-					<view class="label-text" style="margin-right: 20rpx;">可租月数</view>
-					<uni-easyinput type="number" placeholder="不少于1个月"></uni-easyinput>
-					<view style="flex: 1;" />
-				</view>
 				<view style="height: 20rpx;" />
 			</uni-section>
-
 
 			<!-- 	<uni-section type="line" title="可租赁时间周期" class="my-uni-section">
 
@@ -162,14 +178,18 @@
 			<uni-section type="line" title="车位照片" class="my-uni-section">
 				<view class="uni-flex uni-column" style="padding: 0 20rpx;">
 					<uni-file-picker @select="select" limit="9" file-mediatype="image" title="最多选择9张"
-						file-extname="png,jpg">
+						file-extname="png,jpg" :disabled="!isEditable">
 					</uni-file-picker>
 					<view style="height: 10rpx;" />
 				</view>
 
 			</uni-section>
 
-			<button type="primary" size="default" style="margin-top: 10rpx;" @click="postInfo">发布信息</button>
+			<button v-if="editFlag==0 || editFlag==2" type="primary" size="default" style="margin-top: 10rpx;"
+				@click="postInfo">发布信息</button>
+
+			<contact-button v-if="editFlag==1" corpid="你的企业微信CorpID" extinfo="用户ID: 12345, 订单号: 67890" type="default">
+			</contact-button>
 		</view>
 
 		<view v-if="!hasLogin" style="display: flex;flex-direction: column;padding-top: 20rpx;align-items: center;">
@@ -182,8 +202,6 @@
 			<button type="primary" style="width: 300rpx;" @click="turnLoginPage">登陆</button>
 
 		</view>
-
-
 
 	</view>
 </template>
@@ -221,37 +239,70 @@
 	import {
 		AmapPoiItem, ParkingSpaceItem
 	} from '../../common/data-model';
+	import { getMyLocation } from '../../common/my-common-utlis';
+
 	export default {
 
-		onLoad() {
+		onLoad(params : {}) {
+			console.log(params);
 			this.selectEndDate = getDate("");
 			this.selectstartDate = getDate("");
-			this.amapPlugin = new AMapWX({
-				key: amapAppKey
-			});
-		},
 
-		props: {
-
-			postParkingItem: {
-				type: Object as () => ParkingSpaceItem,
-				default: null,
+			if ("item" in params) {
+				const item : ParkingSpaceItem = params["item"] as ParkingSpaceItem;
+				item.attachmentList
+				if ("editFlag" in params) {
+					this.editFlag = params["editFlag"] as number;
+				} else {
+					this.editFlag = 1;
+				}
 			}
 
+			setTimeout(() => {
+				getMyLocation().then(location => {
+
+					const lat = location['latitude'] as number;
+					const lng = location['longitude'] as number;
+
+					this.getPoiInfo(lat, lng)
+					console.log(location);
+					// this.city = location;
+				});
+			}, 1000);
+
 		},
+
+		// props: {
+
+		// 	postParkingItem: {
+		// 		type: Object as () => ParkingSpaceItem,
+		// 		default: null,
+		// 	},
+
+		// 	editFlag: {
+		// 		type: Number,
+		// 		default: 0, //0:发布， 1:预览，2:预览+修改
+		// 	},
+
+		// },
+
 
 		data() {
 			return {
+				min_rental_month_count: 3,
+				editFlag: 0,//0:发布， 1:预览，2:预览+修改
 				// 选项数组
 				options: ['选项1', '选项2', '选项3', '选项4'],
 				// 当前选中的索引
 				selectedIndex: 0,
 				priceUnit: 0,
-				amapPlugin: null,
 				locationInfo: null,
 				isLogined: false,
 				city: "", //城市
-				district: "", //行政区
+				cityCode: "",
+				adCode: "",
+				province: "",//省份
+				district: "", //区或者县
 				detailAddress: "",
 				HousingEstate: "", //小区
 				parking_no: "", //车位编号
@@ -273,6 +324,7 @@
 					city: '',
 					area: ''
 				},
+				attachmentList: [],
 			}
 		},
 
@@ -284,11 +336,15 @@
 			// },
 		},
 		computed: {
-			...mapState(['hasLogin']),
+			...mapState(['hasLogin', 'userId']),
 			cityRange: function () {
 				var result = [[...provinceList.map((e) => e.name)], [...cityList.map((e) => e.name)], [...areaList.map((e) => e.name)]];
 				return result;
-			}
+			},
+
+			isEditable: function () {
+				return this.editFlag == 0 || this.editFlag == 2;
+			},
 		},
 
 		methods: {
@@ -299,10 +355,11 @@
 			},
 
 			postInfo() {
-
-				uni.showToast({
-					title: "我要发布信息",
-				})
+								
+			
+				// uni.showToast({
+				// 	title: "我要发布信息",
+				// })
 			},
 
 			chargeCheckboxChange: function (e : { "detail" : { "value" : [] } }) {
@@ -331,31 +388,48 @@
 			},
 
 			chooseLocation() {
+				if (!this.isEditable) {
+					return;
+				}
 				uni.chooseLocation({
 					success: (data) => {
 						this.latitude = data.latitude;
 						this.longitude = data.longitude;
+
 						console.log(JSON.stringify(data));
+						this.getPoiInfo(this.latitude, this.longitude);
 					}
 				})
 			},
 
-			getMyLocation() {
-				uni.showLoading({
-					title: '获取位置信息中'
+			getPoiInfo(latitude : number, longitude : number) {
+				// uni.showLoading({
+				// 	title: '获取位置信息中'
+				// });
+
+				const amapPlugin = new AMapWX({
+					key: amapAppKey
 				});
 
-				this.amapPlugin.getRegeo({
+				amapPlugin.getRegeo({
+					location: `${longitude},${latitude}`,
 					success: (data : AmapPoiItem[]) => {
 						console.log(data);
 						var addressInfo : AmapPoiItem = data[0];
-						if (addressInfo.regeocodeData.addressComponent.cityCode)
-							this.city = addressInfo.regeocodeData.addressComponent.province.toString();
-						this.district = addressInfo.regeocodeData.addressComponent.district.toString();
-						uni.hideLoading();
+						this.adCode = addressInfo.regeocodeData.addressComponent.adcode,
+						this.cityCode = addressInfo.regeocodeData.addressComponent.cityCode,
+						this.city = addressInfo.regeocodeData.addressComponent.city;
+						this.province = addressInfo.regeocodeData.addressComponent.province;
+						// if (addressInfo.regeocodeData.addressComponent.city == "") {
+						// 	this.city = addressInfo.regeocodeData.addressComponent.province;
+						// } else {
+						// 	this.city = addressInfo.regeocodeData.addressComponent.city;
+						// }
+						this.district = addressInfo.regeocodeData.addressComponent.district;
+						// uni.hideLoading();
 					},
 					fail: (error : { errMsg : string; }) => {
-						uni.hideLoading();
+						// uni.hideLoading();
 						console.log(JSON.stringify(error));
 						uni.showToast({
 							title: error.errMsg,
@@ -364,7 +438,6 @@
 				});
 			},
 			turnLoginPage() {
-
 				uni.navigateTo({
 					url: '/pages/login/login'
 				})
@@ -452,7 +525,7 @@
 	.picker {
 		padding-left: 15rpx;
 		padding-right: 15rpx;
-		height: 60rpx;
+		height: 50rpx;
 		display: flex;
 		align-items: center;
 		background-color: white;

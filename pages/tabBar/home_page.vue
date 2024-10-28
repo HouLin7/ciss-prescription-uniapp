@@ -102,7 +102,7 @@
 <script>
 	import {
 		getMyLocation
-	} from '../../common/my-common-utisl';
+	} from '../../common/my-common-utlis';
 	import {
 		cityList,
 		parkingInfoList

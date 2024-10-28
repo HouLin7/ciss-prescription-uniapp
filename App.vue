@@ -112,7 +112,7 @@
 		opacity: 1;
 		border-radius: 8rpx;
 		border: 1px solid #ddd;
-		height: 70rpx;
+		height: 50rpx;
 	}
 
 	/* #endif*/
