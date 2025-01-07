@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx5d1152d6ef9318ee",
+        "appid" : "wx548e3787c8a645ae",
         "setting" : {
             "urlCheck" : false,
             "minified" : true
@@ -84,6 +84,10 @@
                     "serviceHost" : ""
                 }
             }
+        },
+        "title" : "停车服务",
+        "router" : {
+            "mode" : "history"
         }
     }
 }

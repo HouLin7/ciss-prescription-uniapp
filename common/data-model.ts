@@ -51,3 +51,15 @@ export interface AddressComponment {
 	township : string;
 	district : string;
 }
+
+/**
+ *  高德地图行政级区域
+ */
+export interface DistrictItem {
+	citycode : string,
+	adcode : string,
+	name : string,
+	center : string,
+	level : string,
+	districts : DistrictItem[]
+}

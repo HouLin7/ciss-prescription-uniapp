@@ -27,9 +27,11 @@
 		<view style="height: 40rpx;"></view>
 
 		<view style="height: 40rpx;"></view>
-		<view class="uni-flex uni-row">
-			<checkbox color="#0000ff"></checkbox>
-			<view>我已同意隐私协议以及用户声明</view>
+		<view class="uni-flex uni-row " style="align-items:center;">
+			<checkbox-group @change="checkboxChange" style="width: 80rpx;">
+				<checkbox color="#0000ff" checked="false" value="1" />
+			</checkbox-group>
+			<view class="underline-text">我已同意隐私协议以及用户声明</view>
 		</view>
 	</view>
 </template>
@@ -38,6 +40,9 @@
 	import {
 		mapState
 	} from 'vuex';
+	import {
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -57,6 +62,18 @@
 
 		methods: {
 
+			...mapMutations(['setHasLogin']),
+
+			handleLogin() {
+				this.setHasLogin(true);
+				uni.switchTab({
+					url: '/pages/tabBar/home_page'
+				})
+				// uni.redirectTo({
+				// 	url:'/pages/parking_post_page/parking_post_page'	
+				// })				
+			},
+
 			handleClose() {
 				uni.navigateBack();
 			},
@@ -66,18 +83,6 @@
 </script>
 
 <style scoped lang="scss">
-	.custom_button_wexin {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		width: 500rpx;
-		height: 80rpx;
-		border-radius: 100rpx;
-		color: white;
-		background-color: $uni-color-primary;
-	}
-
 	.custom_button_phone {
 		display: flex;
 		flex-direction: row;

@@ -1,21 +1,39 @@
 <script>
 	import {
 		mapMutations
-	} from 'vuex'
+	} from 'vuex';
+	import * as utils from './common/util.js';
+	// import { getPlatform } from 'common/util.js';
+
 	export default {
 
 		methods: {
-			...mapMutations(['setHasLogin']),
-
+			...mapMutations(['setHasLogin', 'setPlatformInfo']),
 		},
 
 		onLaunch: function() {
 			console.log('App Launch')
 			var flag = uni.getStorageSync("hasLogin");
-			if (flag !== true) {
-				flag = false;
+			if (flag) {
+				this.setHasLogin(true);
+			} else {
+				this.setHasLogin(false);
 			}
-			this.setHasLogin(true);
+
+			var thisObj = this;
+			uni.getSystemInfo({
+				success: res => {
+					console.log('设备品牌:', res.brand);
+					console.log('设备型号:', res.model);
+					console.log('操作系统:', res.system);
+					console.log('微信版本:', res.version);
+					console.log('运行平台:', res.platform);
+					this.setPlatformInfo(res.platform);
+				},
+				fail: error => {
+					console.error('获取系统信息失败:', err);
+				}
+			});
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -113,6 +131,28 @@
 		border-radius: 8rpx;
 		border: 1px solid #ddd;
 		height: 50rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding-left: 12rpx;
+		padding-right: 12rpx;
+	}
+
+	.underline-text {
+		text-decoration: underline;
+		/* 添加下划线 */
+	}
+
+	.custom_button_wexin {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 500rpx;
+		height: 70rpx;
+		border-radius: 60rpx;
+		color: white;
+		background-color: $uni-color-primary;
 	}
 
 	/* #endif*/

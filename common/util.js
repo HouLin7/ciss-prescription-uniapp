@@ -29,6 +29,15 @@ function formatLocation(longitude, latitude) {
 		latitude: latitude.toString().split('.')
 	}
 }
+
+/**
+ * 是否是微信真机环境
+ */
+function isWexinRuntime() {
+	let result = uni.getSystemInfoSync();
+	return result.platform === 'android' || result.platform === 'iOS';
+}
+
 var dateUtils = {
 	UNITS: {
 		'年': 31557600000,
@@ -69,5 +78,6 @@ var dateUtils = {
 export {
 	formatTime,
 	formatLocation,
-	dateUtils
+	dateUtils,
+	isWexinRuntime
 }

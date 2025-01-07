@@ -17,6 +17,12 @@
 				"navigationBarTitleText": "我的"
 			}
 		},
+		{
+			"path": "pages/tabBar/post_proxy",
+			"style": {
+				"navigationBarTitleText": "发布"
+			}
+		},
 
 		{
 			"path": "pages/login/login",
@@ -31,10 +37,9 @@
 			}
 		},
 		{
-			"path" : "pages/parking_post_page/parking_post_page",
-			"style" : 
-			{
-				"navigationBarTitleText" : "发布"
+			"path": "pages/parking_post_page/parking_post_page",
+			"style": {
+				"navigationBarTitleText": "发布"
 			}
 		},
 		{
@@ -44,30 +49,40 @@
 			}
 		},
 		{
-			"path" : "pages/my-order/my-order-list/my-order-list",
-			"style" : 
-			{
-				"navigationBarTitleText" : "租赁他人的出租订单",
+			"path": "pages/my-order/my-order-list/my-order-list",
+			"style": {
+				"navigationBarTitleText": "租赁他人的出租订单",
 				"enablePullDownRefresh": true
 			}
 		},
 		{
-			"path" : "pages/my-order/my-owner-space-order-list/my-owner-space-order-list",
-			"style" : 
-			{
-				"navigationBarTitleText" : "我自己车位的出租订单"
+			"path": "pages/my-order/my-owner-space-order-list/my-owner-space-order-list",
+			"style": {
+				"navigationBarTitleText": "我自己车位的出租订单"
+			}
+		},
+		{
+			"path": "pages/user-privacy/user-privacy",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/parking_item_detail_page/parking_item_detail_page",
+			"style": {
+				"navigationBarTitleText": "车位详情"
 			}
 		}
-		
+
 	],
 
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",
-		"backgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF",		
 		"list": [
-			
+
 			{
 				"pagePath": "pages/tabBar/home_page",
 				"iconPath": "static/tab_home.png",
@@ -75,7 +90,7 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/parking_post_page/parking_post_page",
+				"pagePath": "pages/tabBar/post_proxy",
 				"iconPath": "static/post_status.png",
 				"selectedIconPath": "static/post_status.png",
 				"text": "发布"
@@ -88,7 +103,7 @@
 				"text": "我的"
 			}
 		]
-		
+
 	},
 
 	"globalStyle": {

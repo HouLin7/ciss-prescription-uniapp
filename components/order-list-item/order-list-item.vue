@@ -21,8 +21,8 @@
 	</view>
 </template>
 
-<script lang="ts">
-	import { ParkingSpaceItem } from '../../../common/data-model'
+<script lang="ts">	
+	import { ParkingSpaceItem } from '../../common/data-model'
 	export default {
 
 		props: {

@@ -17,13 +17,21 @@
 		data() {
 			return {
 				parkingItem: {},
-				editFlag: 0,
+				editFlag: 1,
 			};
 		},
 
 
 		onLoad(params) {
-			
+			if ("item" in params) {
+				let item = params["item"];
+				this.parkingItem = decodeURIComponent(item) ;
+				if ("editFlag" in params) {
+					this.editFlag = params["editFlag"];
+				} else {
+					this.editFlag = 1;
+				}				
+			}
 		}
 	}
 </script>
