@@ -1,310 +1,93 @@
 <template>
 
 	<view class="root-container">
-		<view class="search-bar">
-			<uni-search-bar placeholder="请输入小区名称"></uni-search-bar>
-			<view class="uni-flex uni-row" style="padding-top: 20rpx; align-items: center; background: white">
-				<view class="uni-flex uni-row" style="flex: 1; align-items: center;justify-content: center;"
-					@click="priceOrderClick">
-					<view class="text-label">价格</view>
-					<uni-icons size="18" :type="priceIconName" color="#666666"></uni-icons>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;align-items: center;justify-content: center;"
-					@click="distanceClick">
-					<view class="text-label">距离</view>
-					<uni-icons size="18" :type="distanceIconName" color="#666666"></uni-icons>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="regionClick">
-					<view class="text-label">区域</view>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="filterClick">
-					<view class="text-label">筛选</view>
-				</view>
-				<view class="uni-flex uni-row" style="flex: 1;justify-content: center;" @click="changeReviewModel">
-					<image v-show="reviewModel==0" src="../../static/icons/item_list_review.png"
-						style="width: 30rpx;height: 30rpx;"></image>
-					<image v-show="reviewModel==1" src="../../static/icons/map_list_review.png"
-						style="width: 30rpx;height: 30rpx;"></image>
+		<view style="width: 100%;height: 400rpx; position: relative;">
+			<view style="position:absolute;height: 200rpx; width: 100% ; background-color: rgb(93, 179, 188);">
+				<view style="font-size: 36rpx; color: white; margin-left: 80rpx; margin-top: 40rpx;">早上好 {{userName}}
 				</view>
 			</view>
 
+			<view style="position:absolute; z-index: 2;left: 0rpx;top: 130rpx;width: 100%;">
 
+				<view class="big_card" style="">
+					<view class=" uni-flex uni-row" style="align-items: center;">
+						<view
+							style="color: white; font-size: 32rpx; border-radius: 6rpx;background-color: #e38e37;width: 100rpx; height: 45rpx; display: flex; justify-content: center; align-items: center;">
+							{{getDate()}}
+						</view>
+						<view style="margin-left: 20rpx;color: #e38e37;font-weight: bold;font-size: 30rpx;">健康条贴士</view>
+					</view>
+					<view style="height: 20rpx;" />
+					<view>{{dailyheathHint}}</view>
+
+				</view>
+			</view>
 		</view>
 
-		<uni-popup ref="popup" type="bottom">
-			<view class="uni-flex uni-row" v-show="isFilterCity" style="height: 600rpx; background-color: white;">
-				
-				<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
-					<uni-list class="uni-list">
-						<uni-list-item class="uni-list-cell" v-for="(item,index) in citys" :key="index"
-							:title="item['name']" />
-					</uni-list>
-				</scroll-view>
+		<uni-grid :column="2" :square="false" :show-border="false">
+			<uni-grid-item v-for="(item,index) in gridItem " :key="index" class="custom-item"
+				@click="griditemClick(index)">
+				<view class="conetnt card" :style="{backgroundColor: item.bgColor}"> {{item.name}}</view>
+			</uni-grid-item>
 
-				<scroll-view :scroll-y="true" style="height: 600rpx; flex: 1;">
-
-					<uni-list-item class="uni-list-cell" v-for="(item,index) in districts" :key="index"
-						:title="item['name']" clickable="true" @click="closePopup" />
-
-				</scroll-view>
-
-
-			</view>
-
-			<view v-show="!isFilterCity" style="height: 600rpx; padding: 15rpx 25rpx;background-color: white;"
-				class="uni-flex uni-column">
-				<!-- 筛选条件内容 -->
-				<view style="height: 20rpx;"></view>
-				<view class="title">发布时间</view>
-				<radio-group class="uni-list" @change="checkboxChange">
-					<label class="uni-list-cell uni-list-cell-pd" v-for="item in checkboxItems" :key="item.name">
-						<view>
-							<radio :value="item.value" :checked="false" />
-						</view>
-						<view>{{item.name}}</view>
-					</label>
-				</radio-group>
-
-				<button class="custom_button_wexin" style="margin-top: 80rpx;" @click="closePopup">确定</button>
-			</view>
-
-		</uni-popup>
-
-		<map v-show="reviewModel==1" style="height: 1000rpx; width: 100%;" :markers="allMarkers"
-			:latitude="myLocation['latitude']" :longitude="myLocation['longitude']" />
-
-		<uni-list class="search-results" v-show="reviewModel!==1" scroll-y="true">
-			<uni-list-item v-for="(item,index) in parkingList" :key="index" @click="parkingItemClick(index,item)"
-				showArrow="true" clickable="true">
-				<template #header>
-					<image src="../../static/uni.png" style="width: 100rpx;height: 100rpx; border-radius: 10rpx;" />
-				</template>
-				<template #body>
-
-					<view class="uni-flex uni-column" style="margin-left: 10rpx;">
-						<view class="text-value"> {{ `${item.district}  ${item.community}` }}</view>
-
-						<view v-show="item.carParkingNo!==undefined" class="uni-flex uni-row">
-							<view class="text-label">车位编号 </view>
-							<view class="text-value"> {{item.carParkingNo}}</view>
-						</view>
-
-						<view class="uni-row uni-flex">
-							<view class="text-label">出租价格 </view>
-							<view class="text-value"> {{item.price}} 元/日</view>
-						</view>
-					</view>
-
-				</template>
-
-			</uni-list-item>
-		</uni-list>
+		</uni-grid>>
 	</view>
 
 </template>
 
 <script lang="ts">
 	import {
-		mapState
+		mapState, mapGetters
 	} from 'vuex';
 
-	import {
-		getMyLocation,
-		getCityConfig,
-		getPoiInfo
-	} from '../../api/location_api';
-
-	import {
-		cityList,
-		parkingInfoList
-	} from '../../mock_data/mock-test-data';
 	import { AmapPoiItem, DistrictItem } from '../../common/data-model';
 	import { nextTick } from 'vue';
 
 	export default {
 
 		created() {
-			setTimeout(() => {
-				this.findMySelfLocation();
-			},
-				1000);
-			this.parkingList = parkingInfoList;
+
 		},
+
 
 		computed: {
 
-			...mapState(["platformInfo"]),
+			...mapState(["platformInfo", "hasLogin", "userName"]),
 
-			allMarkers: function () {
-				return [this.myselfMarker];
-			},
-
-			myselfMarker: function () {
-				return {
-					...this.myLocation,
-					'iconPath': '/static/location.png',
-					'title': '我的位置',
-				}
-
-			},
-
-			distanceIconName: function () {
-				return this.distanceOrderFlag === 0 ? "arrow-up" : "arrow-down";
-			},
-
-			priceIconName: function () {
-				return this.priceOrderFlag === 0 ? "arrow-up" : "arrow-down";
-			},
 		},
 
 		data() {
 			return {
-				checkboxItems: [{
-					name: '一天内',
-					value: '1day'
-				},
-				{
-					name: '三天内',
-					value: '3day',
-				},
-				{
-					name: '七天内',
-					value: '3day',
-				},
+
+				dailyheathHint: "每天饮用足够的水，建议成人摄入 1500-2000 毫升水，以保持身体正常代谢。",
+				gridItem: [
+					{ name: "运动风险评估", bgColor: "#e38e37" },
+					{ name: "体质监测信息", bgColor: "#58afb7" },
+					{ name: "处方申请记录", bgColor: "#70a82a" },
+					{ name: "触动处方报告", bgColor: "#83c8f0" },
+					{ name: "预约服务", bgColor: "#b99bac" },
+					{ name: "每日打卡", bgColor: "#b99bac" },
 				],
 
-				adCode: "",
-				parkingList: parkingInfoList,
-				scrollTop: 0,
-				priceOrderFlag: 0,
-				distanceOrderFlag: 0,
-				isFilterPanelVisible: false,
-				isFilterCity: false,
-				reviewModel: 0,
-				myLocation: {
-					"longitude": '',
-					"latitude": ''
-				},
-				provices: [],
-				citys: [],
-				districts: []
 			}
 		},
 
 		methods: {
 
-			checkboxChange(e) {
-				let value = e.detail.value;
-			},
-
-			parkingItemClick(index, item) {
-					
-				uni.navigateTo({
-					url: "/pages/parking_item_detail_page/parking_item_detail_page?item=" + encodeURIComponent(JSON.stringify(item)) + "&editFlag=1"
-				})
-
-			},
-
-			changeReviewModel() {
-				if (this.reviewModel == 0) {
-					this.reviewModel = 1;
-					this.findMySelfLocation();
-				} else {
-					this.reviewModel = 0;
-				}
-			},
-			findMySelfLocation() {
-				getMyLocation().then((res) => {
-
-					this.myLocation.longitude = res.longitude;
-					this.myLocation.latitude = res.latitude;
-
-					getPoiInfo(res.latitude, res.longitude).then(_data => {
-						var data = _data as AmapPoiItem[];
-						var keyword = data[0].regeocodeData.addressComponent.province;
-						if (keyword.includes("北京") || keyword.includes("天津") || keyword.includes("上海")
-							|| keyword.includes("重庆")) {
-							keyword = data[0].regeocodeData.addressComponent.province;
-							getCityConfig(keyword, 2).then((data) => {
-								console.log(data);
-								let province = data['data']['districts'] as DistrictItem[];
-								this.citys = province[0].districts;
-								this.districts = province[0].districts[0].districts as DistrictItem[];
-							});
-						} else {
-							keyword = data[0].regeocodeData.addressComponent.city;
-							getCityConfig(keyword, 1).then((data) => {
-								console.log(data);
-								let cityList = data['data']['districts'] as DistrictItem[];
-								this.city = cityList;
-								this.districts = cityList[0].districts;
-
-							});
-						}
-					}).catch((error) => {
-						console.log(error);
-						uni.showToast({
-							title: JSON.stringify(error),
-							icon: 'error',
-						})
-					});
-
-				}).catch((error) => {
-					uni.showToast({
-						title: JSON.stringify(error),
-						icon: 'error',
-					})
+			getDate() {
+				const date = new Date(); // 当前日期
+				const formattedDate = date.toLocaleDateString('en-US', {
+					month: '2-digit',
+					day: '2-digit'
 				});
+				return formattedDate;
 			},
 
+			griditemClick(item) {
 
-			closePopup() {
-				this.$refs.popup.close();
-			},
+				console.log(item);
 
-			/**
-			 * 
-			 */
-			filterClick() {
-
-				if (this.isFilterCity === true) {
-					this.isFilterCity = false;
-				}
-				this.$refs.popup.open('bottom');
-
-
-			},
-
-			distanceClick() {
-				if (this.distanceOrderFlag === 0) {
-					this.distanceOrderFlag = 1;
-				} else {
-					this.distanceOrderFlag = 0;
-				}
-			},
-
-			regionClick() {
-				if (this.isFilterCity === false) {
-					this.isFilterCity = true;
-				}
-				this.$refs.popup.open('bottom');
-
-				if (this.citys.length === 0) {
-					this.findMySelfLocation();
-				}
-
-			},
-
-			priceOrderClick() {
-				if (this.priceOrderFlag === 0) {
-					this.priceOrderFlag = 1;
-				} else {
-					this.priceOrderFlag = 0;
-				}
-
-			},
-
-
+			}
 		}
 
 	}
@@ -312,30 +95,30 @@
 
 
 <style>
-	.search-bar {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		margin: 10rpx 10rpx;
-		padding: 10rpx 10rpx;
-		background-color: white;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		/* 给搜索栏一个阴影效果 */
+	.custom-item {
+		/* padding: 40rpx; */
+		/* height: 300rpx; */
+		/* margin: 40rpx; */
 	}
 
-	.search-results {
-		flex: 1;
-		/* 搜索栏的高度 */
-		/* padding: 10rpx; */
-		overflow-y: auto;
-		margin: 10rpx 10rpx;
-		/* background-color: #f5f5f5; */
+	.custom-item .conetnt {
+		display: flex;
+		justify-content: center;
+		background-color: #e38e37;
+		color: white;
+		font-size: 30rpx;
+		font-weight: 200;
+		margin: 30rpx 30rpx;
+		align-items: center;
+		border-radius: 10rpx;
+		height: 120rpx;
 	}
 
 	.root-container {
 		display: flex;
 		flex-direction: column;
-		height: 100vh;
+		background-color: white;
+		height: 90vh;
 		/* 设置页面的高度为全屏 */
 	}
 
@@ -372,11 +155,6 @@
 		/* 添加高度的平滑过渡 */
 	}
 
-	.filter-panel.show {
-		height: 300rpx;
-		/* 设置展开时的高度 */
-	}
-
 	.custom_button_confirm {
 		display: flex;
 		flex-direction: row;
@@ -387,5 +165,41 @@
 		border-radius: 10rpx;
 		color: white;
 		background-color: $uni-color-primary;
+	}
+
+	.card {
+		border-radius: 10px;
+		background-color: #ffffff;
+		/* 添加过渡效果 */
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1),
+			0 4px 6px rgba(0, 0, 0, 0.1);
+		/* 多层阴影实现立体效果 */
+		transition: box-shadow 0.3s ease;
+		/* 鼠标悬停过渡效果 */
+	}
+
+	.card:hover {
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2),
+			0 6px 8px rgba(0, 0, 0, 0.15);
+		/* 悬停时的阴影效果 */
+	}
+
+	.big_card {
+		border-radius: 6px;
+		background-color: #ffffff;
+		/* 添加过渡效果 */
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1),
+			0 4px 6px rgba(0, 0, 0, 0.1);
+		/* 多层阴影实现立体效果 */
+		transition: box-shadow 0.3s ease;
+		/* 鼠标悬停过渡效果 */
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-color: white;
+		height: 180rpx;
+		margin: 0 40rpx;
+		padding: 10rpx 20rpx;
 	}
 </style>

@@ -13,23 +13,18 @@ const store = new Vuex.Store({
 				// #endif
 				state: {
 					userId: 0, //当前登陆用户ID
+					userName: "",
+					token:"",
 					hasLogin: false,
-					isUniverifyLogin: false,
-					loginProvider: "",
 					openid: null,
-
-					testvuex: false,
-					colorIndex: 0,
-					colorList: ['#FF0000', '#00FF00', '#0000FF'],
-					noMatchLeftWindow: true,
-					active: 'componentPage',
-					leftWinActive: '/pages/component/view/view',
-					activeOpen: '',
-					menu: [],
-					univerifyErrorMsg: '',
-					appName: "交替停车",
+					appName: "运动处方",
 					platformInfo: 'devtools'
 				},
+				
+				gettter:{
+					
+				},
+				
 				mutations: {
 					setPlatformInfo(state, flag) {
 						state.platformInfo = flag;

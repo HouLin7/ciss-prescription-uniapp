@@ -8,7 +8,7 @@
 		{
 			"path": "pages/tabBar/home_page",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "健康管理"
 			}
 		},
 		{
@@ -17,13 +17,7 @@
 				"navigationBarTitleText": "我的"
 			}
 		},
-		{
-			"path": "pages/tabBar/post_proxy",
-			"style": {
-				"navigationBarTitleText": "发布"
-			}
-		},
-
+		
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -36,44 +30,20 @@
 				"navigationBarTitleText": "uni-app"
 			}
 		},
-		{
-			"path": "pages/parking_post_page/parking_post_page",
-			"style": {
-				"navigationBarTitleText": "发布"
-			}
-		},
+		
 		{
 			"path": "pages/login/login-by-phone",
 			"style": {
 				"navigationBarTitleText": "登陆"
 			}
 		},
-		{
-			"path": "pages/my-order/my-order-list/my-order-list",
-			"style": {
-				"navigationBarTitleText": "租赁他人的出租订单",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/my-order/my-owner-space-order-list/my-owner-space-order-list",
-			"style": {
-				"navigationBarTitleText": "我自己车位的出租订单"
-			}
-		},
+		
 		{
 			"path": "pages/user-privacy/user-privacy",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		},
-		{
-			"path": "pages/parking_item_detail_page/parking_item_detail_page",
-			"style": {
-				"navigationBarTitleText": "车位详情"
-			}
-		}
-
+		}		
 	],
 
 	"tabBar": {
@@ -88,14 +58,7 @@
 				"iconPath": "static/tab_home.png",
 				"selectedIconPath": "static/tab_home.png",
 				"text": "首页"
-			},
-			{
-				"pagePath": "pages/tabBar/post_proxy",
-				"iconPath": "static/post_status.png",
-				"selectedIconPath": "static/post_status.png",
-				"text": "发布"
-			},
-			
+			},						
 			{
 				"pagePath": "pages/tabBar/mine_page",
 				"iconPath": "static/tab_mine.png",

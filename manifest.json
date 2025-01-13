@@ -1,6 +1,6 @@
 {
-    "name" : "UniParkingshare",
-    "appid" : "__UNI__78C96D9",
+    "name" : "UniSportRecipe",
+    "appid" : "__UNI__E52D20D",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx548e3787c8a645ae",
+        "appid" : "wx5d1152d6ef9318ee",
         "setting" : {
             "urlCheck" : false,
             "minified" : true
