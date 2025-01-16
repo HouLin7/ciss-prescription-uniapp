@@ -25,9 +25,9 @@
 		</view>
 
 		<uni-grid :column="2" :square="false" :show-border="false">
-			<uni-grid-item v-for="(item,index) in gridItem " :key="index" class="custom-item"
-				@click="griditemClick(index)">
-				<view class="conetnt card" :style="{backgroundColor: item.bgColor}"> {{item.name}}</view>
+			<uni-grid-item v-for="(item,index) in gridItems " :key="index" class="custom-item">
+				<view class="conetnt card" :style="{backgroundColor: item.bgColor}" @click="onChange(index)">
+					{{item.name}}</view>
 			</uni-grid-item>
 
 		</uni-grid>>
@@ -60,7 +60,7 @@
 			return {
 
 				dailyheathHint: "每天饮用足够的水，建议成人摄入 1500-2000 毫升水，以保持身体正常代谢。",
-				gridItem: [
+				gridItems: [
 					{ name: "运动风险评估", bgColor: "#e38e37" },
 					{ name: "体质监测信息", bgColor: "#58afb7" },
 					{ name: "处方申请记录", bgColor: "#70a82a" },
@@ -83,9 +83,13 @@
 				return formattedDate;
 			},
 
-			griditemClick(item) {
-
-				console.log(item);
+			onChange(index) {
+				console.log(index);
+				if (index == 0) {
+					uni.navigateTo({
+						url: "/pages/apply/apply_step_risk/apply_step_risk"
+					})
+				}				
 
 			}
 		}

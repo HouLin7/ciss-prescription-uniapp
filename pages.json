@@ -24,13 +24,7 @@
 				"navigationBarTitleText": "登录"
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		},
-		
+			
 		{
 			"path": "pages/login/login-by-phone",
 			"style": {
@@ -42,6 +36,27 @@
 			"path": "pages/user-privacy/user-privacy",
 			"style": {
 				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path" : "pages/apply/apply_step_risk/apply_step_risk",
+			"style" : 
+			{
+				"navigationBarTitleText" : "风险评估"
+			}
+		},
+		{
+			"path" : "pages/apply/apply_step_heath_ask/apply_step_heath_ask",
+			"style" : 
+			{
+				"navigationBarTitleText" : "健康问卷"
+			}
+		},
+		{
+			"path" : "pages/apply/apply_step_heath_test/apply_step_heath_test",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}		
 	],

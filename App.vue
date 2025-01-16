@@ -143,16 +143,37 @@
 		/* 添加下划线 */
 	}
 
-	.custom_button_wexin {
+	.next-button {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		height: 80rpx;
+		border-radius: 10rpx;
+		color: white;
+		width: calc(100% - 40rpx);
+		margin: 0rpx 20rpx;
+		background-color: $uni-color-primary;
+	}
+
+	.custom_button_wexin {
+		// display: flex;
+		// flex-direction: row;
+		// justify-content: center;
+		// align-items: center;
 		width: 500rpx;
-		height: 70rpx;
-		border-radius: 60rpx;
+		height: 50rpx;
+		border-radius: 30rpx;
 		color: white;
 		background-color: $uni-color-primary;
+	}
+
+	.card {
+		// display: flex;
+		// flex-direction: column;		
+		padding: 10rpx 20rpx;
+		background-color: white;
+		border-radius: 10rpx;
 	}
 
 	/* #endif*/

@@ -3,6 +3,8 @@ export interface RegionItem {
 	id : String;
 }
 
+
+
 export interface ParkingSpaceItem {
 	provice : string, //省份
 	city : string,//城市
@@ -62,4 +64,14 @@ export interface DistrictItem {
 	center : string,
 	level : string,
 	districts : DistrictItem[]
+}
+
+export interface QuestionItem {
+	/**
+	 * 问题内容
+	 */
+	title : String
+	answers : Array<string>,
+	selectIndexSet : Array<number>,
+	isSingleChoise : boolean
 }
