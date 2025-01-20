@@ -1,5 +1,5 @@
 <template>
-	<view style="padding-left: 40rpx;padding-right: 40rpx;" class="uni-flex uni-column">
+	<view style="padding: 0rpx 50rpx;" class="uni-flex uni-column">
 
 		<view style="height: 100rpx;"></view>
 		<view class="uni-center">
@@ -12,19 +12,21 @@
 
 
 		<view class="uni-row uni-flex" style="align-items: center;justify-content: start;">
-			<view style="padding-right: 10rpx;">+86</view>
+			<view style="padding-right: 40rpx;">+86</view>
 			<input placeholder="请输入手机号" type="number" name="phone" value="" @input="handlePhoneInput" />
 		</view>
 
 		<view>
-			<view style="height: 1rpx;flex: 1; background-color: grey;opacity: 0.5;margin-top: 10rpx;"></view>
+			<view style="height: 1rpx;flex: 1; background-color: grey;opacity: 0.5;margin-top: 20rpx;"></view>
 		</view>
 
 		<view style="height: 100rpx;"></view>
-		<button class="custom_button_wexin" :disabled="inputPhoneNum.length==0" @click="handleLogin()">登陆并同意注册</button>
-		<view style="height: 40rpx;"></view>
+		<view class="uni-flex" style="justify-content: center;">
+			<view :class="loginButtonClass" :disabled="inputPhoneNum.length==0" @click="handleLogin()">登陆</view>
+		</view>
 
 		<view style="height: 40rpx;"></view>
+
 		<view class="uni-flex uni-row " style="align-items:center;">
 			<checkbox-group @change="checkboxChange" style="width: 80rpx;">
 				<checkbox color="#0000ff" checked="false" value="1" />
@@ -55,6 +57,13 @@
 		computed: {
 			...mapState(["appName"]),
 			...mapGetters(["isLogin"]),
+			loginButtonClass() {
+				if (this.inputPhoneNum.length == 0) {
+					return "custom_button_wexin_disabled";
+				} else {
+					return "custom_button_wexin";
+				}
+			},
 		},
 
 		methods: {
@@ -118,5 +127,17 @@
 
 	.center {
 		padding: 100rpx;
+	}
+
+	.custom_button_wexin_disabled {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 500rpx;
+		height: 70rpx;
+		border-radius: 30rpx;
+		color: #333;
+		background-color: #ccc;
 	}
 </style>

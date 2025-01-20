@@ -8,16 +8,17 @@
 	export default {
 
 		methods: {
-			...mapMutations(['setLoginToken', 'setPlatformInfo']),
+			...mapMutations(['initLoginToken', 'setPlatformInfo']),
 		},
 
 		onLaunch: function() {
 			console.log('App Launch')
-			// var tokenInfoStr = uni.getStorageSync("tokenInfo");
-			// if (tokenInfoStr) {
-			// 	this.setLoginToken(tokenInfo);				
-			// }
-						
+			var tokenInfo = uni.getStorageSync("tokenInfo");
+			console.log("app init  from cache token ：" + JSON.stringify(tokenInfo));
+			if (tokenInfo) {
+				this.initLoginToken(tokenInfo);
+			}
+
 			uni.getSystemInfo({
 				success: res => {
 					// console.log('设备品牌:', res.brand);
@@ -156,6 +157,18 @@
 		border-radius: 30rpx;
 		color: white;
 		background-color: $uni-color-primary;
+	}
+
+	.custom_button_wexin_disabled {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 500rpx;
+		height: 70rpx;
+		border-radius: 30rpx;
+		color: #333;
+		background-color: #999;
 	}
 
 	.card {

@@ -11,7 +11,7 @@ export default {
 	saveUser(name, sex, birthday) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/api/users/add",
+				url: config['API_BASE_URL'] + "/api/users/add",
 				dataType: 'json',
 				method: "POST",
 				header: {
@@ -23,6 +23,7 @@ export default {
 					"birthday": birthday
 				},
 				success(response) {
+					console.log(response);
 					if (httpUtils.isHttpRspSuccess(response)) {
 						resolve(response.data.data);
 					} else {
@@ -40,7 +41,7 @@ export default {
 	getUser(userId) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/api/users/" + userId,
+				url: config['API_BASE_URL'] + "/api/users/" + userId,
 				dataType: 'json',
 				method: "GET",
 				header: {

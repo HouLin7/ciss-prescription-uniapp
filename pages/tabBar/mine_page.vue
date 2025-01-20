@@ -120,7 +120,7 @@
 				this.clearToken()
 
 				uni.redirectTo({
-					url: '/pages/login/login'
+					url: '/pages/login/login-by-phone'
 				})
 			},
 			toUserDetailPage() {

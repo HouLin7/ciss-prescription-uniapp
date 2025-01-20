@@ -1,14 +1,14 @@
 <template>
-	<view class=" uni-flex uni-column">
+	<view class=" container">
 
-		<view class="card" style="margin: 10rpx 20rpx;">
+		<view class="card top" style="margin: 10rpx 20rpx;">
 			<uni-steps :options="stepMenus" :active="active" />
 		</view>
 
-		<view class="card" style="margin: 10rpx 20rpx;">
+		<view class="card middle" style="margin: 10rpx 20rpx;">
 			<QuestionItemCompoment :questions="questions"></QuestionItemCompoment>
 		</view>
-		<button class="next-button" style="margin: 20rpx;" @click="doNext">下一步</button>
+		<button class="next-button bottom" style="margin: 20rpx;" @click="doNext">下一步</button>
 	</view>
 
 </template>
@@ -98,6 +98,32 @@
 </script>
 
 <style lang="scss">
+	.container {
+		display: flex;
+		flex-direction: column;
+		/* 垂直排列 */
+		height: 100vh;
+		padding-bottom: 10rpx;
+		/* 设置全屏高度 */
+		overflow: hidden;
+		/* 防止 body 滚动 */
+	}
 
+	.top {
+		height: 80rpx;
+		// padding: 10rpx 20rpx;
+		overflow: hidden;
+	}
 
+	.middle {
+		flex: 1;
+		overflow: hidden;
+	}
+
+	.bottom {
+		height: 80rpx;
+		// background-color: white;
+		overflow: hidden;
+		/* height: 100rpx; */
+	}
 </style>

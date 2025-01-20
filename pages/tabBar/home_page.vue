@@ -24,12 +24,16 @@
 			</view>
 		</view>
 
-		<uni-grid :column="2" :square="false" :show-border="false">
-			<uni-grid-item v-for="(item,index) in gridItems " :key="index" class="custom-item">
-				<view class="conetnt card" :style="{backgroundColor: item.bgColor}" @click="onChange(index)">
-					{{item.name}}</view>
-			</uni-grid-item>
-		</uni-grid>>
+		<view style="padding: 0rpx 20rpx;">
+			<uni-grid :column="2" :square="false" :show-border="false">
+				<uni-grid-item v-for="(item,index) in gridItems " :key="index" class="custom-item">
+					<view class="conetnt card" :style="{backgroundColor: item.bgColor}" @click="onChange(index)">
+						{{item.name}}
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</view>
+		
 	</view>
 
 </template>
@@ -44,15 +48,19 @@
 
 	export default {
 
-		created() {
+		mounted() {
 
 		},
 
-
 		computed: {
-
-			...mapState(["platformInfo", "hasLogin", "userName"]),
-
+			...mapState(["platformInfo", "isLogin"]),
+			...mapGetters(['userInfo']),
+			userName() {
+				if (this.userInfo) {
+					return this.userInfo.name;
+				}
+				return ""
+			},
 		},
 
 		data() {
@@ -72,7 +80,6 @@
 		},
 
 		methods: {
-
 			getDate() {
 				const date = new Date(); // 当前日期
 				const formattedDate = date.toLocaleDateString('en-US', {
@@ -88,7 +95,7 @@
 					uni.navigateTo({
 						url: "/pages/apply/apply_step_risk/apply_step_risk"
 					})
-				}				
+				}
 
 			}
 		}
@@ -111,10 +118,10 @@
 		color: white;
 		font-size: 30rpx;
 		font-weight: 200;
-		margin: 30rpx 30rpx;
+		margin: 20rpx 20rpx;
 		align-items: center;
 		border-radius: 10rpx;
-		height: 120rpx;
+		height: 100rpx;
 	}
 
 	.root-container {

@@ -6,8 +6,12 @@
 
 <script>
 	import {
-		mapState
-	} from 'vuex';;
+		mapGetters,
+		mapMutations
+	} from 'vuex';
+
+	import user_api from '../../api/user_api';
+
 	export default {
 		data() {
 			return {
@@ -15,11 +19,16 @@
 			}
 		},
 		computed: {
-			...mapState(['isLogin']),
+			...mapGetters(['isLogin', 'userInfo']),
 		},
-		
+
 		created() {
 			if (this.isLogin) {
+				user_api.getUser(this.userInfo.id).then(userData => {
+					this.setUserInfo(userData);
+				}).catch(e => {
+					console.log("同步数据失败" + e);
+				});
 				uni.switchTab({
 					url: "/pages/tabBar/home_page",
 				});
@@ -31,7 +40,7 @@
 		},
 
 		methods: {
-
+			...mapMutations(['setUserInfo'])
 		}
 	}
 </script>

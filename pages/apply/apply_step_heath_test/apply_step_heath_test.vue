@@ -64,7 +64,7 @@
 		dateUtils
 	} from '../../../common/util';
 
-	import labelInputComponent from "@/components/label_input_unit_componet.vue"
+	import labelInputComponent from "@/components/label_input_unit_component.vue"
 
 	export default {
 		components: {

@@ -45,6 +45,9 @@
 </template>
 
 <script>
+	import {
+		nextTick
+	} from "vue";
 	import httpUtils from "../../../api/http-utils";
 	import userApi from "@/api/user_api.js";
 	import {
@@ -68,12 +71,18 @@
 				this.selectBirthday = this.userInfo.birthday
 			}
 
-			if (this.userInfo.sex) {
-				this.selectSex = this.userInfo.sex;
-			}
+			this.selectSex = this.userInfo.sex;
+
 			if (this.userInfo.name) {
 				this.userName = this.userInfo.name;
 			}
+			userApi.getUser(this.userInfo.id).then(userData => {
+				this.setUserInfo(userData);
+			}).catch(e => {
+				uni.showToast({
+					title: "刷新user数据失败" + e,
+				});
+			});
 		},
 
 		computed: {
@@ -134,6 +143,10 @@
 						title: "保存成功"
 					});
 
+					setTimeout(() => {
+						uni.navigateBack();
+					}, 500)				
+
 				}).catch(e => {
 					uni.showToast({
 						title: "保存失败"
@@ -145,7 +158,7 @@
 				this.selectBirthday = e.detail.value;
 			},
 			radioChange(e) {
-				this.selectSex = e.detail.value;
+				this.selectSex = parseInt(e.detail.value);
 			}
 
 

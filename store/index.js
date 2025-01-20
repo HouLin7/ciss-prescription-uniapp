@@ -29,9 +29,13 @@ const store = new Vuex.Store({
 						uni.removeStorageSync("tokenInfo");
 					},
 
+					initLoginToken(state, tokenInfo) {
+						state.tokenInfo = tokenInfo
+					},
+
 					setLoginToken(state, tokenInfo) {
 						state.tokenInfo = tokenInfo
-						uni.setStorageSync("tokenInfo",tokenInfo);						
+						uni.setStorageSync("tokenInfo", tokenInfo);
 					},
 
 					setUserInfo(state, newUserInfo) {
@@ -40,9 +44,9 @@ const store = new Vuex.Store({
 				},
 
 				getters: {
-					isLogin: (state) => state.tokenInfo != null,
+					isLogin: (state) => state.tokenInfo,
 					token: (state) => state.tokenInfo.token,
-					userInfo: (state) => state.tokenInfo.user,
+					userInfo: (state) => state.tokenInfo.user,					
 				},
 
 				actions: {
