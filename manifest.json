@@ -85,7 +85,7 @@
                 }
             }
         },
-        "title" : "停车服务",
+        "title" : "运动处方",
         "router" : {
             "mode" : "history"
         }

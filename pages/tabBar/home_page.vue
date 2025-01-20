@@ -29,7 +29,6 @@
 				<view class="conetnt card" :style="{backgroundColor: item.bgColor}" @click="onChange(index)">
 					{{item.name}}</view>
 			</uni-grid-item>
-
 		</uni-grid>>
 	</view>
 

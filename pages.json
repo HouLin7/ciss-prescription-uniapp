@@ -58,7 +58,22 @@
 			{
 				"navigationBarTitleText" : ""
 			}
-		}		
+		},
+		{
+			"path" : "pages/apply/apply_step_user_agreement/apply_step_user_agreement",
+			"style" : 
+			{
+				"navigationBarTitleText" : "知情同意书"
+			}
+		},
+		
+		{
+			"path" : "pages/user/user_detail_page/user_detail_page",
+			"style" : 
+			{
+				"navigationBarTitleText" : "用户详情"
+			}
+		}
 	],
 
 	"tabBar": {

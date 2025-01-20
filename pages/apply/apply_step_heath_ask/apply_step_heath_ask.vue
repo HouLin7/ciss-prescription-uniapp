@@ -24,7 +24,7 @@
 		</scroll-view>
 
 		<view class="bottom ">
-			<button class="next-button">下一步</button>
+			<button class="next-button" @click="doNext">下一步</button>
 		</view>
 	</view>
 </template>
@@ -249,6 +249,12 @@
 			}
 		},
 		methods: {
+
+			doNext() {
+				uni.navigateTo({
+					url: "/pages/apply/apply_step_heath_test/apply_step_heath_test"
+				})
+			},
 			checkGroupChange(e) {
 
 			},
@@ -266,7 +272,6 @@
 		/* 设置全屏高度 */
 		overflow: hidden;
 		/* 防止 body 滚动 */
-
 	}
 
 	.top {

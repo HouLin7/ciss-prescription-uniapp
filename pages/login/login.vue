@@ -93,21 +93,7 @@
 				}
 			},
 
-			handleLoginByWexin() {
-				// this.setHasLogin(true);
-				// uni.switchTab({
-				// 	url: "/pages/parking_post_page/parking_post_page"
-				// })
-				// uni.login({
-				// 	provider: "weixin",
-				// 	success(data) {
-				// 		console.log(JSON.stringify(data));
-				// 	},
-				// 	fail(e) {
-				// 		console.log(JSON.stringify(e));
-				// 	},
-				// });
-
+			handleLoginByWexin() {				
 				uni.getUserProfile({
 					desc: "测试使用",
 					success: (data) => {

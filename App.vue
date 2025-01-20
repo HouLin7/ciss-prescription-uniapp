@@ -8,26 +8,23 @@
 	export default {
 
 		methods: {
-			...mapMutations(['setHasLogin', 'setPlatformInfo']),
+			...mapMutations(['setLoginToken', 'setPlatformInfo']),
 		},
 
 		onLaunch: function() {
 			console.log('App Launch')
-			var flag = uni.getStorageSync("hasLogin");
-			if (flag) {
-				this.setHasLogin(true);
-			} else {
-				this.setHasLogin(false);
-			}
-
-			var thisObj = this;
+			// var tokenInfoStr = uni.getStorageSync("tokenInfo");
+			// if (tokenInfoStr) {
+			// 	this.setLoginToken(tokenInfo);				
+			// }
+						
 			uni.getSystemInfo({
 				success: res => {
-					console.log('设备品牌:', res.brand);
-					console.log('设备型号:', res.model);
-					console.log('操作系统:', res.system);
-					console.log('微信版本:', res.version);
-					console.log('运行平台:', res.platform);
+					// console.log('设备品牌:', res.brand);
+					// console.log('设备型号:', res.model);
+					// console.log('操作系统:', res.system);
+					// console.log('微信版本:', res.version);
+					// console.log('运行平台:', res.platform);
 					this.setPlatformInfo(res.platform);
 				},
 				fail: error => {
@@ -89,10 +86,6 @@
 		/* line-height: 1.8; */
 	}
 
-	.fix-pc-padding {
-		padding: 0 50px;
-	}
-
 	.uni-header-logo {
 		padding: 30rpx;
 		flex-direction: column;
@@ -106,9 +99,6 @@
 		height: 100px;
 	}
 
-	.uni-hello-text {
-		color: #7A7E83;
-	}
 
 	.uni-hello-addfile {
 		text-align: center;
@@ -148,7 +138,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		height: 80rpx;
+		height: 70rpx;
 		border-radius: 10rpx;
 		color: white;
 		width: calc(100% - 40rpx);
@@ -157,12 +147,12 @@
 	}
 
 	.custom_button_wexin {
-		// display: flex;
-		// flex-direction: row;
-		// justify-content: center;
-		// align-items: center;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 		width: 500rpx;
-		height: 50rpx;
+		height: 70rpx;
 		border-radius: 30rpx;
 		color: white;
 		background-color: $uni-color-primary;
@@ -174,6 +164,27 @@
 		padding: 10rpx 20rpx;
 		background-color: white;
 		border-radius: 10rpx;
+	}
+
+	.accent-color {
+		color: $uni-color-primary;
+	}
+
+
+	.accent-bg-color {
+		background-color: $uni-color-primary;
+	}
+
+	.divier {
+		margin-top: 5rpx;
+		margin-bottom: 5rpx;
+		background-color: #ddd;
+		height: 1rpx;
+	}
+
+	.list-item-divider {
+		border-bottom: 1rpx solid #ddd;
+		margin: 6rpx 0rpx;
 	}
 
 	/* #endif*/

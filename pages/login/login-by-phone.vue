@@ -13,17 +13,15 @@
 
 		<view class="uni-row uni-flex" style="align-items: center;justify-content: start;">
 			<view style="padding-right: 10rpx;">+86</view>
-			<input placeholder="请输入手机号" type="number" name="phone" value="" />
+			<input placeholder="请输入手机号" type="number" name="phone" value="" @input="handlePhoneInput" />
 		</view>
 
 		<view>
 			<view style="height: 1rpx;flex: 1; background-color: grey;opacity: 0.5;margin-top: 10rpx;"></view>
 		</view>
 
-
-
 		<view style="height: 100rpx;"></view>
-		<button class="custom_button_wexin" @click="handleLogin()">登陆并同意注册</button>
+		<button class="custom_button_wexin" :disabled="inputPhoneNum.length==0" @click="handleLogin()">登陆并同意注册</button>
 		<view style="height: 40rpx;"></view>
 
 		<view style="height: 40rpx;"></view>
@@ -36,42 +34,64 @@
 	</view>
 </template>
 
-<script>
+<script lang="ts">
+	import loginApi from "@/api/login_api.js";
+	import { isValidPhoneNumber } from "../../common/util";
+	// import {
+	// 	LoginToken,UniHttpResponse
+	// } from "../../common/data-model";
 	import {
-		mapState
-	} from 'vuex';
-	import {
+		mapState,
+		mapGetters,
 		mapMutations
 	} from 'vuex'
 	export default {
 		data() {
 			return {
-
+				inputPhoneNum: "",
 			}
 		},
 
 		computed: {
 			...mapState(["appName"]),
-		},
-		props: {
-			type: {
-				type: String,
-				default: '222'
-			}
+			...mapGetters(["isLogin"]),
 		},
 
 		methods: {
 
-			...mapMutations(['setHasLogin']),
+			...mapMutations(['setHasLogin', 'setLoginToken']),
+
+			handlePhoneInput(e) {
+				this.inputPhoneNum = e.detail.value;
+				// console.log(this.inputPhoneNum);
+			},
 
 			handleLogin() {
-				this.setHasLogin(true);
-				uni.switchTab({
-					url: '/pages/tabBar/home_page'
+				if (!isValidPhoneNumber(this.inputPhoneNum)) {
+					uni.showToast({
+						title: "请输入有效的手机号"
+					})
+					return;
+				}
+
+				loginApi.loginByWx("openId", this.inputPhoneNum).then(data => {
+					const tokenInfo = data;
+					this.setLoginToken(tokenInfo);
+					uni.setStorageSync("tokenInfo", tokenInfo);
+					uni.switchTab({
+						url: "/pages/tabBar/home_page"
+					})
+
+				}).catch(error => {
+					console.log(error);
+					uni.showToast({
+						title: '登录失败'
+					});
 				})
-				// uni.redirectTo({
-				// 	url:'/pages/parking_post_page/parking_post_page'	
-				// })				
+			},
+
+			checkboxChange(e) {
+
 			},
 
 			handleClose() {

@@ -105,13 +105,6 @@
 		font-size: 24rpx;
 	}
 
-	.divier {
-		margin-top: 10rpx;
-		margin-bottom: 10rpx;
-		background-color: #999999;
-		height: 1rpx;
-	}
-
 	.counter {
 		padding: 0rpx 15rpx;
 		display: flex;

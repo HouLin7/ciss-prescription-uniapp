@@ -1,8 +1,6 @@
 <template>
 
-
-	<view v-show="!hasLogin" style="display: flex;flex-direction: column;padding-top: 20rpx;align-items: center;">
-
+	<view v-if="false" style="display: flex;flex-direction: column;padding-top: 20rpx;align-items: center;">
 		<view style="height: 200rpx;"></view>
 		<image src="/static/logo.png" style="height: 150rpx;width: 150rpx;"></image>
 		<view style="height: 150rpx;"></view>
@@ -11,32 +9,44 @@
 		<button class="custom_button_wexin" @click="turnLoginPage">登录</button>
 	</view>
 
-	<view v-show="hasLogin" class="uni-flex uni-column" style="padding: 0rpx;">
-		<view class="uni-flex uni-row" style="align-items: center;background-color: white;padding: 20rpx;">
+	<view v-else class="uni-flex uni-column" style="padding: 0rpx;">
 
-			<image mode="aspectFit" :src="avatraUrl" class="avatar"></image>
+		<view class="card uni-flex uni-row"
+			style="padding: 25rpx 30rpx;margin: 50rpx 20rpx; justify-content: space-between; align-items: center;"
+			@click="toUserDetailPage">
+			<view class=" uni-flex uni-column" style="">
+				<view class="uni-flex" style="align-items: center;">
+					<text> 姓名</text>
+					<text style="margin-left: 40rpx;"> {{userName}}</text>
+				</view>
 
-			<view class="container" style="padding-left: 20rpx;">
-				<text> {{name}}</text>
-				<view style="height: 20px;"></view>
-				<text> 备注</text>
+				<view class="uni-flex" style="align-items: center;">
+					<text> 性别</text>
+					<text style="margin-left: 40rpx;"> {{sexName}}</text>
+				</view>
+				<view class="uni-flex" style="align-items: center;">
+					<text> 年龄</text>
+					<text style="margin-left: 40rpx;"> {{age}}</text>
+				</view>
+				<view class="uni-flex" style="align-items: center;">
+					<text> 手机</text>
+					<text style="margin-left: 40rpx;"> {{phone}}</text>
+				</view>
 			</view>
-
+			<uni-icons type="arrowright" size="20" />
 		</view>
 
 		<view style="height: 60rpx;"></view>
 
-		<!-- <uni-list> -->
-		<uni-list-item showArrow title="发布的共享车位" clickable="true" @click="turnMySpacePost" />
-		<uni-list-item showArrow title="租赁他人车位订单" clickable="true" @click="turnMyTenantSpaceOrder" />
-		<uni-list-item showArrow title="自己的车位出租订单" clickable="true" @click="turnMySpaceOwnerOrder" />
+		<view style="margin: 20rpx; border-radius: 20rpx; ">
+			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="turnMySpacePost" />
+			<uni-list-item showArrow title="处方运动报告" clickable="true" @click="turnMyTenantSpaceOrder" />
 
-		<!-- </uni-list> -->
-
+		</view>
 
 		<view style="height: 200rpx;"></view>
 
-		<button class="custom_button_wexin" @click="logout">退出登录</button>
+		<button class="custom_button_wexin" @click="doLogout">退出登录</button>
 
 	</view>
 </template>
@@ -50,73 +60,93 @@
 		mapState,
 		mapGetters
 	} from 'vuex';
-
+	import {
+		calculateAge
+	} from '../../common/util';
 
 	export default {
 
 		computed: {
-			...mapState(['hasLogin'])
+			...mapGetters(['isLogin', 'userInfo']),
+			userName() {
+				if (this.userInfo.name) {
+					return this.userInfo.name;
+				} else {
+					return "未知";
+				}
+			},
+			sexName() {
+				if (this.userInfo.sex === 1) {
+					return "女";
+				} else if (this.userInfo.sex === 0) {
+					return "男";
+				} else {
+					return "未知";
+				}
+			},
+			age() {
+				if (this.userInfo.birthday) {
+					return calculateAge(this.userInfo.birthday);
+				} else {
+					return "未知";
+				}
+			},
+			phone() {
+				return this.userInfo.phoneNumber;
+			}
+
+		},
+
+		created() {
+			// console.log("userInfo : " + JSON.stringify(this.userInfo));
+			
+			userApi.getUser(this.userInfo.id).then(userData => {
+				this.setUserInfo(userData);
+			}).catch(e => {
+				uni.showToast({
+					title: "刷新user数据失败" + e,
+				});
+			});
 		},
 
 		methods: {
-
-			...mapMutations(['setHasLogin']),
-
-			logout() {
-				this.setHasLogin(false);
-
-				nextTick(() => {
-					alert(this.hasLogin);
-				});
-				// uni.navigateTo({
-				// 	url:'/pages/login/login'
-				// })
-			},
-
-			//自己的车位出租
-			turnMySpaceOwnerOrder(e) {
+			...mapMutations(['clearToken','setUserInfo']),
+			turnLoginPage() {
 				uni.navigateTo({
-					url: '/pages/my-order/my-owner-space-order-list/my-owner-space-order-list'
+					url: "/pages/login/login"
 				})
 			},
+			doLogout() {
+				this.clearToken()
 
-			//租赁别人车位订单
-			turnMyTenantSpaceOrder(e) {
-				uni.navigateTo({
-					url: '/pages/my-order/my-order-list/my-order-list'
+				uni.redirectTo({
+					url: '/pages/login/login'
 				})
 			},
-
+			toUserDetailPage() {
+				uni.navigateTo({
+					url: "/pages/user/user_detail_page/user_detail_page"
+				})
+			}
 		},
 
 		data() {
 			return {
-				avatraUrl: "/static/logo.png",
-				name: "张三",
-			};
+
+			}
 		}
 	}
 </script>
 
 <style scoped>
-	.container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: 50%;
-	}
-
-	.avatar {
-		width: 150rpx;
-		/* 或者你需要的尺寸 */
-		height: 150rpx;
-		/* 或者你需要的尺寸 */
-		border-radius: 10%;
-		/* 圆形头像 */
-		border: 1px solid white;
-		/* 可选的边框 */
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-		/* 可选的阴影效果 */
+	.card {
+		border-radius: 6px;
+		background-color: #ffffff;
+		/* 添加过渡效果 */
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1),
+			0 4px 6px rgba(0, 0, 0, 0.1);
+		/* 多层阴影实现立体效果 */
+		transition: box-shadow 0.3s ease;
+		/* 鼠标悬停过渡效果 */
 	}
 </style>

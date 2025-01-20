@@ -70,8 +70,53 @@ export interface QuestionItem {
 	/**
 	 * 问题内容
 	 */
-	title : String
+	title : String,
 	answers : Array<string>,
 	selectIndexSet : Array<number>,
-	isSingleChoise : boolean
+	isSingleChoise : boolean,
+}
+
+export interface LableInputDataItem {
+	/**
+	 * 数值属性
+	 */
+	name : String,
+	/**
+	 * 单位名称
+	 */
+	unit : String,
+	/**
+	 * 数值
+	 */
+	value : number,
+}
+
+export interface UserInfo {
+	id : number,
+	name : String,
+	sex : number,
+	birthday : String,
+	phoneNumber : String,
+	openId : String,
+	roleFlag : number,
+
+}
+
+export interface LoginToken {
+	token : String,
+	newUserFlag : number,
+	user : UserInfo,
+}
+
+export interface UniHttpResponse {
+	data : BaseHttpRsp,
+	errMsg : String,
+	statusCode : number,
+	header : Object,
+}
+
+export interface BaseHttpRsp {
+	code : number,
+	msg : String,
+	data : Object
 }

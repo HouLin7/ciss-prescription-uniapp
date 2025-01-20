@@ -5,19 +5,29 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';;
 	export default {
 		data() {
 			return {
 
 			}
 		},
-
-		created() {		
-			
-			uni.switchTab({
-				url: "/pages/tabBar/home_page",
-			});
-
+		computed: {
+			...mapState(['isLogin']),
+		},
+		
+		created() {
+			if (this.isLogin) {
+				uni.switchTab({
+					url: "/pages/tabBar/home_page",
+				});
+			} else {
+				uni.redirectTo({
+					url: "/pages/login/login-by-phone",
+				});
+			}
 		},
 
 		methods: {

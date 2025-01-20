@@ -30,12 +30,34 @@ function formatLocation(longitude, latitude) {
 	}
 }
 
+function isValidPhoneNumber(phone) {
+    const phoneRegex = /^1[3-9]\d{9}$/;
+    return phoneRegex.test(phone);
+}
+
+
 /**
  * 是否是微信真机环境
  */
 function isWexinRuntime() {
 	let result = uni.getSystemInfoSync();
 	return result.platform === 'android' || result.platform === 'iOS';
+}
+
+function calculateAge(birthday) {
+    const birthDate = new Date(birthday); // 解析生日
+    const today = new Date(); // 当前日期
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    // 如果生日还没过，减去 1 岁
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+    
+    return age;
 }
 
 var dateUtils = {
@@ -57,6 +79,13 @@ var dateUtils = {
 		}
 		return humanize || '刚刚';
 	},
+	formatYYMMDD: function(date) {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // 补零
+		const day = String(date.getDate()).padStart(2, '0'); // 补零
+		return `${year}-${month}-${day}`;
+	},
+
 	format: function(dateStr) {
 		var date = this.parse(dateStr)
 		var diff = Date.now() - date.getTime();
@@ -79,5 +108,7 @@ export {
 	formatTime,
 	formatLocation,
 	dateUtils,
-	isWexinRuntime
+	isWexinRuntime,
+	isValidPhoneNumber,
+	calculateAge
 }

@@ -1,10 +1,13 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {
+	LoginToken,
+	UserInfo
+} from '../common/data-model';
 Vue.use(Vuex)
 const store = new Vuex.Store({
 			// #endif
-
 			// #ifdef VUE3
 			import {
 				createStore
@@ -12,80 +15,36 @@ const store = new Vuex.Store({
 			const store = createStore({
 				// #endif
 				state: {
-					userId: 0, //当前登陆用户ID
-					userName: "",
-					token:"",
-					hasLogin: false,
-					openid: null,
+					tokenInfo: null,
 					appName: "运动处方",
 					platformInfo: 'devtools'
 				},
-				
-				gettter:{
-					
-				},
-				
 				mutations: {
 					setPlatformInfo(state, flag) {
 						state.platformInfo = flag;
 					},
 
-					setHasLogin(state, flag) {
-						state.hasLogin = flag
-						uni.setStorage({
-							key: 'hasLogin',
-							data: flag
-						})
+					clearToken(state) {
+						state.tokenInfo = null;
+						uni.removeStorageSync("tokenInfo");
 					},
 
-					login(state, provider) {
-						state.hasLogin = true;
-						state.loginProvider = provider;
+					setLoginToken(state, tokenInfo) {
+						state.tokenInfo = tokenInfo
+						uni.setStorageSync("tokenInfo",tokenInfo);						
 					},
-					logout(state) {
-						state.hasLogin = false
-						state.openid = null
-					},
-					setOpenid(state, openid) {
-						state.openid = openid
-					},
-					setTestTrue(state) {
-						state.testvuex = true
-					},
-					setTestFalse(state) {
-						state.testvuex = false
-					},
-					setColorIndex(state, index) {
-						state.colorIndex = index
-					},
-					setMatchLeftWindow(state, matchLeftWindow) {
-						state.noMatchLeftWindow = !matchLeftWindow
-					},
-					setActive(state, tabPage) {
-						state.active = tabPage
-					},
-					setLeftWinActive(state, leftWinActive) {
-						state.leftWinActive = leftWinActive
-					},
-					setActiveOpen(state, activeOpen) {
-						state.activeOpen = activeOpen
-					},
-					setMenu(state, menu) {
-						state.menu = menu
-					},
-					setUniverifyLogin(state, payload) {
-						typeof payload !== 'boolean' ? payload = !!payload : '';
-						state.isUniverifyLogin = payload;
-					},
-					setUniverifyErrorMsg(state, payload = '') {
-						state.univerifyErrorMsg = payload
+
+					setUserInfo(state, newUserInfo) {
+						state.tokenInfo.user = newUserInfo;
 					}
 				},
+
 				getters: {
-					currentColor(state) {
-						return state.colorList[state.colorIndex]
-					},
+					isLogin: (state) => state.tokenInfo != null,
+					token: (state) => state.tokenInfo.token,
+					userInfo: (state) => state.tokenInfo.user,
 				},
+
 				actions: {
 					// lazy loading openid
 					getUserOpenId: async function({
@@ -117,29 +76,7 @@ const store = new Vuex.Store({
 							}
 						})
 					},
-					getPhoneNumber: function({
-						commit
-					}, univerifyInfo) {
-						return new Promise((resolve, reject) => {
-							uni.request({
-								url: 'https://97fca9f2-41f6-449f-a35e-3f135d4c3875.bspapp.com/http/univerify-login',
-								method: 'POST',
-								data: univerifyInfo,
-								success: (res) => {
-									const data = res.data
-									if (data.success) {
-										resolve(data.phoneNumber)
-									} else {
-										reject(res)
-									}
 
-								},
-								fail: (err) => {
-									reject(res)
-								}
-							})
-						})
-					}
 				}
 			})
 
