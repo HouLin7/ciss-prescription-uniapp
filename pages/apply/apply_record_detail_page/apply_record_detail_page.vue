@@ -111,11 +111,11 @@
 			const date = new Date();
 			this.today = dateUtils.formatYYMMDD(date);
 			this.selectedDate = this.today;
-			this.risk_questions = riskEvaluationQuestion;
+			this.risk_questions = riskEvaluationQuestion();
 
-			this.heath_questions = heathAskQuestion;
+			this.heath_questions = heathAskQuestion();
 
-			this.bodyTestData = bodyTestData;
+			this.bodyTestData = bodyTestData();
 		},
 		data() {
 

@@ -92,9 +92,9 @@
 				today: "", // 限制最大日期				
 				active: 2,
 
-				bodyParamsUnit1: bodyTestData.bodyParamsUnit1 as LableInputDataItem[],
-				bodyParamsUnit2: bodyTestData.bodyParamsUnit2 as LableInputDataItem[],
-				bodyParamsUnit3: bodyTestData.bodyParamsUnit3 as LableInputDataItem[],
+				bodyParamsUnit1: bodyTestData().bodyParamsUnit1 as LableInputDataItem[],
+				bodyParamsUnit2: bodyTestData().bodyParamsUnit2 as LableInputDataItem[],
+				bodyParamsUnit3: bodyTestData().bodyParamsUnit3 as LableInputDataItem[],
 				stepMenus: [{
 					title: "风险评估"
 				}, {

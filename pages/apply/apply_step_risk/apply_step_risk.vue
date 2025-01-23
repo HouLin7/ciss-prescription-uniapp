@@ -28,7 +28,7 @@
 			QuestionItemCompoment
 		},
 		created() {
-			this.questions = riskEvaluationQuestion;
+			this.questions = riskEvaluationQuestion();
 		},
 		data() {
 			return {

@@ -33,9 +33,9 @@
 </template>
 
 <script>
-	import {
-		userAgreementUrl
-	} from "@/common/constants.js"
+	// import {
+	// 	userAgreementUrl
+	// } from "@/common/constants.js"
 
 	import {
 		mapState
@@ -47,7 +47,7 @@
 		},
 		data() {
 			return {
-				url: userAgreementUrl,
+				url: "",
 				active: 3,
 
 				stepMenus: [{

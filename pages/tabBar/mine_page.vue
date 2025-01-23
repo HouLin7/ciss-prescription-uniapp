@@ -39,8 +39,8 @@
 		<view style="height: 60rpx;"></view>
 
 		<view style="margin: 20rpx; border-radius: 20rpx; ">
-			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="turnMySpacePost" />
-			<uni-list-item showArrow title="处方运动报告" clickable="true" @click="turnMyTenantSpaceOrder" />
+			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="handleOpenApplyRecord" />
+			<uni-list-item showArrow title="处方运动报告" clickable="false" @click="turnMyTenantSpaceOrder" />
 
 		</view>
 
@@ -99,7 +99,7 @@
 
 		created() {
 			// console.log("userInfo : " + JSON.stringify(this.userInfo));
-			
+
 			userApi.getUser(this.userInfo.id).then(userData => {
 				this.setUserInfo(userData);
 			}).catch(e => {
@@ -110,10 +110,10 @@
 		},
 
 		methods: {
-			...mapMutations(['clearToken','setUserInfo']),
-			turnLoginPage() {
+			...mapMutations(['clearToken', 'setUserInfo']),
+			handleOpenApplyRecord() {
 				uni.navigateTo({
-					url: "/pages/login/login"
+					url: "/pages/apply/my_apply_record_list/my_apply_record_list"
 				})
 			},
 			doLogout() {

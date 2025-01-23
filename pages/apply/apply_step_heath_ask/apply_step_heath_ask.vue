@@ -41,9 +41,9 @@
 		},
 
 		created() {
-			this.questionsUni1 = heathAskQuestion.questionsUni1;
-			this.questionsUni2 = heathAskQuestion.questionsUni2;
-			this.questionsUni3 = heathAskQuestion.questionsUni3;
+			this.questionsUni1 = heathAskQuestion().questionsUni1;
+			this.questionsUni2 = heathAskQuestion().questionsUni2;
+			this.questionsUni3 = heathAskQuestion().questionsUni3;
 		},
 		data() {
 			return {
