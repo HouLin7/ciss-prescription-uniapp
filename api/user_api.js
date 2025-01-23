@@ -1,6 +1,7 @@
 import config from "./env_config";
 import store from "@/store/index";
 import httpUtils from "@/api/http-utils.js";
+
 export default {
 
 	/**
@@ -33,11 +34,11 @@ export default {
 				fail(e) {
 					reject(e);
 				}
-
+	
 			})
 		});
 	},
-
+	
 	getUser(userId) {
 		return new Promise((resolve, reject) => {
 			uni.request({
@@ -57,10 +58,12 @@ export default {
 				fail(e) {
 					reject(e);
 				}
-
+	
 			})
 		});
 	},
+	
+
 
 
 }

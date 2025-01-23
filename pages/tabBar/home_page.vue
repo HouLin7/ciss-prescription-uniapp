@@ -33,7 +33,7 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
-		
+
 	</view>
 
 </template>
@@ -94,6 +94,10 @@
 				if (index == 0) {
 					uni.navigateTo({
 						url: "/pages/apply/apply_step_risk/apply_step_risk"
+					})
+				} else if (index == 2) {
+					uni.navigateTo({
+						url: "/pages/apply/my_apply_record_list/my_apply_record_list"
 					})
 				}
 

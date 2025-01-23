@@ -39,9 +39,6 @@
 <script lang="ts">
 	import loginApi from "@/api/login_api.js";
 	import { isValidPhoneNumber } from "../../common/util";
-	// import {
-	// 	LoginToken,UniHttpResponse
-	// } from "../../common/data-model";
 	import {
 		mapState,
 		mapGetters,
@@ -87,10 +84,16 @@
 					const tokenInfo = data;
 					this.setLoginToken(tokenInfo);
 					uni.setStorageSync("tokenInfo", tokenInfo);
-					uni.switchTab({
-						url: "/pages/tabBar/home_page"
-					})
 
+					if (tokenInfo.newUserFlag == 1) {
+						uni.redirectTo({
+							url: "/pages/user/user_detail_page/user_detail_page?isNewUser=true",
+						})
+					} else {
+						uni.switchTab({
+							url: "/pages/tabBar/home_page"
+						})
+					}
 				}).catch(error => {
 					console.log(error);
 					uni.showToast({

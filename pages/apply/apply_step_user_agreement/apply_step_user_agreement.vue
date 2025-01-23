@@ -26,9 +26,8 @@
 		<view class="uni-flex bottom" style="padding: 10rpx 40rpx;">
 			<button class="custom_button_wexin" style="background-color: #999;" @click="reject">拒绝</button>
 			<view style="width: 40rpx"></view>
-			<button class="custom_button_wexin">同意</button>
+			<button class="custom_button_wexin" @click="agree">同意</button>
 		</view>
-		<!-- </view> -->
 
 	</view>
 </template>
@@ -37,8 +36,15 @@
 	import {
 		userAgreementUrl
 	} from "@/common/constants.js"
-	export default {
 
+	import {
+		mapState
+	} from 'vuex';
+	import applyApi from '../../../api/apply_api.js'
+	export default {
+		computed: {
+			...mapState(['tempApplyRecordItem']),
+		},
 		data() {
 			return {
 				url: userAgreementUrl,
@@ -63,6 +69,26 @@
 				})
 			},
 			agree() {
+				if (!this.tempApplyRecordItem) {
+					uni.showToast({
+						title: "保存基础对象为空"
+					})
+					return;
+				}
+				applyApi.addApplyRecord(this.tempApplyRecordItem).then(rsp => {
+					uni.showToast({
+						title: "提交成功"
+					});
+					setTimeout(() => {
+						uni.switchTab({
+							url: "/pages/tabBar/home_page"
+						});
+					}, 500);
+				}).catch(e => {
+					uni.showToast({
+						title: `${e}`
+					});
+				});
 
 			}
 		}
@@ -74,7 +100,7 @@
 		display: flex;
 		flex-direction: column;
 		/* 垂直排列 */
-		height: 100vh;
+		height: 95vh;
 		padding-bottom: 20rpx;
 		/* 设置全屏高度 */
 		overflow: hidden;
@@ -88,7 +114,7 @@
 	}
 
 	.middle {
-		flex: 1;		
+		flex: 1;
 		overflow: hidden;
 	}
 

@@ -13,62 +13,26 @@
 
 </template>
 
-<script>
-	import QuestionItemCompoment from "@/components/question_answer_list_componet.vue"
-
+<script lang="ts">
+	import {
+		mapMutations
+	} from 'vuex';
+	import QuestionItemCompoment from "@/components/question_answer_list_componet.vue";
+	import { ApplyRecordItem } from '../../../common/data-model';
+	import { QuestionItem } from "../../../common/data-model";
+	import { nextTick } from "vue";
+	import { riskEvaluationQuestion } from '../../../common/constants';
 	export default {
 
 		components: {
 			QuestionItemCompoment
 		},
 		created() {
-
+			this.questions = riskEvaluationQuestion;
 		},
 		data() {
 			return {
-				questions: [{
-						"title": "1.您是否有医院确诊的心脏病",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": false
-					},
-					{
-						"title": "2.您的安静时血压是否收缩压超过",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": true
-					},
-					{
-						"title": "3.您平时生活或者运动中是否出现过胸闷或缺血性胸痛（心绞痛）？",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": true
-					},
-					{
-						"title": "4.一年内您是否曾因头晕跌倒或曾失去知觉过？",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": true
-					},
-					{
-						"title": "5.医生是否告诉过您只能参加强度较轻的身体活动？",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": true
-					},
-					{
-						"title": "6.您是否会因为运动使关节疼痛加重？",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": true
-					},
-					{
-						"title": "7.您是否有其他不能参加运动的原因？",
-						"answers": ["是", "否"],
-						"selectIndexSet": [],
-						"isSingleChoise": true
-					},
-				],
+				questions: [] as QuestionItem[],
 				active: 0,
 				stepMenus: [{
 					title: "风险评估"
@@ -78,11 +42,48 @@
 					title: "体测数据"
 				}, {
 					title: "知情同意书"
-				}, ],
+				},],
 			}
 		},
 		methods: {
+			...mapMutations(['setTempApplyRecordItem']),
 			doNext() {
+				for (var index in this.questions) {
+					var item = this.questions[index];
+					if (item.selectIndexSet.length == 0) {
+						uni.showToast({
+							title: "请完成风险评估"
+						});
+						return;
+					}
+
+					if (item.selectIndexSet[0] == 0) {
+						uni.showModal({
+							content: "您当前的身体状况不建议申请运动处方",
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+									uni.navigateBack();
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+									uni.navigateBack();
+								}
+							}
+						});
+						return;
+					}
+
+				}
+				var applyItem = {} as ApplyRecordItem;
+				var allSelectAnswers = [];
+				for (var item of this.questions) {
+					allSelectAnswers.push(item.selectIndexSet[0]);
+				}
+				var content = allSelectAnswers.join(',');
+				applyItem.riskEvaluation = content;
+				this.setTempApplyRecordItem(applyItem);
+				console.log(JSON.stringify(applyItem));
+
 				uni.navigateTo({
 					url: "/pages/apply/apply_step_heath_ask/apply_step_heath_ask"
 				})
@@ -102,7 +103,7 @@
 		display: flex;
 		flex-direction: column;
 		/* 垂直排列 */
-		height: 100vh;
+		height: 95vh;
 		padding-bottom: 10rpx;
 		/* 设置全屏高度 */
 		overflow: hidden;

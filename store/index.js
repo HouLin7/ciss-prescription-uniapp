@@ -17,9 +17,17 @@ const store = new Vuex.Store({
 				state: {
 					tokenInfo: null,
 					appName: "运动处方",
+					/**
+					 * 临时的缓存（一次处方申请记录）
+					 */
+					tempApplyRecordItem: null,
 					platformInfo: 'devtools'
 				},
+
 				mutations: {
+					setTempApplyRecordItem(state, item) {
+						state.tempApplyRecordItem = item;
+					},
 					setPlatformInfo(state, flag) {
 						state.platformInfo = flag;
 					},
@@ -46,7 +54,7 @@ const store = new Vuex.Store({
 				getters: {
 					isLogin: (state) => state.tokenInfo,
 					token: (state) => state.tokenInfo.token,
-					userInfo: (state) => state.tokenInfo.user,					
+					userInfo: (state) => state.tokenInfo.user,
 				},
 
 				actions: {

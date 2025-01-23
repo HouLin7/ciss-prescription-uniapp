@@ -4,9 +4,9 @@
 		<view :class="titleClass">{{questItem.title}}</view>
 		<view style="height: 10rpx;" />
 		<view v-if="questItem.isSingleChoise">
-			<radio-group @change="radionSelectChange" :data-index="index">
+			<radio-group :disabled="!enable" @change="radionSelectChange" :data-index="index">
 				<label class="radio" v-for="(answerItem,childIndex) in questItem.answers" style="margin: 0rpx 20rpx;">
-					<radio style="transform: scale(0.6)" color="#007aff" :value="childIndex"
+					<radio style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
 						:checked="isSelect(questItem,childIndex)" />
 					{{answerItem}}
 				</label>
@@ -16,8 +16,8 @@
 			<checkbox-group @change="checkboxSelectChange" :data-index="index">
 				<label :class="radioClass" v-for="(answerItem,childIndex) in questItem.answers"
 					style="margin: 0rpx 20rpx;">
-					<checkbox style="transform: scale(0.6)" color="#007aff" :value="childIndex"
-						:checked="isSelect(questItem,childIndex)" />
+					<checkbox :disabled="!enable" style="transform: scale(0.6)" color="#007aff"
+						:value="childIndex.toString()" :checked="isSelect(questItem,childIndex)" />
 					{{answerItem}}
 				</label>
 			</checkbox-group>
@@ -38,6 +38,16 @@
 	export default {
 
 		props: {
+
+			/**
+			 * @type {Boolean}
+			 * @default ""
+			 * @description 是否可编辑
+			 */
+			enable: {
+				type: Boolean,
+				default: true,
+			},
 			/**
 			 * @type {Array}
 			 * @default []
@@ -100,14 +110,6 @@
 			isSelect(questionItem : QuestionItem, targetIndex : number) : boolean {
 				var result = questionItem.selectIndexSet.filter((value, _index, _array) => value == targetIndex);
 				return result.length > 0
-				// var flag = false;
-				// for (var selectIndex in questionItem.selectIndexSet) {					
-				// 	if (selectIndex == index) {
-				// 		flag = true;
-				// 		break;
-				// 	}
-				// }
-				// return flag;
 			},
 
 			checkboxSelectChange(e) {
@@ -117,11 +119,12 @@
 				currQuestItem.selectIndexSet = values;
 			},
 			radionSelectChange(e) {
-				// this.$emit("change", e);
+				// this.$emit("change", e);			
+
 				const index = parseInt(e.target.dataset.index)
 				const currQuestItem = this.questions[index];
-
 				const value = e.detail.value;
+				console.log("radionSelectChange : " + value);
 				currQuestItem.selectIndexSet = [value];
 			}
 		}

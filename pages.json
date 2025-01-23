@@ -28,7 +28,8 @@
 		{
 			"path": "pages/login/login-by-phone",
 			"style": {
-				"navigationBarTitleText": "登陆"
+				"navigationBarTitleText": "登陆",
+				"backgroundColor": "#fff"
 			}
 		},
 		
@@ -56,7 +57,7 @@
 			"path" : "pages/apply/apply_step_heath_test/apply_step_heath_test",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "体测数据"
 			}
 		},
 		{
@@ -72,6 +73,27 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "用户详情"
+			}
+		},
+		{
+			"path" : "pages/apply/apply_record_list/apply_record_list",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/apply/my_apply_record_list/my_apply_record_list",
+			"style" : 
+			{
+				"navigationBarTitleText" : "处方申请记录"
+			}
+		},
+		{
+			"path" : "pages/apply/apply_record_detail_page/apply_record_detail_page",
+			"style" : 
+			{
+				"navigationBarTitleText" : "处方申请记录详情"
 			}
 		}
 	],
@@ -103,7 +125,8 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+		"maxWidth": 500
 	},
 	"uniIdRouter": {}
 }

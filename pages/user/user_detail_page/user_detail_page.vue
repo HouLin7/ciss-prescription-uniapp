@@ -144,8 +144,15 @@
 					});
 
 					setTimeout(() => {
-						uni.navigateBack();
-					}, 500)				
+						if (this.isFirstLogin) {
+							uni.switchTab({
+								url: "/pages/tabBar/home_page"
+							});
+						} else {
+							uni.navigateBack();
+						}
+
+					}, 500)
 
 				}).catch(e => {
 					uni.showToast({

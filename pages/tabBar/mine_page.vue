@@ -118,8 +118,7 @@
 			},
 			doLogout() {
 				this.clearToken()
-
-				uni.redirectTo({
+				uni.reLaunch({
 					url: '/pages/login/login-by-phone'
 				})
 			},

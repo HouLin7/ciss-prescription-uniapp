@@ -76,6 +76,11 @@ export interface QuestionItem {
 	isSingleChoise : boolean,
 }
 
+export interface QuestionTypeItem {
+	typeTitle : String,
+	data : Array<QuestionItem>
+}
+
 export interface LableInputDataItem {
 	/**
 	 * 数值属性
@@ -119,4 +124,40 @@ export interface BaseHttpRsp {
 	code : number,
 	msg : String,
 	data : Object
+}
+
+export interface ApplyRecordItem {
+	id : number,
+	userId : number,
+	healthQuestion : String,
+	riskEvaluation : String,
+	appVersionCode : String,
+	status : String,
+	bodyTestRecords : BodyTestRecords
+}
+
+export interface BodyTestRecords {
+	id : number,
+	applyRecordId : number,
+	height : number,
+	weight : number,
+	waist : number,//腰围
+	hipline : number,  //臀围
+	fatRate : number, //体脂率
+	systolicPressure : number,//收缩压
+	diastolicPressure : number,//舒张压
+	powerCarTestData : number,//功率车
+	pulse : number, //脉搏
+	vitalCapacity : number,//肺活量
+	gripPower : number,//握力
+	carryPower : number,//背力
+	jumpPower : number,//跳跃
+	pushUpCount : number,//俯卧撑
+	kneelUpCount : number,//跪卧撑
+	sitUpCount : number,//仰卧起坐
+	sitAndReach : number,//坐位体前屈
+	standOnOne : number,//单脚站立
+	responseTime : number,//反应时间
+	testDateTime : String//测试日期
+
 }

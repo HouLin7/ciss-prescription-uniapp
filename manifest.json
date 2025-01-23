@@ -88,6 +88,11 @@
         "title" : "运动处方",
         "router" : {
             "mode" : "history"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
         }
     }
 }

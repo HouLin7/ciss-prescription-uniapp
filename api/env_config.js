@@ -3,7 +3,7 @@ const config = {
     API_BASE_URL: 'http://localhost:8080'
   },
   production: {
-    API_BASE_URL: 'https://api.example.com'
+    API_BASE_URL: ''
   }
 };
 
