@@ -35,11 +35,36 @@ export default {
 		});
 	},
 	getApplyRecords(params) {
+		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: config['API_BASE_URL'] + "/api/recipe/apply/record",
 				method: "GET",
 				data: params,
+				header: {
+					"Authorization": store.getters.token
+				},
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+	},
+
+	getApplyRecordDetail(id) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: config['API_BASE_URL'] + "/api/recipe/apply/record/" + id,
+				method: "GET",
 				header: {
 					"Authorization": store.getters.token
 				},

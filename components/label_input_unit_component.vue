@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-	import { PropType } from 'vue';
 	import { LableInputDataItem } from '../common/data-model';
 
 	export default {
@@ -64,20 +63,7 @@
 			enable: {
 				type: Boolean,
 				default: true,
-			},
-
-			// value: {
-			// 	type: String,
-			// 	default: null,
-			// },
-			// /**
-			//  * @type 
-			//  * @description  单位名称
-			//  */
-			// unit: {
-			// 	type: String,
-			// 	default: "",
-			// },
+			},		
 		},
 
 	}

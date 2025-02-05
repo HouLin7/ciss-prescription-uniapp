@@ -158,6 +158,6 @@ export interface BodyTestRecords {
 	sitAndReach : number,//坐位体前屈
 	standOnOne : number,//单脚站立
 	responseTime : number,//反应时间
-	testDateTime : String//测试日期
+	testDateTime : string//测试日期
 
 }

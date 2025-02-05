@@ -64,6 +64,7 @@
 		calculateAge
 	} from '../../common/util';
 
+	import userApi from '../../api/user_api.js';
 	export default {
 
 		computed: {
@@ -99,7 +100,6 @@
 
 		created() {
 			// console.log("userInfo : " + JSON.stringify(this.userInfo));
-
 			userApi.getUser(this.userInfo.id).then(userData => {
 				this.setUserInfo(userData);
 			}).catch(e => {

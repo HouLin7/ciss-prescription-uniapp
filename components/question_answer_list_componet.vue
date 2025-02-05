@@ -4,7 +4,7 @@
 		<view :class="titleClass">{{questItem.title}}</view>
 		<view style="height: 10rpx;" />
 		<view v-if="questItem.isSingleChoise">
-			<radio-group :disabled="!enable" @change="radionSelectChange" :data-index="index">
+			<radio-group @change="radionSelectChange" :data-index="index">
 				<label class="radio" v-for="(answerItem,childIndex) in questItem.answers" style="margin: 0rpx 20rpx;">
 					<radio style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
 						:checked="isSelect(questItem,childIndex)" />
@@ -16,8 +16,8 @@
 			<checkbox-group @change="checkboxSelectChange" :data-index="index">
 				<label :class="radioClass" v-for="(answerItem,childIndex) in questItem.answers"
 					style="margin: 0rpx 20rpx;">
-					<checkbox :disabled="!enable" style="transform: scale(0.6)" color="#007aff"
-						:value="childIndex.toString()" :checked="isSelect(questItem,childIndex)" />
+					<checkbox style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
+						:checked="isSelect(questItem,childIndex)" />
 					{{answerItem}}
 				</label>
 			</checkbox-group>
@@ -29,6 +29,7 @@
 </template>
 
 <script lang="ts">
+	import { nextTick } from "vue";
 	import { QuestionItem } from "../common/data-model.js"
 	import {
 		mapState
@@ -113,19 +114,29 @@
 			},
 
 			checkboxSelectChange(e) {
+				if (!this.enable) {
+					return;
+				}
 				const index = parseInt(e.target.dataset.index)
 				const currQuestItem = this.questions[index];
 				const values = e.detail.value;
 				currQuestItem.selectIndexSet = values;
 			},
 			radionSelectChange(e) {
-				// this.$emit("change", e);			
-
+				// this.$emit("change", e);					
 				const index = parseInt(e.target.dataset.index)
 				const currQuestItem = this.questions[index];
 				const value = e.detail.value;
 				console.log("radionSelectChange : " + value);
 				currQuestItem.selectIndexSet = [value];
+			},
+			
+			preventEdit(event) {
+				console.log(event);
+				if (!this.enable) {
+					console.log("preventDefault");
+					event.preventDefault(); // 阻止点击时修改	
+				}
 			}
 		}
 	}
