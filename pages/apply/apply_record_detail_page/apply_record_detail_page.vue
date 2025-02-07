@@ -1,11 +1,13 @@
 <template>
 	<view class="container">
+		<view class="uni-flex" style="justify-content: center;align-items: baseline; padding-top: 10rpx;">
+			<view class="headerLabel">{{userName}}</view>
+			<view class="headerLabel">{{phoneNum}}</view>
+			<view class="headerLabel">{{sex}}</view>
+			<view class="headerLabel">{{age}}</view>
+			<view class="headerLabel">{{createDate}}</view>
+		</view>
 		<view style="justify-content: center;padding: 10rpx 40rpx;">
-			<!-- <view v-for="(tab, index) in tabs" :key="index" class="tab" :class="{ active: currentIndex === index }"
-				@click="currentIndex = index">
-				{{ tab }}
-			</view> -->
-
 			<uni-segmented-control :current="currentIndex" :values="tabs" style-type="button" active-color="#007aff"
 				@clickItem="onClickItem" />
 		</view>
@@ -96,14 +98,16 @@
 	import QuestionItemCompoment from "@/components/question_answer_list_componet.vue"
 	import QuestionItemTowCompoment from "@/components/question_answer_list_tow_componet.vue"
 
-	import applyApi from "@/api/apply_api.js"
+	import applyApi from "@/api/apply_api.js";
+	import userApi from "../../../api/user_api.js";
+
 	import {
 		heathAskQuestion,
 		bodyTestData,
 		riskEvaluationQuestion
 	} from '../../../common/constants';
 	import {
-		dateUtils
+		dateUtils, calculateAge
 	} from '../../../common/util';
 	import labelInputComponent from "@/components/label_input_unit_component.vue"
 	import { BodyTestRecords, QuestionItem, QuestionTypeItem } from "../../../common/data-model";
@@ -121,6 +125,7 @@
 			var id = params["id"];
 			applyApi.getApplyRecordDetail(id).then(data => {
 				this.applyRecordItem = data;
+				this.currUser = data.userInfo;
 				var str = data.riskEvaluation as string;
 				var strRiskArray = str.split(',');
 				var riskQuestions = this.risk_questions as QuestionItem[];
@@ -198,24 +203,24 @@
 					this.bodyTestData.bodyParamsUnit1[2].value = item.waist;
 					this.bodyTestData.bodyParamsUnit1[3].value = item.hipline;
 					this.bodyTestData.bodyParamsUnit1[4].value = item.fatRate;
-					
+
 					this.bodyTestData.bodyParamsUnit2[0].value = item.systolicPressure;
 					this.bodyTestData.bodyParamsUnit2[1].value = item.diastolicPressure;
 					this.bodyTestData.bodyParamsUnit2[2].value = item.powerCarTestData;
 					this.bodyTestData.bodyParamsUnit2[3].value = item.pulse;
 					this.bodyTestData.bodyParamsUnit2[4].value = item.vitalCapacity;
-					
+
 					this.bodyTestData.bodyParamsUnit3[0].value = item.gripPower;
 					this.bodyTestData.bodyParamsUnit3[1].value = item.carryPower;
 					this.bodyTestData.bodyParamsUnit3[2].value = item.jumpPower;
 					this.bodyTestData.bodyParamsUnit3[3].value = item.pushUpCount;
 					this.bodyTestData.bodyParamsUnit3[4].value = item.kneelUpCount;
-					
+
 					this.bodyTestData.bodyParamsUnit3[5].value = item.sitUpCount;
 					this.bodyTestData.bodyParamsUnit3[6].value = item.sitAndReach;
 					this.bodyTestData.bodyParamsUnit3[7].value = item.standOnOne;
 					this.bodyTestData.bodyParamsUnit3[8].value = item.responseTime;
-					
+
 				}
 
 			});
@@ -227,11 +232,54 @@
 			this.heath_questions = heathAskQuestion();
 
 			this.bodyTestData = bodyTestData();
+
+
+		},
+
+		computed: {
+			userName() {
+				if (this.currUser) {
+					return this.currUser.name;
+				}
+				return "";
+			},
+			sex() {
+				if (this.currUser) {
+					if (this.currUser.sex == '0') {
+						return "男";
+					} else {
+						return "女";
+					}
+
+				}
+				return "";
+			},
+			age() {
+				if (this.currUser) {
+					return calculateAge(this.currUser.birthday) + "岁";
+				} else {
+					return "";
+				}
+			},
+			phoneNum() {
+				if (this.currUser) {
+					return this.currUser.phoneNumber;
+				}
+				return "";
+			},
+
+			createDate() {
+				if (this.applyRecordItem) {
+					return this.applyRecordItem.createDateTime;
+				}
+				return "";
+			}
 		},
 		data() {
 
 			return {
 
+				currUser: null,
 				applyRecordItem: null,
 				selectedDate: '', // 选中的日期
 				today: "", // 限制最大日期	
@@ -311,5 +359,11 @@
 	.bottom {
 		margin-top: 20rpx;
 		height: 100rpx;
+	}
+
+	.headerLabel {
+		margin-right: 30rpx;
+		font-weight: bold;
+		font-size: 30rpx;
 	}
 </style>

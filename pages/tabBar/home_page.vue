@@ -50,6 +50,7 @@
 
 		mounted() {
 
+
 		},
 
 		computed: {
@@ -61,20 +62,33 @@
 				}
 				return ""
 			},
-		},
 
-		data() {
-			return {
-
-				dailyheathHint: "每天饮用足够的水，建议成人摄入 1500-2000 毫升水，以保持身体正常代谢。",
-				gridItems: [
+			gridItems() {
+				if (this.userInfo) {
+					if (this.userInfo.roleFlag == 1) {
+						return [
+							{ name: "为用户开具处方", bgColor: "#e38e37" },
+							{ name: "已开具的处方", bgColor: "#70a82a" },
+							{ name: "预约服务", bgColor: "#b99bac" },
+							{ name: "每日打卡", bgColor: "#b99bac" },
+						];
+					}
+				}
+				return [
 					{ name: "运动处方申请", bgColor: "#e38e37" },
 					// { name: "体质监测信息", bgColor: "#58afb7" },
 					{ name: "处方申请记录", bgColor: "#70a82a" },
 					{ name: "触动处方报告", bgColor: "#83c8f0" },
 					{ name: "预约服务", bgColor: "#b99bac" },
 					{ name: "每日打卡", bgColor: "#b99bac" },
-				],
+				];
+			}
+		},
+
+		data() {
+			return {
+
+				dailyheathHint: "每天饮用足够的水，建议成人摄入 1500-2000 毫升水，以保持身体正常代谢。",
 
 			}
 		},
@@ -91,15 +105,30 @@
 
 			onChange(index) {
 				console.log(index);
-				if (index == 0) {
-					uni.navigateTo({
-						url: "/pages/apply/apply_step_risk/apply_step_risk"
-					})
-				} else if (index == 1) {
-					uni.navigateTo({
-						url: "/pages/apply/my_apply_record_list/my_apply_record_list"
-					})
+				if (this.userInfo != null && this.userInfo.roleFlag == 1) {
+					if (index == 0) {
+						uni.navigateTo({
+							url: "/pages/apply/apply_record_list/apply_record_list"
+						})
+					} else if (index == 1) {
+						// uni.navigateTo({
+						// 	url: "/pages/apply/my_apply_record_list/my_apply_record_list"
+						// })
+					}
+				} else {
+					if (index == 0) {
+						uni.navigateTo({
+							url: "/pages/apply/apply_step_risk/apply_step_risk"
+						})
+					} else if (index == 1) {
+						uni.navigateTo({
+							url: "/pages/apply/my_apply_record_list/my_apply_record_list"
+						})
+					}
 				}
+
+
+
 
 			}
 		}

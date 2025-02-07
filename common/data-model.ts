@@ -122,17 +122,18 @@ export interface UniHttpResponse {
 
 export interface BaseHttpRsp {
 	code : number,
-	msg : String,
+	msg : string,
 	data : Object
 }
 
 export interface ApplyRecordItem {
 	id : number,
 	userId : number,
-	healthQuestion : String,
-	riskEvaluation : String,
-	appVersionCode : String,
-	status : String,
+	healthQuestion : string,
+	riskEvaluation : string,
+	appVersionCode : string,
+	status : string,
+	createDateTime:string,
 	bodyTestRecords : BodyTestRecords
 }
 

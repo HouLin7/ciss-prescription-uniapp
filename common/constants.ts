@@ -349,3 +349,28 @@ export const bodyTestData = function () {
 		},]
 	};
 };
+
+/**
+ * 有氧运动
+ */
+export const aerobicExerciseItems = function () {
+	return [
+		{ "label": "快走", "value": "kz" },
+		{ "label": "慢跑", "value": "mp" },
+		{ "label": "自行车", "value": "zxc" },
+		{ "label": "跑步机", "value": "pbj" },
+		{ "label": "健身操", "value": "jsc" },
+		{ "label": "划船机", "value": "hcj" },
+		{ "label": "其他", "value": "other" }
+	];
+}
+
+export const strengthTrainingItems = function () {
+	return [
+		{ "label": "上肢肌群", "value": "szjq" },
+		{ "label": "下肢肌群", "value": "xzjq" },
+		{ "label": "腰背肌", "value": "bj" },
+		{ "label": "腹肌", "value": "fj" },
+
+	];
+}

@@ -34,7 +34,37 @@ export default {
 			})
 		});
 	},
-	getApplyRecords(params) {
+	
+	/**
+	 * 全局搜索申请记录
+	 * @param {Object} params
+	 */
+	searchApplyRecords(params) {
+		console.log("login token : " + store.getters.token);
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: config['API_BASE_URL'] + "/api/recipe/apply/record/search",
+				method: "GET",
+				data: params,
+				header: {
+					"Authorization": store.getters.token
+				},
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+	
+			})
+		});
+	},
+	getMyApplyRecords(params) {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({

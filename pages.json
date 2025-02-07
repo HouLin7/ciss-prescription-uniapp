@@ -95,6 +95,15 @@
 			{
 				"navigationBarTitleText" : "处方申请记录详情"
 			}
+		},
+		{
+			"path" : "pages/make_recipe/make_recipe",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+				
+				// "navigationStyle": "custom"				    
+			}
 		}
 	],
 

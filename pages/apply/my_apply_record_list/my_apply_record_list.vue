@@ -74,7 +74,7 @@
 		},
 		methods: {
 			refreshData(pageIndex) {
-				applyApi.getApplyRecords({
+				applyApi.getMyApplyRecords({
 					"status": this.status,
 					"pageIndex": pageIndex,
 					"pageSize": 10,

@@ -4,8 +4,10 @@
 		<view :class="titleClass">{{questItem.title}}</view>
 		<view style="height: 10rpx;" />
 		<view v-if="questItem.isSingleChoise">
-			<radio-group @change="radionSelectChange" :data-index="index">
-				<label class="radio" v-for="(answerItem,childIndex) in questItem.answers" style="margin: 0rpx 20rpx;">
+			<radio-group @change="radionSelectChange" :data-index="index"
+				:style="{ 'pointer-events': !enable ? 'none' : 'auto' }">
+				<label :disabled="true" class="radio" v-for="(answerItem,childIndex) in questItem.answers"
+					style="margin: 0rpx 20rpx;">
 					<radio style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
 						:checked="isSelect(questItem,childIndex)" />
 					{{answerItem}}
@@ -13,7 +15,8 @@
 			</radio-group>
 		</view>
 		<view v-else>
-			<checkbox-group @change="checkboxSelectChange" :data-index="index">
+			<checkbox-group @change="checkboxSelectChange" :data-index="index"
+				:style="{ 'pointer-events': !enable ? 'none' : 'auto' }">
 				<label :class="radioClass" v-for="(answerItem,childIndex) in questItem.answers"
 					style="margin: 0rpx 20rpx;">
 					<checkbox style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
@@ -131,13 +134,6 @@
 				currQuestItem.selectIndexSet = [value];
 			},
 			
-			preventEdit(event) {
-				console.log(event);
-				if (!this.enable) {
-					console.log("preventDefault");
-					event.preventDefault(); // 阻止点击时修改	
-				}
-			}
 		}
 	}
 </script>
