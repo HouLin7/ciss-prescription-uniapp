@@ -100,11 +100,9 @@
 			"path" : "pages/make_recipe/make_recipe",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
-				
-				// "navigationStyle": "custom"				    
+				"navigationBarTitleText" : ""				
 			}
-		}
+		}		
 	],
 
 	"tabBar": {

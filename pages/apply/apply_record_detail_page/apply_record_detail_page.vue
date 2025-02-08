@@ -86,8 +86,20 @@
 
 					</view>
 
+
+					<view class="charts">
+						<qiun-data-charts type="radar" :chartData="chartData" :opts="opts" />
+					</view>
+
 				</scroll-view>
-				<view v-else class="uni-flex uni-row" style="justify-content: center; padding: 30rpx;">没有填报体测数据</view>
+
+
+				<view v-else class="uni-flex uni-row" style="justify-content: center; padding: 30rpx;">
+					<view>
+						没有填报体测数据
+					</view>
+				</view>
+
 			</swiper-item>
 		</swiper>
 
@@ -99,7 +111,8 @@
 	import QuestionItemTowCompoment from "@/components/question_answer_list_tow_componet.vue"
 
 	import applyApi from "@/api/apply_api.js";
-	import userApi from "../../../api/user_api.js";
+	// import userApi from "../../../api/user_api.js";
+
 
 	import {
 		heathAskQuestion,
@@ -120,6 +133,7 @@
 		},
 
 		onLoad(params : Map<string, any>) {
+
 			const date = new Date();
 
 			var id = params["id"];
@@ -233,7 +247,6 @@
 
 			this.bodyTestData = bodyTestData();
 
-
 		},
 
 		computed: {
@@ -278,7 +291,40 @@
 		data() {
 
 			return {
+				opts: {
+					// color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
+					padding: [5, 5, 5, 5],
+					dataLabel: false,
+					enableScroll: false,
+					legend: {
+						show: false,
+						position: "right",
+						lineHeight: 25
+					},
+					extra: {
+						radar: {
+							gridType: "radar",
+							gridColor: "#CCCCCC",
+							gridCount: 4,
+							opacity: 0.2,
+							max: 200,
+							labelShow: true,
+							border: true
+						}
+					}
+				},
 
+				chartData: {
+					categories: ["维度1", "维度2", "维度3", "维度4", "维度5", "维度6"],
+
+					series: [
+						{
+							name: "成交量1",
+							data: [90, 110, 165, 195, 187, 172]
+						},
+					]
+				},
+				uChartsInstance: null,
 				currUser: null,
 				applyRecordItem: null,
 				selectedDate: '', // 选中的日期
@@ -365,5 +411,10 @@
 		margin-right: 30rpx;
 		font-weight: bold;
 		font-size: 30rpx;
+	}
+
+	.charts {
+		width: 300px;
+		height: 300px;
 	}
 </style>

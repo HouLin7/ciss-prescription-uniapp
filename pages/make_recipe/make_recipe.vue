@@ -1,7 +1,7 @@
 <template>
 
 	<view class="container">
-		<scroll-view scroll-y="true" style="flex: 1; max-height: 1200rpx;">
+		<scroll-view scroll-y="true" style="flex: 1; max-height: 85vh;">
 			<view style="height: 20rpx;"></view>
 			<view class="card">
 				<view class=" title">基础信息</view>
@@ -43,20 +43,20 @@
 				</view>
 			</view>
 
-			<view style="height: 20rpx;"></view>
+			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动目标</view>
 				<text style="font-size: 24rpx;">
 					1.控制血压，增强心肺功能。\n2.改善血糖控制，增强胰岛素敏感性。\n3.促进体重管理，缓解相关并发症。\n4.提升心理健康，增强生活质量。
 				</text>
 			</view>
-			<view style="height: 20rpx;"></view>
+			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动方案</view>
 				<view class="title">*有氧运动</view>
 				<p>1.运动项目选择</p>
 				<checkbox-group @change="checkboxChange">
-					<label v-for="(item,index) in sportItems" :key="item.value">
+					<label v-for="(item,index) in sportItems" :key="item.value" style="font-size: 24rpx;">
 						<checkbox style="transform: scale(0.6)" color="#007aff" :value="item.value"
 							:checked="isSelect(item.value)" />
 						{{item.label}}
@@ -79,11 +79,11 @@
 					<input class="input_box" />
 					<p style="font-size: 24rpx;">次/分</p>
 				</view>
-				<p>4.运动流程：</p>				
+				<p>4.运动流程：</p>
 				<uni-table border="true" stripe="true">
 					<uni-tr>
 						<uni-th style="background-color: lightgrey; color: #333;" align="center"
-							width="30rpx">阶段</uni-th>
+							width="100rpx">阶段</uni-th>
 						<uni-th style="background-color: lightgrey; color: #333;" align="center">运动内容</uni-th>
 					</uni-tr>
 					<uni-tr>
@@ -103,7 +103,9 @@
 
 					</uni-tr>
 					<uni-tr>
-						<uni-th class="tableItem" align="center">加量加强</uni-th>
+						<uni-th class="tableItem" align="center">
+							<view class="tableItem">加量加强 </view>
+						</uni-th>
 						<uni-th align="left">
 							<view class="uni-flex uni-column">
 								<view class="uni-flex">
@@ -121,13 +123,15 @@
 						</uni-th>
 					</uni-tr>
 					<uni-tr>
-						<uni-th class="tableItem" align="center">整理恢复</uni-th>
+						<uni-th align="center">
+							<view class="tableItem">整理恢复 </view>
+						</uni-th>
 						<uni-th align="left">
 							<view class="uni-flex uni-column">
 								<view class="uni-flex">
 									<view class="tableItem">需要</view>
 									<input class="input_box" type="number" maxlength="3" />
-									<view>分钟整理恢复运动，四肢进行韧</view>
+									<view class="tableItem">分钟整理恢复运动，四肢进行韧</view>
 								</view>
 								<view class="tableItem">带拉伸伴深呼吸，恢复至平静状态。</view>
 							</view>
@@ -137,7 +141,7 @@
 				<view class="title">*阻抗运动以及其他</view>
 				<p>1.力量训练：</p>
 				<checkbox-group @change="">
-					<label v-for="(item,index) in strengthTrainingItems" :key="item.value">
+					<label v-for="(item,index) in strengthTrainingItems" :key="item.value" style="font-size: 24rpx;">
 						<checkbox style="transform: scale(0.6)" color="#007aff" :value="item.value"
 							:checked="isSelect(item.value)" />
 						{{item.label}}
@@ -162,7 +166,7 @@
 					</view>
 				</view>
 			</view>
-			<view style="height: 20rpx;"></view>
+			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动风险提示</view>
 				<p>
@@ -178,7 +182,7 @@
 					运动后不要立即大量快速饮水，容易给心脏造成负荷。
 				</p>
 			</view>
-			<view style="height: 20rpx;"></view>
+			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<p>
 					本运动处方有效期为1个星期，到期后请及时到医院复查并调整运动处方。
@@ -187,12 +191,11 @@
 					<view>处方日期{{}}</view>
 				</view>
 			</view>
-			<view style="height: 20rpx;"></view>
+			<view style="height: 10rpx;"></view>
 		</scroll-view>
-
 		<button class="next-button" @click="doSave">提交</button>
-	</view>
 
+	</view>
 
 </template>
 
@@ -208,19 +211,28 @@
 			uni.setNavigationBarTitle({
 				title: "开具处方"
 			});
-			var id = params["id"];
-			applyApi.getApplyRecordDetail(id).then(data => {
-				this.applyRecordItem = data;
-				this.currUser = data.userInfo;
-			});
+			var id = params["applyRecordId"];
+			if (id) {
+				this.editModel = 0
+				applyApi.getApplyRecordDetail(id).then(data => {
+					this.applyRecordItem = data;
+					this.currUser = data.userInfo;
+				});
+			}
+			var recipeId = params["recipeId"];
+			if (recipeId) {
+				this.editModel = 1;
+			}
 
-			this.sportItems = aerobicExerciseItems();
 		},
 
 		data() {
 			return {
+
+				editModel: 0, //  0:开处方， 1:回看处方
 				currUser: {} as UserInfo,
 				applyRecordItem: {} as ApplyRecordItem,
+
 				sportItems: aerobicExerciseItems(),
 				strengthTrainingItems: strengthTrainingItems(),
 				selectSportValues: [] as {
@@ -346,7 +358,7 @@
 		display: flex;
 		flex-direction: column;
 		/* 垂直排列 */
-		height: 95vh;
+		height: 100vh;
 		padding-bottom: 20rpx;
 		padding-left: 15rpx;
 		padding-right: 15rpx;

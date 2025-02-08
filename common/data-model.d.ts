@@ -133,7 +133,7 @@ export interface ApplyRecordItem {
 	riskEvaluation : string,
 	appVersionCode : string,
 	status : string,
-	createDateTime:string,
+	createDateTime : string,
 	bodyTestRecords : BodyTestRecords
 }
 
@@ -160,5 +160,26 @@ export interface BodyTestRecords {
 	standOnOne : number,//单脚站立
 	responseTime : number,//反应时间
 	testDateTime : string//测试日期
+
+}
+
+export interface recipeItem {
+	id : number,
+	applyRecordId : number,
+	sportGoal : string,//运动目标
+	aerobicExerciseEvents : string,//有氧运动项目
+
+	aerobicExerciseHeartRateRange : string,//最佳心率范围
+	aerobicExerciseFrequency : string,  //运动频率
+	aerobicExerciseDuration : string, //运动时间
+
+	aerobicExerciseStepParams : string,//运动流程
+
+	isometricExerciseEvents : string,//阻抗项目
+	isometricExerciseIntensity : string,//阻抗训练强度
+	isometricExerciseFrequency : string, //阻抗训练频率
+
+	createRecipeUserId : number,//开处方专家id
+	createDateTime : string
 
 }

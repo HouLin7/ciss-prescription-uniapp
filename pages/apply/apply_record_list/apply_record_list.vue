@@ -168,11 +168,7 @@
 			},
 			clickLoadMore(e) {
 				this.loadMoreStatus = "loading";
-				this.refreshData(this.pageIndex + 1);
-				// uni.showToast({
-				// 	icon: 'none',
-				// 	title: "当前状态：" + e.detail.status
-				// })
+				this.refreshData(this.pageIndex + 1);				
 			},
 
 			/**
@@ -183,7 +179,7 @@
 			prescribe(e, index) {
 				var item = this.dataList[index]
 				uni.navigateTo({
-					url: "/pages/make_recipe/make_recipe?id=" + item.id
+					url: "/pages/make_recipe/make_recipe?applyRecordId=" + item.id
 				})
 			}
 
