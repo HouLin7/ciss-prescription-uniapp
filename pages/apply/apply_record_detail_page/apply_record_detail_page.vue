@@ -134,8 +134,7 @@
 
 		onLoad(params : Map<string, any>) {
 
-			const date = new Date();
-
+			const date = new Date();		
 			var id = params["id"];
 			applyApi.getApplyRecordDetail(id).then(data => {
 				this.applyRecordItem = data;

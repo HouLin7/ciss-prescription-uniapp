@@ -33,6 +33,12 @@
 				</uni-grid-item>
 			</uni-grid>
 		</view>
+		<view>
+			<uni-popup ref="popup" type="dialog" background-color="#fff">
+				<uni-popup-dialog ref="inputClose" title="友情提示" content="该功能正在开发中,敬请期待..."></uni-popup-dialog>
+				<!-- <view style="font-size: 26rpx; font-weight: bold; color: #000; padding-bottom: 10rpx;">敬请期待</view> -->
+			</uni-popup>
+		</view>
 
 	</view>
 
@@ -48,10 +54,6 @@
 
 	export default {
 
-		mounted() {
-
-
-		},
 
 		computed: {
 			...mapState(["platformInfo", "isLogin"]),
@@ -78,7 +80,7 @@
 					{ name: "运动处方申请", bgColor: "#e38e37" },
 					// { name: "体质监测信息", bgColor: "#58afb7" },
 					{ name: "处方申请记录", bgColor: "#70a82a" },
-					{ name: "触动处方报告", bgColor: "#83c8f0" },
+					{ name: "运动处方报告", bgColor: "#83c8f0" },
 					{ name: "预约服务", bgColor: "#b99bac" },
 					{ name: "每日打卡", bgColor: "#b99bac" },
 				];
@@ -103,17 +105,23 @@
 				return formattedDate;
 			},
 
+			showWelcomDialog() {
+				this.$refs.popup.open('center');
+			},
+
 			onChange(index) {
-				console.log(index);
+
 				if (this.userInfo != null && this.userInfo.roleFlag == 1) {
 					if (index == 0) {
 						uni.navigateTo({
 							url: "/pages/apply/apply_record_list/apply_record_list"
 						})
 					} else if (index == 1) {
-						// uni.navigateTo({
-						// 	url: "/pages/apply/my_apply_record_list/my_apply_record_list"
-						// })
+						uni.navigateTo({
+							url: "/pages/apply/apply_record_list/apply_record_list?status=" + 1
+						})
+					} else {
+						this.showWelcomDialog();
 					}
 				} else {
 					if (index == 0) {
@@ -124,6 +132,12 @@
 						uni.navigateTo({
 							url: "/pages/apply/my_apply_record_list/my_apply_record_list"
 						})
+					} else if (index == 2) {
+						uni.navigateTo({
+							url: "/pages/apply/my_apply_record_list/my_apply_record_list?status=" + 1
+						})
+					} else {
+						this.showWelcomDialog();
 					}
 				}
 

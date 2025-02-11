@@ -133,7 +133,7 @@
 				console.log("radionSelectChange : " + value);
 				currQuestItem.selectIndexSet = [value];
 			},
-			
+
 		}
 	}
 </script>

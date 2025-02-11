@@ -38,10 +38,14 @@
 
 		<view style="height: 60rpx;"></view>
 
-		<view style="margin: 20rpx; border-radius: 20rpx; ">
+		<view v-if="roleFlag==1" style=" margin: 20rpx; border-radius: 20rpx; ">
+			<uni-list-item border="false" showArrow title="待处理的健康记录" clickable="true" @click="handleTodoApplyRecord" />
+			<uni-list-item showArrow title="已开具的健康报告" clickable="true" @click="handledoneApplyRecord" />
+		</view>
+		
+		<view v-else="roleFlag==1" style="margin: 20rpx; border-radius: 20rpx; ">
 			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="handleOpenApplyRecord" />
-			<uni-list-item showArrow title="处方运动报告" clickable="false" @click="turnMyTenantSpaceOrder" />
-
+			<uni-list-item showArrow title="处方运动报告" clickable="true" @click="turnMyTenantSpaceOrder" />
 		</view>
 
 		<view style="height: 200rpx;"></view>
@@ -76,6 +80,11 @@
 					return "未知";
 				}
 			},
+
+			roleFlag() {
+				return this.userInfo.roleFlag;
+			},
+
 			sexName() {
 				if (this.userInfo.sex === 1) {
 					return "女";
@@ -126,7 +135,19 @@
 				uni.navigateTo({
 					url: "/pages/user/user_detail_page/user_detail_page"
 				})
+			},
+
+			handleTodoApplyRecord() {
+				uni.navigateTo({
+					url: "/pages/apply/apply_record_list/apply_record_list"
+				})
+			},
+			handledoneApplyRecord() {				
+				uni.navigateTo({
+					url: "/pages/apply/apply_record_list/apply_record_list?status=" + 1
+				})
 			}
+
 		},
 
 		data() {

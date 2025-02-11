@@ -102,6 +102,13 @@
 			{
 				"navigationBarTitleText" : ""				
 			}
+		},
+		{
+			"path" : "pages/recipe_detail/recipe_detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "查看运动处方"
+			}
 		}		
 	],
 

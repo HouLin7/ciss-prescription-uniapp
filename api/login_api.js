@@ -9,7 +9,7 @@ export default {
 	loginByWx(openID, phoneNum) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/auth/login/weixin",
+				url: config['API_BASE_URL'] + "/auth/login/weixin",
 				dataType: 'json',
 				method: "POST",
 				data: {
@@ -21,8 +21,8 @@ export default {
 						resolve(response.data.data)
 					} else {
 						uni.showToast({
-							title:response.data.msg
-						})						
+							title: response.data.msg
+						})
 					}
 				},
 				fail(e) {
@@ -38,8 +38,6 @@ export default {
 
 		});
 	},
-
-
 
 
 }

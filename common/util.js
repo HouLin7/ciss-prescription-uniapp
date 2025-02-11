@@ -31,8 +31,8 @@ function formatLocation(longitude, latitude) {
 }
 
 function isValidPhoneNumber(phone) {
-    const phoneRegex = /^1[3-9]\d{9}$/;
-    return phoneRegex.test(phone);
+	const phoneRegex = /^1[3-9]\d{9}$/;
+	return phoneRegex.test(phone);
 }
 
 
@@ -45,19 +45,19 @@ function isWexinRuntime() {
 }
 
 function calculateAge(birthday) {
-    const birthDate = new Date(birthday); // 解析生日
-    const today = new Date(); // 当前日期
+	const birthDate = new Date(birthday); // 解析生日
+	const today = new Date(); // 当前日期
 
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    const dayDiff = today.getDate() - birthDate.getDate();
+	let age = today.getFullYear() - birthDate.getFullYear();
+	const monthDiff = today.getMonth() - birthDate.getMonth();
+	const dayDiff = today.getDate() - birthDate.getDate();
 
-    // 如果生日还没过，减去 1 岁
-    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-        age--;
-    }
-    
-    return age;
+	// 如果生日还没过，减去 1 岁
+	if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+		age--;
+	}
+
+	return age;
 }
 
 var dateUtils = {
@@ -84,6 +84,16 @@ var dateUtils = {
 		const month = String(date.getMonth() + 1).padStart(2, '0'); // 补零
 		const day = String(date.getDate()).padStart(2, '0'); // 补零
 		return `${year}-${month}-${day}`;
+	},
+
+	formatYYMMDDHHMMSS: function(date) {
+		let yyyy = date.getFullYear();
+		let MM = String(date.getMonth() + 1).padStart(2, '0'); // 月份补 0
+		let dd = String(date.getDate()).padStart(2, '0'); // 日期补 0
+		let HH = String(date.getHours()).padStart(2, '0');
+		let mm = String(date.getMinutes()).padStart(2, '0');
+		let ss = String(date.getSeconds()).padStart(2, '0');
+		return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`;
 	},
 
 	format: function(dateStr) {

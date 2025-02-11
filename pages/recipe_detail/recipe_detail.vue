@@ -1,12 +1,12 @@
 <template>
 
-	<view class="container">
-		<scroll-view scroll-y="true" style="flex: 1; max-height: 85vh;">
+	<view>
+		<scroll-view scroll-y="true" style="flex: 1; max-height: 90vh;">
 			<view style="height: 20rpx;"></view>
 			<view class="card">
 				<view class=" title">基础信息</view>
 				<view style="height: 10rpx;"></view>
-				<view class="uni-flex" style="justify-content: space-between;">
+				<view class="uni-flex" style="justify-content: space-between; margin: 0rpx 10rpx;">
 
 					<view class="uni-flex">
 						<view class="label">姓名:</view>
@@ -24,8 +24,8 @@
 					</view>
 
 				</view>
-				
-				<view v-if="applyRecordItem.bodyTestRecords" class="uni-flex" style="justify-content: space-between; margin-top: 10rpx;">
+				<view style="height: 10rpx;"></view>
+				<view class="uni-flex" style="justify-content: space-between;margin: 0rpx 10rpx">
 					<view class="uni-flex" style="align-items: center;">
 						<view class="label">身高:</view>
 						<view class="value">{{bodyHeight}}cm</view>
@@ -46,41 +46,40 @@
 			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动目标</view>
-				<text style="font-size: 24rpx;">
-					{{recipeTemplate.sportGoal}}
-				</text>
+				<view style="padding: 0rpx 10rpx;">
+					<text style="font-size: 24rpx;">
+						{{recipeItem.sportGoal}}
+					</text>
+				</view>
+
 			</view>
 			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动方案</view>
 				<view class="title">*有氧运动</view>
-				<p>1.运动项目选择</p>
-				<checkbox-group @change="checkboxChangeAerobic">
-					<label v-for="(item,index) in sportItems" :key="item.value" style="font-size: 24rpx;">
-						<checkbox style="transform: scale(0.6)" color="#007aff" :value="item.value"
-							:checked="isSelectAerobic(item.value)" />
+				<view class="uni-flex">
+					<p>1.运动项目选择：</p>
+
+					<label v-for="(item,index) in sportItems" :key="item.value"
+						style="font-size: 26rpx; font-weight: normal; color: royalblue; margin-right: 15rpx;">
 						{{item.label}}
 					</label>
-				</checkbox-group>
+				</view>
+
 				<view v-show="isSelectAerobic('other')">
 					<input class="uni-input" focus placeholder="输入运动项目" />
 				</view>
 				<view class="uni-flex" style="align-items: center;">
-					<p> 2.运动中达到的最佳心率范围为</p>
-					<input class="input_box" v-model="recipeTemplate.aerobicExerciseHeartRateRange" />
-					<p>次/分</p>
+					<p> 2.运动中达到的最佳心率范围为 {{recipeItem.aerobicExerciseHeartRateRange}}次/分</p>
 				</view>
 
 				<view class="uni-flex" style="align-items: center;">
-					<p> 3.运动频率：</p>
-					<input class="input_box" v-model="recipeTemplate.aerobicExerciseFrequency" />
-					<p style="font-size: 24rpx;">次/周，</p>
-					<p style="font-size: 24rpx;"> 每次运动时间：</p>
-					<input class="input_box" v-model="recipeTemplate.aerobicExerciseDuration" />
-					<p style="font-size: 24rpx;">次/分</p>
+					<p>3.运动频率：{{recipeItem.aerobicExerciseFrequency}}次/周，每次运动时间：{{recipeItem.aerobicExerciseDuration}}次/分
+					</p>
 				</view>
 				<p>4.运动流程：</p>
-				<uni-table border="true" stripe="true">
+
+				<uni-table border="true" stripe="true" style="margin: 8rpx 0rpx;">
 					<uni-tr>
 						<uni-th style="background-color: lightgrey; color: #333;" align="center"
 							width="100rpx">阶段</uni-th>
@@ -93,12 +92,10 @@
 						<uni-th align="left">
 							<view class="uni-flex uni-column">
 								<view class="uni-flex">
-									<view class="tableItem">需要</view>
-									<input class="input_box" v-model="recipeModel.aerobicExerciseStepParams1"
-										type="number" maxlength="3" />
-									<view class="tableItem">分钟热身运动，可以慢走，</view>
+									<view class="tableItem">
+										需要{{recipeModel.aerobicExerciseStepParams1}}分钟热身运动，可以慢走，拉伸活动各个关节,此时身体开始出汗，身体的运动兴奋提高。
+									</view>
 								</view>
-								<view class="tableItem">拉伸活动各个关节,此时身体开始出汗，身体的运动兴奋提高。</view>
 							</view>
 						</uni-th>
 
@@ -110,18 +107,10 @@
 						<uni-th align="left">
 							<view class="uni-flex uni-column">
 								<view class="uni-flex">
-									<view class="tableItem">需要</view>
-									<input class="input_box" v-model="recipeModel.aerobicExerciseStepParams2"
-										type="number" maxlength="3" />
-									<view class="tableItem">分钟运动，该阶段逐步增加运动</view>
+									<view class="tableItem">
+										需要{{recipeModel.aerobicExerciseStepParams2}}分钟运动，该阶段逐步增加运动强度达到最佳心率范围并持续{{recipeModel.aerobicExerciseStepParams3}}分钟
+									</view>
 								</view>
-								<view class="uni-flex">
-									<view class="tableItem">强度达到最佳心率范围并持续</view>
-									<input class="input_box" v-model="recipeModel.aerobicExerciseStepParams3"
-										type="number" maxlength="3" />
-									<view class="tableItem">分钟</view>
-								</view>
-
 							</view>
 						</uni-th>
 					</uni-tr>
@@ -132,44 +121,33 @@
 						<uni-th align="left">
 							<view class="uni-flex uni-column">
 								<view class="uni-flex">
-									<view class="tableItem">需要</view>
-									<input class="input_box" v-model="recipeModel.aerobicExerciseStepParams4"
-										type="number" maxlength="3" />
-									<view class="tableItem">分钟整理恢复运动，四肢进行韧</view>
+									<view class="tableItem">
+										需要{{recipeModel.aerobicExerciseStepParams4}}分钟整理恢复运动，四肢进行韧带拉伸伴深呼吸，恢复至平静状态。
+									</view>
 								</view>
-								<view class="tableItem">带拉伸伴深呼吸，恢复至平静状态。</view>
 							</view>
 						</uni-th>
 					</uni-tr>
 				</uni-table>
 				<view class="title">*阻抗运动以及其他</view>
-				<p>1.力量训练：</p>
-				<checkbox-group @change="checkboxChangeStrength">
-					<label v-for="(item,index) in strengthTrainingItems" :key="item.value" style="font-size: 24rpx;">
-						<checkbox style="transform: scale(0.6)" color="#007aff" :value="item.value"
-							:checked="isSelectStrength(item.value)" />
+				<view class="uni-flex">
+					<p>1.力量训练：</p>
+					<label v-for="(item,index) in strengthTrainingItems" :key="item.value"
+						style="font-size: 26rpx; font-weight: normal; color: royalblue; margin-right: 15rpx;">
 						{{item.label}}
 					</label>
-				</checkbox-group>
+				</view>
+
 				<view class="uni-flex">
 					<p>2.运动强度：</p>
 					<view class="uni-flex">
-						<p class="tableItem">每个肌群锻炼</p>
-						<input class="input_box" v-model="recipeModel.isometricExerciseIntensity1" type="number"
-							maxlength="3" />
-						<p class="tableItem">组，每组进行</p>
-						<input class="input_box" v-model="recipeModel.isometricExerciseIntensity2" type="number"
-							maxlength="3" />
-						<p>次</p>
+						<p class="tableItem">每个肌群锻炼{{recipeModel.isometricExerciseIntensity1}}组，每组进行{{recipeModel.isometricExerciseIntensity2}}次</p>						
 					</view>
 				</view>
 				<view class="uni-flex">
 					<p>3.运动频率：</p>
 					<view class="uni-flex">
-						<p class="tableItem">每周</p>
-						<input class="input_box" type="number" maxlength="3"
-							v-model="recipeTemplate.isometricExerciseFrequency" />
-						<p class="tableItem">次</p>
+						<p class="tableItem">每周{{recipeItem.isometricExerciseFrequency}}次</p>
 					</view>
 				</view>
 			</view>
@@ -200,7 +178,6 @@
 			</view>
 			<view style="height: 10rpx;"></view>
 		</scroll-view>
-		<button class="next-button" @click="doSave">提交</button>
 
 	</view>
 
@@ -209,55 +186,41 @@
 <script lang="ts">
 	import { ApplyRecordItem, RecipeItem, UserInfo } from '../../common/data-model';
 	import { calculateAge } from '../../common/util';
-	import applyApi from "../../api/apply_api.js"
 	import { dateUtils } from '../../common/util';
-	import recipeApi from "../../api/recipe_api.js"
 	import { aerobicExerciseItems, strengthTrainingItems } from "@/common/constants.ts"
 
 	export default {
 
 		onLoad(params : Map<string, string>) {
-			uni.setNavigationBarTitle({
-				title: "开具处方"
-			});
-			var id = params["applyRecordId"];
-			if (id) {
-				this.editModel = 0
-				applyApi.getApplyRecordDetail(id).then(data => {
-					this.applyRecordItem = data;
-					this.currUser = data.userInfo;
-				});
 
-				this.recipeTemplate = JSON.parse(params["template"]);
+			this.applyRecordItem = JSON.parse(params["applyRecordItem"]);
+			this.recipeItem = JSON.parse(params["recipeItem"]);
+			this.currUser = this.applyRecordItem.userInfo;
 
-				var temp = this.recipeTemplate.aerobicExerciseStepParams.split(',')
-				this.recipeModel.aerobicExerciseStepParams1 = temp[0];
-				this.recipeModel.aerobicExerciseStepParams2 = temp[1];
-				this.recipeModel.aerobicExerciseStepParams3 = temp[2];
-				this.recipeModel.aerobicExerciseStepParams4 = temp[3];
+			var temp = this.recipeItem.aerobicExerciseStepParams.split(',')
+			this.recipeModel.aerobicExerciseStepParams1 = temp[0];
+			this.recipeModel.aerobicExerciseStepParams2 = temp[1];
+			this.recipeModel.aerobicExerciseStepParams3 = temp[2];
+			this.recipeModel.aerobicExerciseStepParams4 = temp[3];
 
-				var temp = this.recipeTemplate.isometricExerciseIntensity.split(',')
-				this.recipeModel.isometricExerciseIntensity1 = temp[0];
-				this.recipeModel.isometricExerciseIntensity2 = temp[1];
+			var temp = this.recipeItem.isometricExerciseIntensity.split(',')
+			this.recipeModel.isometricExerciseIntensity1 = temp[0];
+			this.recipeModel.isometricExerciseIntensity2 = temp[1];
 
-				var temp = this.recipeTemplate.aerobicExerciseEvents.split(',')
-				this.selectAeroSportValues = temp;
+			var temp = this.recipeItem.aerobicExerciseEvents.split(',')
+			this.selectAeroSportValues = temp;
 
-				var temp = this.recipeTemplate.isometricExerciseEvents.split(',')
-				this.selectStrengthSportValues = temp;
-			}
+			var temp = this.recipeItem.isometricExerciseEvents.split(',')
+			this.selectStrengthSportValues = temp;
 
-			var recipeId = params["recipeId"];
-			if (recipeId) {
-				this.editModel = 1;
-			}
-
+			this.sportItems = this.sportItems.filter((item) => this.isSelectAerobic(item.value));
+			this.strengthTrainingItems = this.strengthTrainingItems.filter((item) => this.isSelectStrength(item.value));
 		},
 
 		data() {
 			return {
 
-				recipeTemplate: {} as RecipeItem,
+				recipeItem: {} as RecipeItem,
 
 				recipeModel: {
 					isometricExerciseIntensity1: "",
@@ -269,7 +232,7 @@
 					aerobicExerciseStepParams4: "",
 				},
 
-				editModel: 0, //  0:开处方， 1:回看处方
+
 				currUser: {} as UserInfo,
 				applyRecordItem: {} as ApplyRecordItem,
 
@@ -280,35 +243,6 @@
 			}
 		},
 		methods: {
-			doSave() {
-				this.recipeTemplate.aerobicExerciseStepParams = `${this.recipeModel.aerobicExerciseStepParams1},${this.recipeModel.aerobicExerciseStepParams2},${this.recipeModel.aerobicExerciseStepParams3},${this.recipeModel.aerobicExerciseStepParams4}`;
-				this.recipeTemplate.isometricExerciseIntensity = `${this.recipeModel.isometricExerciseIntensity1},${this.recipeModel.isometricExerciseIntensity2}`;
-
-				this.selectAeroSportValues.forEach((value, index, _) => {
-					if (index == 0) {
-						this.recipeTemplate.aerobicExerciseEvents = `${value}`;
-					} else {
-						this.recipeTemplate.aerobicExerciseEvents = `${this.recipeTemplate.aerobicExerciseEvents},${value}`;
-					}
-				});
-
-				this.selectStrengthSportValues.forEach((value, index, _) => {
-					if (index == 0) {
-						this.recipeTemplate.isometricExerciseEvents = `${value}`;
-					} else {
-						this.recipeTemplate.isometricExerciseEvents = `${this.recipeTemplate.isometricExerciseEvents},${value}`;
-					}
-				});
-				this.recipeTemplate.applyRecordId = this.applyRecordItem.id;
-				this.recipeTemplate.createDateTime = null;
-				this.recipeTemplate.id = null;
-				recipeApi.addRecipe(this.recipeTemplate)
-					.then((value) => {
-						uni.navigateBack();
-					})
-					.catch(e => { })
-
-			},
 			isSelectAerobic(value) {
 				for (var item of this.selectAeroSportValues) {
 					if (item == value) {
@@ -326,21 +260,16 @@
 				}
 				return false;
 			},
-			checkboxChangeStrength(e) {
-				this.selectStrengthSportValues = e.detail.value;
-			},
 
-			checkboxChangeAerobic(e) {
-				console.log(e);
-				this.selectAeroSportValues = e.detail.value;
-			},
 		},
 
 		computed: {
 
 			currDateStr() {
-				var now = new Date();
-				return dateUtils.formatYYMMDD(now);
+				if (this.recipeItem.createDateTime) {
+					return this.recipeItem.createDateTime;
+				}
+				return "";
 			},
 
 			bodyHeight() {
@@ -441,9 +370,9 @@
 		flex-direction: column;
 		/* 垂直排列 */
 		height: 100vh;
-		padding-bottom: 20rpx;
-		padding-left: 15rpx;
-		padding-right: 15rpx;
+		// padding-bottom: 20rpx;
+		// padding-left: 15rpx;
+		// padding-right: 15rpx;
 		/* 设置全屏高度 */
 		overflow: hidden;
 		/* 防止 body 滚动 */
@@ -483,6 +412,8 @@
 		// display: flex;
 		// flex-direction: column;		
 		padding: 10rpx 10rpx;
+		margin-left: 15rpx;
+		margin-right: 15px;
 		background-color: white;
 		border-radius: 6rpx;
 	}

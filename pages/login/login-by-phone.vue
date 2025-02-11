@@ -27,12 +27,12 @@
 
 		<view style="height: 40rpx;"></view>
 
-		<view class="uni-flex uni-row " style="align-items:center;">
+		<!-- <view class="uni-flex uni-row " style="align-items:center;">
 			<checkbox-group @change="checkboxChange" style="width: 80rpx;">
 				<checkbox color="#0000ff" checked="false" value="1" />
 			</checkbox-group>
 			<view class="underline-text">我已同意隐私协议以及用户声明</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -95,7 +95,7 @@
 						})
 					}
 				}).catch(error => {
-					console.log(error);
+					console.log(JSON.stringify(error));
 					uni.showToast({
 						title: '登录失败'
 					});

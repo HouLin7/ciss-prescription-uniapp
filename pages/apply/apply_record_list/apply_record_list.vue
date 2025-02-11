@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<uni-list :border="false" :scroll-y="true" enableBackToTop="true">
+		<uni-list v-if="dataList.length>0" :border="false" :scroll-y="true" enableBackToTop="true">
 
 			<view class="uni-flex list-item-divider "
 				style="padding: 10rpx 30rpx; justify-content: space-between;align-items: center;"
-				v-for="(item,index) in this.dataList" @click="handleItemClick(index)">
+				v-for="(item,index) in dataList" @click="handleItemClick(index)">
 				<view class="uni-flex uni-column">
 					<view class="uni-flex" style="align-items: center;">
 						<view class="label">{{item.userInfo.name}}</view>
@@ -16,7 +16,11 @@
 					<view style="height: 10rpx;" />
 					<view class="uni-flex" style="align-items: center;">
 						<view>{{item.createDateTime}}</view>
-						<button style="margin-left: 200rpx;" @click.stop="prescribe($event,index)">开处方</button>
+
+						<button v-if="status==0" style="margin-left: 200rpx;"
+							@click.stop="createRecipe($event,index)">开处方</button>
+						<button v-else style="margin-left: 200rpx;" @click.stop="viewRecipe($event,index)">查看处方</button>
+
 					</view>
 					<view style="height: 5rpx;" />
 
@@ -25,39 +29,39 @@
 				<uni-icons :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
 			</view>
 
-			<!-- 			<uni-list-item @click="handleItemClick(index)" clickable show-arrow v-for="(item,index) in this.dataList">
-				<template v-slot:header>
-					<view style="width: 10rpx;"> </view>
-				</template>
-
-				<template v-slot:body>
-					<view class="uni-flex uni-column">
-						<view class="uni-flex" style="align-items: center;">
-							<view class="label">{{item.userInfo.name}}</view>
-
-							<view class="label">{{ sexDesc(item.userInfo)}}</view>
-
-							<view class="label">{{ item.userInfo.phoneNumber}}</view>
-						</view>
-						<view style="height: 20rpx;"></view>
-						<view class="uni-flex" style="align-items: center;">
-							<view>{{item.createDateTime}}</view>
-							<button style="margin-left: 140rpx;" @click="prescribe">开处方</button>
-						</view>
-					</view>
-				</template>
-			</uni-list-item> -->
-
 
 			<uni-load-more v-show="isShowLoadMore" @clickLoadMore="clickLoadMore" :status="loadMoreStatus"
 				:content-text="contentText"></uni-load-more>
 		</uni-list>
 
+
+		<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 30rpx;">
+			<text>暂无处方申请记录</text>
+		</view>
+
+		<view>
+			<uni-popup ref="popup">
+				<view class="popup-content">
+					<view class="list-item-divider"
+						style="font-size: 28rpx; font-weight: bold; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx;">
+						请选择处方模版</view>
+
+					<view v-for="(item,index) in recipeTemplateList"
+						:class="index<recipeTemplateList.length-1? 'list-item-divider': ''">
+						<view style="font-size: 24;" @click="handleRedipeTemplateItemClick(item)">{{item.title}}</view>
+					</view>
+				</view>
+			</uni-popup>
+		</view>
+
 	</view>
 </template>
 
-<script>
+<script lang="ts">
 	import applyApi from "../../../api/apply_api.js"
+	import recipeApi from "../../../api/recipe_api.js";
+	import { ApplyRecordItem, RecipeItem } from "../../../common/data-model.js";
+	import { mapGetters } from 'vuex'
 	export default {
 
 		onLoad(options) {
@@ -65,29 +69,31 @@
 				title: "待开方记录"
 			})
 			if (options.status) {
-				this.status = options.status;
+				this.status = Number(options.status);
 				if (this.status == 1) {
 					uni.setNavigationBarTitle({
 						title: "已开方记录"
 					})
 				}
 			}
+
+			recipeApi.getRecipeTemplateList()
+				.then(data => {
+					this.recipeTemplateList = data.content;
+				})
+				.catch(e => uni.showToast({
+					title: "获取处方模版失败"
+				}));
 		},
 
-		created() {
-			this.refreshData(0);
-		},
-
-		mounted() {
-			uni.showLoading({
-				title: "加载中"
-			});
+		onShow() {
+			this.refreshData(this.pageIndex);
 		},
 
 		computed: {
-
+			...mapGetters(['userInfo']),
 			statusDesc() {
-				if (status == 0) {
+				if (this.status == 0) {
 					return "待开方";
 				} else {
 					return "已开方";
@@ -97,23 +103,24 @@
 		data() {
 
 			return {
-
+				targetApplyRecord: {} as ApplyRecordItem,	//开方目标item
+				recipeTemplateList: [] as RecipeItem[],
 				isReadonly: true,
 				radioList: [{
-						label: "选项1",
-						value: "A"
-					},
-					{
-						label: "选项2",
-						value: "B"
-					}
+					label: "选项1",
+					value: "A"
+				},
+				{
+					label: "选项2",
+					value: "B"
+				}
 				],
 				selectedRadio: "A",
-				pageIndex: 0,
+				pageIndex: 0 as number,
 				status: 0,
 				loadMoreStatus: 'more',
 				isShowLoadMore: false,
-				dataList: [],
+				dataList: [] as ApplyRecordItem[],
 				contentText: {
 					contentdown: '查看更多',
 					contentrefresh: '加载中',
@@ -135,15 +142,16 @@
 					return "女";
 				}
 			},
-			refreshData(pageIndex) {
-				applyApi.searchApplyRecords({
-					"status": this.status,
-					"pageIndex": pageIndex,
-					"pageSize": 10,
-				}).then(data => {
-					console.log(data);
+
+			refreshData(pageIndex : number) {
+				uni.showLoading({
+					title: "加载中"
+				});
+				applyApi.searchApplyRecords(pageIndex, 10, this.status).then(data => {
+					if (pageIndex == 0) {
+						this.dataList.length = 0;
+					}
 					this.dataList.push(...data.content);
-					// this.dataList = data.content;
 					uni.hideLoading()
 					if (data.last) {
 						this.isShowLoadMore = false;
@@ -168,18 +176,64 @@
 			},
 			clickLoadMore(e) {
 				this.loadMoreStatus = "loading";
-				this.refreshData(this.pageIndex + 1);				
+				this.refreshData(this.pageIndex + 1);
 			},
 
 			/**
-			 * 开处方事件
+			 * 开处方
 			 * @param {Object} e
 			 * @param {Object} index
 			 */
-			prescribe(e, index) {
+			createRecipe(e, index) {
 				var item = this.dataList[index]
+				this.targetApplyRecord = item;
+				this.$refs.popup.open('center');
+			},
+
+
+			/**
+			 * 查看处方
+			 * @param {Object} e
+			 * @param {Object} index
+			 */
+			viewRecipe(e, index) {
+				var applyRecordItem = this.dataList[index]
+				uni.showLoading({
+					mask: true,
+					title: "loading..."
+				})
+				recipeApi.seachRecipeRecords(applyRecordItem.id,this.userInfo.id)
+					.then(value => {
+						uni.hideLoading();
+						var content = value.content as [];
+						if (content.length > 0) {
+							var firstItem = content.shift();
+							console.log(firstItem);
+							console.log(applyRecordItem);
+							uni.navigateTo({
+								url: `/pages/recipe_detail/recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeItem=${JSON.stringify(firstItem)}`
+							});
+						} else {
+							uni.showToast({
+								title: "打开处方失败"
+							})
+						}
+					})
+					.catch(e => {
+						uni.hideLoading();
+						console.log(e);
+						uni.showToast({
+							title: "" + e
+						})
+					});
+
+
+			},
+
+			handleRedipeTemplateItemClick(item : RecipeItem) {
+				this.$refs.popup.close();
 				uni.navigateTo({
-					url: "/pages/make_recipe/make_recipe?applyRecordId=" + item.id
+					url: `/pages/make_recipe/make_recipe?applyRecordId=${this.targetApplyRecord.id}&template=${JSON.stringify(item)}`
 				})
 			}
 
@@ -208,5 +262,23 @@
 	.list-item-divider {
 		border-bottom: 0.1rpx solid #ddd;
 		margin: 0rpx 0rpx;
+	}
+
+	@mixin flex {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: column;
+	}
+
+	.popup-content {
+		@include flex;
+		// align-items: center;
+		justify-content: start;
+		padding: 15px;
+		width: 400rpx;
+		height: 200px;
+		border-radius: 10rpx;
+		background-color: #fff;
 	}
 </style>

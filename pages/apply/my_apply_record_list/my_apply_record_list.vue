@@ -1,10 +1,19 @@
 <template>
 	<view>
 		<uni-list>
-			<uni-list-item @click="handleItemClick(index)" clickable show-arrow v-for="(item,index) in this.dataList"
-				:title="item.createDateTime" :right-text="statusDesc">
+
+
+			<uni-list-item v-if="this.status == 0" @click="handleItemClick(index)" clickable show-arrow
+				v-for="(item,index) in this.dataList" :title="item.createDateTime">
 				<template v-slot:footer>
 					<view class="accent-color">{{statusDesc}} </view>
+				</template>
+			</uni-list-item>
+
+			<uni-list-item v-else @click="handleItemClick(index)" clickable show-arrow
+				v-for="(item,index) in dataList" :title="item.createDateTime">
+				<template v-slot:footer>
+					<button style="margin-right: 20rpx; " @click.stop="viewRecipe(item)">查看处方</button>
 				</template>
 			</uni-list-item>
 			<uni-load-more v-show="isShowLoadMore" @clickLoadMore="clickLoadMore" :status="loadMoreStatus"
@@ -14,30 +23,28 @@
 	</view>
 </template>
 
-<script>
+<script lang="ts">
 	import applyApi from "../../../api/apply_api.js"
 	import {
 		dateUtils
 	} from "../../../common/util.js";
+	import recipeApi from "../../../api/recipe_api.js";
 
 	export default {
 
 		onLoad(options) {
 			uni.setNavigationBarTitle({
-				title: "待开方记录"
+				title: "待开运动处方"
 			})
 			if (options.status) {
 				this.status = options.status;
 				if (this.status == 1) {
 					uni.setNavigationBarTitle({
-						title: "已开方记录"
+						title: "历史运动处方"
 					})
 				}
 			}
-		},
 
-
-		created() {
 			this.refreshData(0);
 		},
 
@@ -49,7 +56,7 @@
 
 		computed: {
 			statusDesc() {
-				if (status == 0) {
+				if (this.status == 0) {
 					return "待开方";
 				} else {
 					return "已开方";
@@ -107,15 +114,56 @@
 			clickLoadMore(e) {
 				this.loadMoreStatus = "loading";
 				this.refreshData(this.pageIndex + 1);
-				// uni.showToast({
-				// 	icon: 'none',
-				// 	title: "当前状态：" + e.detail.status
-				// })
-			}
+			},
+			/**
+			 * 查看处方
+			 * @param {Object} e
+			 * @param {Object} index
+			 */
+			viewRecipe(applyRecordItem) {
+				uni.showLoading({
+					mask: true,
+					title: "loading..."
+				})
+				recipeApi.seachRecipeRecords(applyRecordItem.id, null)
+					.then(value => {
+						uni.hideLoading();
+						var content = value.content as[];
+						if (content.length > 0) {
+							var firstItem = content.shift();
+							console.log(firstItem);
+							console.log(applyRecordItem);
+							uni.navigateTo({
+								url: `/pages/recipe_detail/recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeItem=${JSON.stringify(firstItem)}`
+							});
+						} else {
+							uni.showToast({
+								title: "打开处方失败"
+							})
+						}
+					})
+					.catch(e => {
+						uni.hideLoading();
+						console.log(e);
+						uni.showToast({
+							title: "" + e
+						})
+					});
+
+
+			},
 		}
 	}
 </script>
 
-<style>
-
+<style lang="scss">
+	button {
+		border-color: $uni-color-primary;
+		padding: 0rpx 20rpx;
+		font-size: 18rpx;
+		border-width: 1rpx;
+		border-style: solid;
+		border-radius: 10rpx;
+		background-color: white;
+	}
 </style>

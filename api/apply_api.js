@@ -12,7 +12,7 @@ export default {
 	addApplyRecord(postData) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record/add",
+				url: config['API_BASE_URL'] + "/recipe/apply/record/add",
 				dataType: 'json',
 				method: "POST",
 				header: {
@@ -34,18 +34,22 @@ export default {
 			})
 		});
 	},
-	
+
 	/**
 	 * 全局搜索申请记录
 	 * @param {Object} params
 	 */
-	searchApplyRecords(params) {
-		console.log("login token : " + store.getters.token);
+	searchApplyRecords(pageIndex, pageSize, status) {
+		console.log("login token : " + store.getters.token);		
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record/search",
+				url: config['API_BASE_URL'] + "/recipe/apply/record/search",
 				method: "GET",
-				data: params,
+				data: {
+					"status": status,
+					"pageIndex": pageIndex,
+					"pageSize": pageSize,
+				},
 				header: {
 					"Authorization": store.getters.token
 				},
@@ -60,7 +64,7 @@ export default {
 				fail(e) {
 					reject(e);
 				}
-	
+
 			})
 		});
 	},
@@ -68,7 +72,7 @@ export default {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record",
+				url: config['API_BASE_URL'] + "/recipe/apply/record",
 				method: "GET",
 				data: params,
 				header: {
@@ -93,7 +97,7 @@ export default {
 	getApplyRecordDetail(id) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record/" + id,
+				url: config['API_BASE_URL'] + "/recipe/apply/record/" + id,
 				method: "GET",
 				header: {
 					"Authorization": store.getters.token

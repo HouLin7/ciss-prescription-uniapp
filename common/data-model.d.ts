@@ -134,7 +134,8 @@ export interface ApplyRecordItem {
 	appVersionCode : string,
 	status : string,
 	createDateTime : string,
-	bodyTestRecords : BodyTestRecords
+	bodyTestRecords : BodyTestRecords,
+	userInfo : UserInfo
 }
 
 export interface BodyTestRecords {
@@ -163,9 +164,10 @@ export interface BodyTestRecords {
 
 }
 
-export interface recipeItem {
+export interface RecipeItem {
 	id : number,
 	applyRecordId : number,
+	title : string,
 	sportGoal : string,//运动目标
 	aerobicExerciseEvents : string,//有氧运动项目
 

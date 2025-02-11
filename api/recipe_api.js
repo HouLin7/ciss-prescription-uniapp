@@ -9,7 +9,7 @@ export default {
 	addRecipe(postData) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record/add",
+				url: config['API_BASE_URL'] + "/recipe/record/add",
 				dataType: 'json',
 				method: "POST",
 				header: {
@@ -40,7 +40,7 @@ export default {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record/search",
+				url: config['API_BASE_URL'] + "/recipe/apply/record/search",
 				method: "GET",
 				data: params,
 				header: {
@@ -66,7 +66,7 @@ export default {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record",
+				url: config['API_BASE_URL'] + "/recipe/apply/record",
 				method: "GET",
 				data: params,
 				header: {
@@ -91,10 +91,41 @@ export default {
 	/**
 	 * @param {Object} applyRecordId  申请记录ID
 	 */
-	getRecipeDetail(applyRecordId) {
+	seachRecipeRecords(applyRecordId, createRecipeUserId) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/api/recipe/apply/record/" + id,
+				url: config['API_BASE_URL'] + "/recipe/record/search",
+				method: "GET",
+				header: {
+					"Authorization": store.getters.token
+				},
+				data: {
+					"applyRecordId": applyRecordId,
+					"createRecipeUserId": createRecipeUserId
+				},
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+	},
+
+	/**
+	 * 获取模版列表	 
+	 */
+	getRecipeTemplateList() {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: config['API_BASE_URL'] + "/recipe/template",
 				method: "GET",
 				header: {
 					"Authorization": store.getters.token
@@ -113,6 +144,7 @@ export default {
 
 			})
 		});
+
 	}
 
 
