@@ -21,7 +21,8 @@
 		{
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "登录",
+				"backgroundColor": "#fff"
 			}
 		},
 			
@@ -138,7 +139,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#FFFFFF",
+		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#F8F8F8",
 		"maxWidth": 500
 	},

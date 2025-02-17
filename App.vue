@@ -3,8 +3,6 @@
 		mapMutations
 	} from 'vuex';
 	import * as utils from './common/util.js';
-	// import { getPlatform } from 'common/util.js';
-
 	export default {
 
 		methods: {
@@ -152,9 +150,10 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		width: 500rpx;
+		width: 85%;
 		height: 70rpx;
-		border-radius: 30rpx;
+		border-radius: 10rpx;
+		font-size: 22rpx;
 		color: white;
 		background-color: $uni-color-primary;
 	}
@@ -164,9 +163,10 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		width: 500rpx;
+		font-size: 22rpx;
+		width: 85%;
 		height: 70rpx;
-		border-radius: 30rpx;
+		border-radius: 10rpx;
 		color: #333;
 		background-color: #999;
 	}

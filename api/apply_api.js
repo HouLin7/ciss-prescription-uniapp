@@ -2,8 +2,6 @@ import config from "./env_config";
 import store from "@/store/index";
 import httpUtils from "@/api/http-utils.js";
 export default {
-
-
 	/**
 	 * 
 	 * @param {Object} openID
@@ -117,7 +115,7 @@ export default {
 			})
 		});
 	}
-
+	
 
 
 }

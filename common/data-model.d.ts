@@ -94,6 +94,8 @@ export interface LableInputDataItem {
 	 * 数值
 	 */
 	value : number,
+
+	validator? : Function,
 }
 
 export interface UserInfo {

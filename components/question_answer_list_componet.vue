@@ -8,7 +8,7 @@
 				:style="{ 'pointer-events': !enable ? 'none' : 'auto' }">
 				<label :disabled="true" class="radio" v-for="(answerItem,childIndex) in questItem.answers"
 					style="margin: 0rpx 20rpx;">
-					<radio style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
+					<radio style="transform: scale(0.8)" color="#007aff" :value="childIndex.toString()"
 						:checked="isSelect(questItem,childIndex)" />
 					{{answerItem}}
 				</label>
@@ -19,7 +19,7 @@
 				:style="{ 'pointer-events': !enable ? 'none' : 'auto' }">
 				<label :class="radioClass" v-for="(answerItem,childIndex) in questItem.answers"
 					style="margin: 0rpx 20rpx;">
-					<checkbox style="transform: scale(0.6)" color="#007aff" :value="childIndex.toString()"
+					<checkbox style="transform: scale(0.8)" color="#007aff" :value="childIndex.toString()"
 						:checked="isSelect(questItem,childIndex)" />
 					{{answerItem}}
 				</label>

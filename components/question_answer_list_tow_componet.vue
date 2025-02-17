@@ -8,7 +8,7 @@
 		<view class="uni-flex uni-row">
 			<checkbox-group :style="{ 'pointer-events': !enable ? 'none' : 'auto' }" @change="checkboxSelectChange"
 				:data-index="index" style="width: 150rpx;">
-				<checkbox v-for="(answerItem,childIndex) in questItem.answers" style="transform: scale(0.6)"
+				<checkbox v-for="(answerItem,childIndex) in questItem.answers" style="transform: scale(0.8)"
 					color="#007aff" :value="childIndex.toString()" :checked="isSelect(questItem,childIndex)" />
 			</checkbox-group>
 			<view>{{questItem.title}}</view>

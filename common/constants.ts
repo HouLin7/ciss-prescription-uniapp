@@ -64,7 +64,7 @@ export const heathAskQuestion = function () {
 	return {
 		questionsUni1: [{
 			"title": "1.您是否患有下列疾病",
-			"answers": ["高血压", "高血脂", "糖尿病", "冠心病"],
+			"answers": ["高血压", "高血脂", "糖尿病", "冠心病", "无"],
 			"selectIndexSet": [],
 			"isSingleChoise": true
 		},
@@ -270,14 +270,23 @@ export const bodyTestData = function () {
 			"name": "身高",
 			"unit": "厘米:cm",
 			"value": null,
+			validator: (value : number) => {
+				return value > 10 && value < 300;
+			},
 		}, {
 			"name": "体重",
 			"unit": "千克:kg",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 20 && value < 200;
+			},
 		}, {
 			"name": "腰围",
 			"unit": "厘米:cm",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 20 && value < 200;
+			},
 		}, {
 			"name": "臀围",
 			"unit": "厘米:cm",
@@ -314,6 +323,9 @@ export const bodyTestData = function () {
 			"name": "握力",
 			"unit": "千克:kg",
 			"value": null,
+			validator: (value : number) => {
+				return value > 5 && value < 100;
+			},
 		}, {
 			"name": "背力",
 			"unit": "千克:kg",
@@ -369,7 +381,7 @@ export const strengthTrainingItems = function () {
 	return [
 		{ "label": "上肢肌群", "value": "szjq" },
 		{ "label": "下肢肌群", "value": "xzjq" },
-		{ "label": "腰背肌", "value": "bj" },
+		{ "label": "腰背肌", "value": "ybj" },
 		{ "label": "腹肌", "value": "fj" },
 
 	];
