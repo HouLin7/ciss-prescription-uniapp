@@ -10,7 +10,21 @@
 		<view style="justify-content: center;padding: 10rpx 40rpx;">
 			<uni-segmented-control :current="currentIndex" :values="tabs" style-type="button" active-color="#007aff"
 				@clickItem="onClickItem" />
+			<!-- <view class="tabs">
+				<view :ref="'tabItem0'" class="tab-item" :class="{ active: currentIndex === 0 }"
+					@click="setCurrentTab(0)">
+					风险评估</view>
+				<view :ref="'tabItem1'" class="tab-item" :class="{ active: currentIndex === 1 }"
+					@click="setCurrentTab(1)">
+					健康问卷</view>
+				<view :ref="'tabItem2'" class="tab-item" :class="{ active: currentIndex === 2 }"
+					@click="setCurrentTab(2)">
+					体测数据</view>
+				<view class="underline" :style="underlineStyle"></view>
+			</view> -->
 		</view>
+
+
 
 		<!-- Swiper 实现分页 -->
 		<swiper class="swiper-container" :current="currentIndex" @change="onSwiperChange">
@@ -82,8 +96,7 @@
 								<labelInputComponent :dataItem="item" :enable="false" />
 							</view>
 						</view>
-						<view style="height: 20rpx;" />
-
+						<view style="height: 10rpx;" />
 					</view>
 
 
@@ -132,9 +145,14 @@
 			labelInputComponent
 		},
 
+		mounted() {
+			this.$nextTick(() => {
+				this.setTabWidth(); // 在 DOM 渲染完成后获取宽度
+			});
+		},
 		onLoad(params : Map<string, any>) {
 
-			const date = new Date();		
+			const date = new Date();
 			var id = params["id"];
 			applyApi.getApplyRecordDetail(id).then(data => {
 				this.applyRecordItem = data;
@@ -234,6 +252,20 @@
 					this.bodyTestData.bodyParamsUnit3[7].value = item.standOnOne;
 					this.bodyTestData.bodyParamsUnit3[8].value = item.responseTime;
 
+
+					let res = {
+						categories: ["肺活量", "握力", "跳跃", "俯卧撑", "仰卧起坐", "坐位体前屈", "单脚站立", "反应时间"],
+						series: [
+							{
+								name: "身体素质得分",
+								data: [item.vitalCapacityScore, item.gripPowerScore, item.jumpPowerScore,
+								item.pushUpCountScore, item.sitUpCountScore, item.sitAndReachScore, item.standOnOneScore, item.responseTimeScore]
+							}
+						]
+					};
+					this.chartData = JSON.parse(JSON.stringify(res));
+
+
 				}
 
 			});
@@ -249,6 +281,12 @@
 		},
 
 		computed: {
+			underlineStyle() {
+				return {
+					width: `${this.tabWidth}px`,  // 根据选中标签的宽度来设置下划线的宽度
+					left: `${this.currentIndex * this.tabWidth}px`,  // 控制下划线的位置
+				};
+			},
 			userName() {
 				if (this.currUser) {
 					return this.currUser.name;
@@ -285,41 +323,43 @@
 					return this.applyRecordItem.createDateTime;
 				}
 				return "";
-			}
+			},
 		},
 		data() {
 
 			return {
+				tabWidth: 0,
 				opts: {
 					// color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
 					padding: [5, 5, 5, 5],
-					dataLabel: false,
+					dataLabel: true,
 					enableScroll: false,
 					legend: {
-						show: false,
-						position: "right",
+						show: true,
+						position: "top",
 						lineHeight: 25
 					},
+
 					extra: {
 						radar: {
 							gridType: "radar",
 							gridColor: "#CCCCCC",
 							gridCount: 4,
-							opacity: 0.2,
-							max: 200,
+							opacity: 0.5,
+							max: 5,
 							labelShow: true,
-							border: true
+							border: false
 						}
 					}
 				},
 
 				chartData: {
-					categories: ["维度1", "维度2", "维度3", "维度4", "维度5", "维度6"],
+					categories: ["肺活量", "握力", "跳跃", "俯卧撑", "仰卧起坐", "坐位体前屈", "单脚站立", "反应时间"],
 
 					series: [
 						{
-							name: "成交量1",
-							data: [90, 110, 165, 195, 187, 172]
+							name: "素质能力",
+							data: [0, 0, 0, 0, 0, 0, 0, 0]
 						},
 					]
 				},
@@ -336,6 +376,19 @@
 			}
 		},
 		methods: {
+
+			setTabWidth() {
+				const currentTabRef = this.$refs['tabItem' + this.currentIndex];
+				if (currentTabRef) {
+					this.tabWidth = currentTabRef.offsetWidth;
+				}
+			},
+
+			setCurrentTab(index) {
+				if (this.current !== index) {
+					this.currentIndex = index;
+				}
+			},
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
 					this.currentIndex = e.currentIndex
@@ -407,13 +460,39 @@
 	}
 
 	.headerLabel {
-		margin-right: 30rpx;
+		margin-right: 15rpx;
 		font-weight: bold;
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
 
 	.charts {
-		width: 300px;
-		height: 300px;
+		width: 400px;
+		height: 400px;
+	}
+
+	.tabs {
+		display: flex;
+		justify-content: space-between;
+		position: relative;
+	}
+
+	.tab-item {
+		font-size: 16px;
+		padding: 10px;
+		cursor: pointer;
+	}
+
+	.tab-item.active {
+		color: #007aff;
+		font-weight: bold;
+	}
+
+	.underline {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		height: 2px;
+		background-color: #007aff;
+		transition: left 0.3s, width 0.3s;
 	}
 </style>

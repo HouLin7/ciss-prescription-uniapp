@@ -8,6 +8,7 @@
 		{
 			"path": "pages/tabBar/home_page",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "健康管理"
 			}
 		},
@@ -17,7 +18,7 @@
 				"navigationBarTitleText": "我的"
 			}
 		},
-		
+
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -25,7 +26,7 @@
 				"backgroundColor": "#fff"
 			}
 		},
-			
+
 		{
 			"path": "pages/login/login-by-phone",
 			"style": {
@@ -33,7 +34,7 @@
 				"backgroundColor": "#fff"
 			}
 		},
-		
+
 		{
 			"path": "pages/user-privacy/user-privacy",
 			"style": {
@@ -41,95 +42,85 @@
 			}
 		},
 		{
-			"path" : "pages/apply/apply_step_risk/apply_step_risk",
-			"style" : 
-			{
-				"navigationBarTitleText" : "风险评估"
+			"path": "pages/apply/apply_step_risk/apply_step_risk",
+			"style": {
+				"navigationBarTitleText": "风险评估"
 			}
 		},
 		{
-			"path" : "pages/apply/apply_step_heath_ask/apply_step_heath_ask",
-			"style" : 
-			{
-				"navigationBarTitleText" : "健康问卷"
+			"path": "pages/apply/apply_step_heath_ask/apply_step_heath_ask",
+			"style": {
+				"navigationBarTitleText": "健康问卷"
 			}
 		},
 		{
-			"path" : "pages/apply/apply_step_heath_test/apply_step_heath_test",
-			"style" : 
-			{
-				"navigationBarTitleText" : "体测数据"
+			"path": "pages/apply/apply_step_heath_test/apply_step_heath_test",
+			"style": {
+				"navigationBarTitleText": "体测数据"
 			}
 		},
 		{
-			"path" : "pages/apply/apply_step_user_agreement/apply_step_user_agreement",
-			"style" : 
-			{
-				"navigationBarTitleText" : "知情同意书"
+			"path": "pages/apply/apply_step_user_agreement/apply_step_user_agreement",
+			"style": {
+				"navigationBarTitleText": "知情同意书"
 			}
 		},
-		
+
 		{
-			"path" : "pages/user/user_detail_page/user_detail_page",
-			"style" : 
-			{
-				"navigationBarTitleText" : "用户详情"
+			"path": "pages/user/user_detail_page/user_detail_page",
+			"style": {
+				"navigationBarTitleText": "用户详情"
 			}
 		},
 		{
-			"path" : "pages/apply/apply_record_list/apply_record_list",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/apply/apply_record_list/apply_record_list",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/apply/my_apply_record_list/my_apply_record_list",
-			"style" : 
-			{
-				"navigationBarTitleText" : "处方申请记录"
+			"path": "pages/apply/my_apply_record_list/my_apply_record_list",
+			"style": {
+				"navigationBarTitleText": "处方申请记录"
 			}
 		},
 		{
-			"path" : "pages/apply/apply_record_detail_page/apply_record_detail_page",
-			"style" : 
-			{
-				"navigationBarTitleText" : "处方申请记录详情"
+			"path": "pages/apply/apply_record_detail_page/apply_record_detail_page",
+			"style": {
+				"navigationBarTitleText": "处方申请记录详情"
 			}
 		},
 		{
-			"path" : "pages/make_recipe/make_recipe",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""				
+			"path": "pages/make_recipe/make_recipe",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/recipe_detail/recipe_detail",
-			"style" : 
-			{
-				"navigationBarTitleText" : "查看运动处方"
+			"path": "pages/recipe_detail/recipe_detail",
+			"style": {
+				"navigationBarTitleText": "查看运动处方"
 			}
-		}		
+		}
 	],
 
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",
-		"backgroundColor": "#FFFFFF",		
+		"backgroundColor": "#FFFFFF",
 		"list": [
 
 			{
 				"pagePath": "pages/tabBar/home_page",
-				"iconPath": "static/tab_home.png",
-				"selectedIconPath": "static/tab_home.png",
+				"iconPath": "static/tab_home_select.png",
+				"selectedIconPath": "static/tab_home_select.png",
 				"text": "首页"
-			},						
+			},
 			{
 				"pagePath": "pages/tabBar/mine_page",
-				"iconPath": "static/tab_mine.png",
-				"selectedIconPath": "static/tab_mine.png",
+				"iconPath": "static/tab_mine_select.png",
+				"selectedIconPath": "static/tab_mine_select.png",
 				"text": "我的"
 			}
 		]

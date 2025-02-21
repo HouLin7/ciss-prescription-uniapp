@@ -278,45 +278,66 @@ export const bodyTestData = function () {
 			"unit": "千克:kg",
 			"value:": null,
 			validator: (value : number) => {
-				return value > 20 && value < 200;
+				return value > 10 && value < 200;
 			},
 		}, {
 			"name": "腰围",
 			"unit": "厘米:cm",
 			"value:": null,
 			validator: (value : number) => {
-				return value > 20 && value < 200;
+				return value > 0 && value < 200;
 			},
 		}, {
 			"name": "臀围",
 			"unit": "厘米:cm",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 0 && value < 200;
+			},
 		}, {
 			"name": "体脂率",
 			"unit": "百分比:%",
 			"value:": null,
+			validator: (value : number) => {
+				return value >= 0 && value <= 100;
+			},
 		},],
 
 		bodyParamsUnit2: [{
 			"name": "收缩压",
 			"unit": "毫米汞柱:mmHg",
 			"value": null,
+			validator: (value : number) => {
+				return value >= 0 && value <= 300;
+			},
 		}, {
 			"name": "舒张压",
 			"unit": "毫米汞柱:mmHg",
 			"value:": null,
+			validator: (value : number) => {
+				return value >= 0 && value <= 300;
+			},
 		}, {
 			"name": "功率车二级负荷实验",
 			"unit": "毫升/千克/分钟:ml/kg/min",
 			"value:": null,
+			validator: (value : number) => {
+				return value >= 0 && value <= 3000;
+			},
 		}, {
 			"name": "安静脉搏",
 			"unit": "次/分钟:bpm",
 			"value:": null,
+			validator: (value : number) => {
+				return value >= 10 && value <= 200;
+			},
 		}, {
 			"name": "肺活量",
 			"unit": "毫升:ml",
 			"value:": null,
+			validator: (value : number) => {
+				return value >= 0 && value <= 10000;
+			},
 		},],
 
 		bodyParamsUnit3: [{
@@ -324,40 +345,64 @@ export const bodyTestData = function () {
 			"unit": "千克:kg",
 			"value": null,
 			validator: (value : number) => {
-				return value > 5 && value < 100;
+				return value > 0 && value < 100;
 			},
 		}, {
 			"name": "背力",
 			"unit": "千克:kg",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 0 && value < 500;
+			},
 		}, {
 			"name": "纵跳",
 			"unit": "厘米:cm",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 0 && value < 300;
+			},
 		}, {
 			"name": "俯卧撑",
 			"unit": "次",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 0 && value < 1000;
+			},
 		}, {
 			"name": "跪卧撑",
 			"unit": "次",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 0 && value < 1000;
+			},
 		}, {
 			"name": "一分钟仰卧起坐",
 			"unit": "次",
 			"value:": null,
+			validator: (value : number) => {
+				return value > 0 && value < 1000;
+			},
 		}, {
 			"name": "坐位体前屈",
 			"unit": "厘米:cm",
 			"value:": null,
+			validator: (value : number) => {
+				return value > -50 && value < 200;
+			},
 		}, {
 			"name": "闭眼单脚站立",
 			"unit": "秒:s",
 			"value:": null,
+			validator: (value : number) => {
+				return value >0 && value < 2000;
+			},
 		}, {
 			"name": "选择反应时",
 			"unit": "秒:s",
 			"value:": null,
+			validator: (value : number) => {
+				return value >0 && value < 2000;
+			},
 		},]
 	};
 };

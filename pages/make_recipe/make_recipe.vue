@@ -56,7 +56,7 @@
 				<view class="title">*有氧运动</view>
 				<p>1.运动项目选择</p>
 				<checkbox-group @change="checkboxChangeAerobic">
-					<label v-for="(item,index) in sportItems" :key="item.value" style="font-size: 24rpx;">
+					<label v-for="(item) in sportItems" :key="item.value" style="font-size: 24rpx;">
 						<checkbox style="transform: scale(0.6)" color="#007aff" :value="item.value"
 							:checked="isSelectAerobic(item.value)" />
 						{{item.label}}

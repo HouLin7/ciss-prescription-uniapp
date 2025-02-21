@@ -1,30 +1,3 @@
-export interface RegionItem {
-	name : String;
-	id : String;
-}
-
-
-
-export interface ParkingSpaceItem {
-	provice : string, //省份
-	city : string,//城市
-	district : string, //地区/县
-	housingEstate : string,// 小区名称
-	detailAddress : string,//具体地址
-	price : number,
-	community : string,
-	rentDays : number,// 租赁天数
-	weekDays : number[],//可租赁的工作日
-	carParkingNo : string,// 车位编号
-	startTime : string, // 每日开始时间
-	endTime : string, //每日结束时间
-	attachmentList ?: [], //附件照片
-	userId ?: string,
-	createTime ?: string,
-	updateTime ?: string,
-
-
-}
 
 /**
  * 高得地图定位返回数据
@@ -152,16 +125,35 @@ export interface BodyTestRecords {
 	diastolicPressure : number,//舒张压
 	powerCarTestData : number,//功率车
 	pulse : number, //脉搏
+	
 	vitalCapacity : number,//肺活量
-	gripPower : number,//握力
+	vitalCapacityScore : number,//肺活量
+	
+	gripPower : number,//握力	
+	gripPowerScore : number,//握力得分
+	
 	carryPower : number,//背力
-	jumpPower : number,//跳跃
+	
+	jumpPower : number,//跳跃	
+	jumpPowerScore : number,//跳跃
+	
 	pushUpCount : number,//俯卧撑
+	pushUpCountScore : number,//俯卧撑
+
 	kneelUpCount : number,//跪卧撑
+	
 	sitUpCount : number,//仰卧起坐
+	sitUpCountScore : number,//仰卧起坐
+	
 	sitAndReach : number,//坐位体前屈
+	sitAndReachScore : number,//坐位体前屈
+	
 	standOnOne : number,//单脚站立
+	standOnOneScore : number,//单脚站立
+	
 	responseTime : number,//反应时间
+	responseTimeScore : number,//反应时间
+	
 	testDateTime : string//测试日期
 
 }

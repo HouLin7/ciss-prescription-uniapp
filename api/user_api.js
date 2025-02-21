@@ -12,7 +12,7 @@ export default {
 	saveUser(name, sex, birthday) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/users/add",
+				url: config['API_BASE_URL'] + "/users/mine/update",
 				dataType: 'json',
 				method: "POST",
 				header: {

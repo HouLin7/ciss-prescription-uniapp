@@ -1,17 +1,15 @@
 <template>
 	<view>
-		<uni-list>
-
-
-			<uni-list-item v-if="this.status == 0" @click="handleItemClick(index)" clickable show-arrow
-				v-for="(item,index) in this.dataList" :title="item.createDateTime">
+		<uni-list style="margin-top: 10rpx;">
+			<uni-list-item v-if="status == 0" @click="handleItemClick(index)" clickable show-arrow
+				v-for="(item,index) in dataList" :title="item.createDateTime">
 				<template v-slot:footer>
 					<view class="accent-color">{{statusDesc}} </view>
 				</template>
 			</uni-list-item>
 
-			<uni-list-item v-else @click="handleItemClick(index)" clickable show-arrow
-				v-for="(item,index) in dataList" :title="item.createDateTime">
+			<uni-list-item v-else @click="handleItemClick(index)" clickable show-arrow v-for="(item,index) in dataList"
+				:title="item.createDateTime">
 				<template v-slot:footer>
 					<button style="margin-right: 20rpx; " @click.stop="viewRecipe(item)">查看处方</button>
 				</template>
@@ -37,7 +35,7 @@
 				title: "待开运动处方"
 			})
 			if (options.status) {
-				this.status = options.status;
+				this.status = Number(options.status);
 				if (this.status == 1) {
 					uni.setNavigationBarTitle({
 						title: "历史运动处方"
@@ -128,7 +126,7 @@
 				recipeApi.seachRecipeRecords(applyRecordItem.id, null)
 					.then(value => {
 						uni.hideLoading();
-						var content = value.content as[];
+						var content = value.content as [];
 						if (content.length > 0) {
 							var firstItem = content.shift();
 							console.log(firstItem);

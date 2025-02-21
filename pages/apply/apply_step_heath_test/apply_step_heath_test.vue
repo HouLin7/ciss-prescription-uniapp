@@ -54,6 +54,9 @@
 
 			<button class="next-button" @click="doNext">下一步</button>
 		</view>
+		<uni-popup ref="message" type="message">
+			<uni-popup-message type="warning" :message="messageText" :duration="2000" />
+		</uni-popup>
 	</view>
 </template>
 
@@ -84,10 +87,21 @@
 
 		computed: {
 			...mapState(['tempApplyRecordItem']),
+			// ...mapGetters(['userInfo']),
+			// bodyParamsUnit3() {
+			// 	if (this.userInfo.sex == 0) {
+			// 		this._bodyParamsUnit3.findIndex((item)=>{
+
+			// 		})
+			// 	} else {
+
+			// 	}
+			// }
 		},
 
 		data() {
 			return {
+				messageText: "",
 				selectedDate: '', // 选中的日期
 				today: "", // 限制最大日期				
 				active: 2,
@@ -108,6 +122,11 @@
 		},
 		methods: {
 
+			showMessage(message : string) {
+				this.messageText = message;
+				this.$refs.message.open();
+			},
+
 			onDateChange(e) {
 				this.selectedDate = e.detail.value; // 更新选择的日期
 			},
@@ -121,29 +140,34 @@
 			doNext() {
 				for (var item of this.bodyParamsUnit1) {
 					if (!item.value) {
-						uni.showToast({
-							title: `请输入${item.name}`
-						});
+						this.showMessage(`请输入${item.name}`);
+						return;
+					}
+					if (item.validator && !item.validator(item.value)) {
+						this.showMessage(`请输入有效的${item.name}`);
 						return;
 					}
 				}
 				for (var item of this.bodyParamsUnit2) {
 					if (!item.value) {
-						uni.showToast({
-							title: `请输入${item.name}`
-						})
+						this.showMessage(`请输入${item.name}`);
+						return;
+					}
+					if (item.validator && !item.validator(item.value)) {
+						this.showMessage(`请输入有效的${item.name}`);
 						return;
 					}
 				}
 				for (var item of this.bodyParamsUnit3) {
 					if (!item.value) {
-						uni.showToast({
-							title: `请输入${item.name}`
-						})
+						this.showMessage(`请输入${item.name}`);
+						return;
+					}
+					if (item.validator && !item.validator(item.value)) {
+						this.showMessage(`请输入有效的${item.name}`);
 						return;
 					}
 				}
-
 				var bodyTestData = {} as BodyTestRecords;
 				bodyTestData.height = this.bodyParamsUnit1[0].value;
 				bodyTestData.weight = this.bodyParamsUnit1[1].value;
@@ -156,17 +180,7 @@
 				bodyTestData.powerCarTestData = this.bodyParamsUnit2[2].value;
 				bodyTestData.pulse = this.bodyParamsUnit2[3].value;
 				bodyTestData.vitalCapacity = this.bodyParamsUnit2[4].value;
-
-				// gripPower : number,//握力
-				// 	carryPower : number,//背力
-				// 	jumpPower : number,//跳跃
-				// 	pushUpCount : number,//俯卧撑
-				// 	kneelUpCount : number,//跪卧撑
-
-				// 	sitUpCount : number,//仰卧起坐
-				// 	sitAndReach : number,//坐位体前屈
-				// 	standOnOne : number,//单脚站立
-				// 	responseTime : number,//反应时间
+				
 				bodyTestData.gripPower = this.bodyParamsUnit3[0].value;
 				bodyTestData.carryPower = this.bodyParamsUnit3[1].value;
 				bodyTestData.jumpPower = this.bodyParamsUnit3[2].value;

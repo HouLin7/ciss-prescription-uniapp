@@ -1,7 +1,9 @@
 import App from './App'
 import store from './store'
 import VConsole from 'vconsole'
-const vConsole = new VConsole()
+if (process.env.NODE_ENV === "development") {
+	const vConsole = new VConsole()
+}
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
@@ -11,7 +13,6 @@ const app = new Vue({
 	store,
 	...App
 })
-app.use(vConsole)
 app.$mount()
 // #endif
 
@@ -22,7 +23,6 @@ import {
 export function createApp() {
 	const app = createSSRApp(App)
 	app.use(store);
-	app.use(vConsole);
 	return {
 		app
 	}

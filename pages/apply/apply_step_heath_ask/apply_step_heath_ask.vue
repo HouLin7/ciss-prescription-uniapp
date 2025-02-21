@@ -24,6 +24,10 @@
 		<view class="bottom ">
 			<button class="next-button" @click="doNext">下一步</button>
 		</view>
+
+		<uni-popup ref="message" type="message">
+			<uni-popup-message type="warning" :message="messageText" :duration="2000" />
+		</uni-popup>
 	</view>
 </template>
 
@@ -47,11 +51,12 @@
 		},
 		data() {
 			return {
+				messageText: "",
 				active: 1, //导航进度
 				questionsUni1: [] as QuestionItem[],
 				questionsUni2: [] as QuestionTypeItem[],
 				questionsUni3: [] as QuestionItem[],
-				answers: [0, 0, 0, 0, 0],				
+				answers: [0, 0, 0, 0, 0],
 				stepMenus: [{
 					title: "风险评估"
 				}, {
@@ -66,18 +71,19 @@
 
 		computed: {
 			...mapState(['tempApplyRecordItem']),
-
 		},
 
 		methods: {
-
+			showMessage(message:string) {
+				this.messageText = message;
+				this.$refs.message.open();
+			},
+			
 			doNext() {
 
 				for (var item of this.questionsUni1) {
 					if (item.selectIndexSet.length == 0) {
-						uni.showToast({
-							title: "请先完成单选部分"
-						});
+						this.showMessage("请先完成单选部分");
 						return;
 					}
 				}

@@ -25,6 +25,10 @@
 			</checkbox-group>
 			<view class="underline-text" @click="openPrivacyUrl">我已同意隐私协议以及用户声明</view>
 		</view>
+
+		<uni-popup ref="message" type="message">
+			<uni-popup-message type="warning" :message="messageText" :duration="2000" />
+		</uni-popup>
 	</view>
 </template>
 
@@ -41,13 +45,9 @@
 	} from '../../common/util';
 	export default {
 
-		created() {
-
-
-		},
-
 		data() {
 			return {
+				messageText: "",
 				userProvacyChecked: 1, // 用户隐私勾选标记 
 			}
 		},
@@ -68,7 +68,7 @@
 			isWexin() {
 				return isWexinRuntime();
 			},
-			
+
 			checkboxChange(e) {
 				const values = e.detail.value;
 				if (values.length === 0) {
@@ -93,7 +93,7 @@
 				}
 			},
 
-			handleLoginByWexin() {				
+			handleLoginByWexin() {
 				uni.getUserProfile({
 					desc: "测试使用",
 					success: (data) => {

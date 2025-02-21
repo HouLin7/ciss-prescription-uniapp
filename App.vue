@@ -153,7 +153,7 @@
 		width: 85%;
 		height: 70rpx;
 		border-radius: 10rpx;
-		font-size: 22rpx;
+		font-size: 24rpx;
 		color: white;
 		background-color: $uni-color-primary;
 	}
@@ -163,11 +163,11 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		font-size: 22rpx;
+		font-size: 24rpx;
 		width: 85%;
 		height: 70rpx;
 		border-radius: 10rpx;
-		color: #333;
+		color: #000;
 		background-color: #999;
 	}
 

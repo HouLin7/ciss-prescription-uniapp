@@ -1,5 +1,5 @@
 <template>
-	<view style="padding: 0rpx 50rpx;" class="uni-flex uni-column">
+	<view style="padding: 0rpx 50rpx; background-color: #fff;height: 95vh;" class="uni-flex uni-column">
 
 		<view style="height: 100rpx;"></view>
 		<view class="uni-center">
@@ -22,7 +22,7 @@
 
 		<view style="height: 100rpx;"></view>
 		<view class="uni-flex" style="justify-content: center;">
-			<view :class="loginButtonClass" :disabled="inputPhoneNum.length==0" @click="handleLogin()">登陆</view>
+			<view :class="loginButtonClass" :disabled="inputPhoneNum.length==0" @click="handleLogin()">登录</view>
 		</view>
 
 		<view style="height: 40rpx;"></view>
@@ -33,6 +33,10 @@
 			</checkbox-group>
 			<view class="underline-text">我已同意隐私协议以及用户声明</view>
 		</view> -->
+		<uni-popup ref="message" type="message">
+			<uni-popup-message type="warning" :message="messageText" :duration="2000" />
+		</uni-popup>
+
 	</view>
 </template>
 
@@ -47,6 +51,7 @@
 	export default {
 		data() {
 			return {
+				messageText: "",
 				inputPhoneNum: "",
 			}
 		},
@@ -67,6 +72,10 @@
 
 			...mapMutations(['setHasLogin', 'setLoginToken']),
 
+			showMessage(message : string) {
+				this.messageText = message;
+				this.$refs.message.open();
+			},
 			handlePhoneInput(e) {
 				this.inputPhoneNum = e.detail.value;
 				// console.log(this.inputPhoneNum);
@@ -74,9 +83,7 @@
 
 			handleLogin() {
 				if (!isValidPhoneNumber(this.inputPhoneNum)) {
-					uni.showToast({
-						title: "请输入有效的手机号"
-					})
+					this.showMessage("请输入有效的手机号");
 					return;
 				}
 
@@ -130,17 +137,5 @@
 
 	.center {
 		padding: 100rpx;
-	}
-
-	.custom_button_wexin_disabled {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		width: 500rpx;
-		height: 70rpx;
-		border-radius: 30rpx;
-		color: #333;
-		background-color: #ccc;
 	}
 </style>

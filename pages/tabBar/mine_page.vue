@@ -42,10 +42,10 @@
 			<uni-list-item border="false" showArrow title="待处理的健康记录" clickable="true" @click="handleTodoApplyRecord" />
 			<uni-list-item showArrow title="已开具的健康报告" clickable="true" @click="handledoneApplyRecord" />
 		</view>
-		
-		<view v-else="roleFlag==1" style="margin: 20rpx; border-radius: 20rpx; ">
-			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="handleOpenApplyRecord" />
-			<uni-list-item showArrow title="处方运动报告" clickable="true" @click="turnMyTenantSpaceOrder" />
+
+		<view v-else style="margin: 20rpx; border-radius: 20rpx; ">
+			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="handleOpenApplyRecord(0)" />
+			<uni-list-item showArrow title="处方运动报告" clickable="true" @click="handleOpenApplyRecord(1)" />
 		</view>
 
 		<view style="height: 200rpx;"></view>
@@ -120,11 +120,12 @@
 
 		methods: {
 			...mapMutations(['clearToken', 'setUserInfo']),
-			handleOpenApplyRecord() {
+			handleOpenApplyRecord(status) {
 				uni.navigateTo({
-					url: "/pages/apply/my_apply_record_list/my_apply_record_list"
+					url: "/pages/apply/my_apply_record_list/my_apply_record_list?status=" + status
 				})
 			},
+
 			doLogout() {
 				this.clearToken()
 				uni.reLaunch({
@@ -140,12 +141,12 @@
 			handleTodoApplyRecord() {
 				uni.navigateTo({
 					url: "/pages/apply/apply_record_list/apply_record_list"
-				})
+				});
 			},
-			handledoneApplyRecord() {				
+			handledoneApplyRecord() {
 				uni.navigateTo({
 					url: "/pages/apply/apply_record_list/apply_record_list?status=" + 1
-				})
+				});
 			}
 
 		},
@@ -159,11 +160,12 @@
 </script>
 
 <style scoped>
+		
 	.card {
 		border-radius: 6px;
 		background-color: #ffffff;
 		/* 添加过渡效果 */
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1),
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
 			0 4px 6px rgba(0, 0, 0, 0.1);
 		/* 多层阴影实现立体效果 */
 		transition: box-shadow 0.3s ease;
