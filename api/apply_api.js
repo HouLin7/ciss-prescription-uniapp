@@ -33,12 +33,39 @@ export default {
 		});
 	},
 
+	searchApplyRecordsByKeyword(keyword, status) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: config['API_BASE_URL'] + "/recipe/apply/record/searchByKeyword",
+				method: "GET",
+				data: {
+					"status": status,
+					"keyword": keyword,
+				},
+				header: {
+					"Authorization": store.getters.token
+				},
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+	},
+
 	/**
 	 * 全局搜索申请记录
 	 * @param {Object} params
 	 */
 	searchApplyRecords(pageIndex, pageSize, status) {
-		console.log("login token : " + store.getters.token);		
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: config['API_BASE_URL'] + "/recipe/apply/record/search",
@@ -115,7 +142,7 @@ export default {
 			})
 		});
 	}
-	
+
 
 
 }

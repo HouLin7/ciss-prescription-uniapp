@@ -1,10 +1,11 @@
 {
-	"pages": [{
-			"path": "pages/splash/splash",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
+	"pages": [
+		// {
+		// 	"path": "pages/splash/splash",
+		// 	"style": {
+		// 		"navigationBarTitleText": ""
+		// 	}
+		// },
 		{
 			"path": "pages/tabBar/home_page",
 			"style": {

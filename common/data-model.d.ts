@@ -68,7 +68,7 @@ export interface LableInputDataItem {
 	 */
 	value : number,
 
-	validator? : Function,
+	validator ?: Function,
 }
 
 export interface UserInfo {
@@ -125,35 +125,35 @@ export interface BodyTestRecords {
 	diastolicPressure : number,//舒张压
 	powerCarTestData : number,//功率车
 	pulse : number, //脉搏
-	
+
 	vitalCapacity : number,//肺活量
 	vitalCapacityScore : number,//肺活量
-	
+
 	gripPower : number,//握力	
 	gripPowerScore : number,//握力得分
-	
+
 	carryPower : number,//背力
-	
+
 	jumpPower : number,//跳跃	
 	jumpPowerScore : number,//跳跃
-	
+
 	pushUpCount : number,//俯卧撑
 	pushUpCountScore : number,//俯卧撑
 
 	kneelUpCount : number,//跪卧撑
-	
+
 	sitUpCount : number,//仰卧起坐
 	sitUpCountScore : number,//仰卧起坐
-	
+
 	sitAndReach : number,//坐位体前屈
 	sitAndReachScore : number,//坐位体前屈
-	
+
 	standOnOne : number,//单脚站立
 	standOnOneScore : number,//单脚站立
-	
+
 	responseTime : number,//反应时间
 	responseTimeScore : number,//反应时间
-	
+
 	testDateTime : string//测试日期
 
 }
@@ -176,6 +176,7 @@ export interface RecipeItem {
 	isometricExerciseFrequency : string, //阻抗训练频率
 
 	createRecipeUserId : number,//开处方专家id
-	createDateTime : string
+	createDateTime : string,
+	otherAerobicExerciseEvent : string
 
 }

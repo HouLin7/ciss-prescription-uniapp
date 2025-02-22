@@ -1,9 +1,9 @@
 import App from './App'
 import store from './store'
-import VConsole from 'vconsole'
-if (process.env.NODE_ENV === "development") {
-	const vConsole = new VConsole()
-}
+// import VConsole from 'vconsole'
+// if (process.env.NODE_ENV === "development") {
+// 	const vConsole = new VConsole()
+// }
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'

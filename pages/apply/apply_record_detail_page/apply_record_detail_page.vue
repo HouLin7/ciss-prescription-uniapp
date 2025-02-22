@@ -7,25 +7,13 @@
 			<view class="headerLabel">{{age}}</view>
 			<view class="headerLabel">{{createDate}}</view>
 		</view>
-		<view style="justify-content: center;padding: 10rpx 40rpx;">
-			<uni-segmented-control :current="currentIndex" :values="tabs" style-type="button" active-color="#007aff"
-				@clickItem="onClickItem" />
-			<!-- <view class="tabs">
-				<view :ref="'tabItem0'" class="tab-item" :class="{ active: currentIndex === 0 }"
-					@click="setCurrentTab(0)">
-					风险评估</view>
-				<view :ref="'tabItem1'" class="tab-item" :class="{ active: currentIndex === 1 }"
-					@click="setCurrentTab(1)">
-					健康问卷</view>
-				<view :ref="'tabItem2'" class="tab-item" :class="{ active: currentIndex === 2 }"
-					@click="setCurrentTab(2)">
-					体测数据</view>
-				<view class="underline" :style="underlineStyle"></view>
-			</view> -->
-		</view>
-
-
-
+		<!-- <view style="justify-content: center;padding: 0rpx 0rpx;"> -->
+		<!-- <uni-segmented-control :current="currentIndex" :values="tabs" style-type="button" active-color="#007aff"
+				@clickItem="onClickItem" /> -->
+		<v-tabs v-model="currentIndex" lineHeight="4rpx" :bold="true" :scroll="false" :tabs="tabs"
+			@change="onClickItem"></v-tabs>
+		<!-- </view> -->
+		<view style="height: 4rpx;background-color: #ccc;"></view>
 		<!-- Swiper 实现分页 -->
 		<swiper class="swiper-container" :current="currentIndex" @change="onSwiperChange">
 			<swiper-item>
@@ -144,13 +132,11 @@
 			QuestionItemTowCompoment,
 			labelInputComponent
 		},
+		onLoad(params : Map<string, any>) {
 
-		mounted() {
 			this.$nextTick(() => {
 				this.setTabWidth(); // 在 DOM 渲染完成后获取宽度
 			});
-		},
-		onLoad(params : Map<string, any>) {
 
 			const date = new Date();
 			var id = params["id"];
@@ -376,12 +362,15 @@
 			}
 		},
 		methods: {
-
 			setTabWidth() {
-				const currentTabRef = this.$refs['tabItem' + this.currentIndex];
+				const currentTabRef = Object.keys(this.$refs['tabItem0'].$el);
+				console.log(currentTabRef, "1111111111111111");
+				// console.log(this.$refs['tabItem0'], "222222222");
+
 				if (currentTabRef) {
 					this.tabWidth = currentTabRef.offsetWidth;
 				}
+				// this.tabWidth = 100;
 			},
 
 			setCurrentTab(index) {
@@ -405,6 +394,7 @@
 
 <style lang="scss">
 	.container {
+		background-color: white;
 		width: 100%;
 		height: 100vh;
 		display: flex;
