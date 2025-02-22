@@ -14,10 +14,7 @@ export default {
 			uni.request({
 				url: config['API_BASE_URL'] + "/users/mine/update",
 				dataType: 'json',
-				method: "POST",
-				header: {
-					"Authorization": store.getters.token
-				},
+				method: "POST",				
 				data: {
 					"name": name,
 					"sex": sex,
@@ -44,10 +41,7 @@ export default {
 			uni.request({
 				url: config['API_BASE_URL'] + "/users/" + userId,
 				dataType: 'json',
-				method: "GET",
-				header: {
-					"Authorization": store.getters.token
-				},
+				method: "GET",				
 				success(response) {
 					if (httpUtils.isHttpRspSuccess(response)) {
 						resolve(response.data.data);

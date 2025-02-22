@@ -45,7 +45,7 @@
 
 		<view v-else style="margin: 20rpx; border-radius: 20rpx; ">
 			<uni-list-item border="false" showArrow title="处方申请记录" clickable="true" @click="handleOpenApplyRecord(0)" />
-			<uni-list-item showArrow title="处方运动报告" clickable="true" @click="handleOpenApplyRecord(1)" />
+			<uni-list-item showArrow title="处方运动报告" clickable @click="handleOpenApplyRecord(1)" />
 		</view>
 
 		<view style="height: 200rpx;"></view>
@@ -160,7 +160,6 @@
 </script>
 
 <style scoped>
-		
 	.card {
 		border-radius: 6px;
 		background-color: #ffffff;

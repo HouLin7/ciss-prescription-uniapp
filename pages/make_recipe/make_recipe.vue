@@ -24,8 +24,9 @@
 					</view>
 
 				</view>
-				
-				<view v-if="applyRecordItem.bodyTestRecords" class="uni-flex" style="justify-content: space-between; margin-top: 10rpx;">
+
+				<view v-if="applyRecordItem.bodyTestRecords" class="uni-flex"
+					style="justify-content: space-between; margin-top: 10rpx;">
 					<view class="uni-flex" style="align-items: center;">
 						<view class="label">身高:</view>
 						<view class="value">{{bodyHeight}}cm</view>
@@ -55,15 +56,15 @@
 				<view class="title">运动方案</view>
 				<view class="title">*有氧运动</view>
 				<p>1.运动项目选择</p>
-				<checkbox-group @change="checkboxChangeAerobic">
+				<radio-group @change="radioChangeAerobic">
 					<label v-for="(item) in sportItems" :key="item.value" style="font-size: 24rpx;">
-						<checkbox style="transform: scale(0.6)" color="#007aff" :value="item.value"
+						<radio style="transform: scale(0.6)" color="#007aff" :value="item.value"
 							:checked="isSelectAerobic(item.value)" />
 						{{item.label}}
 					</label>
-				</checkbox-group>
+				</radio-group>
 				<view v-show="isSelectAerobic('other')">
-					<input class="uni-input" focus placeholder="输入运动项目" />
+					<input class="uni-input" focus placeholder="输入运动项目" v-model="otherAerobicSportName" />
 				</view>
 				<view class="uni-flex" style="align-items: center;">
 					<p> 2.运动中达到的最佳心率范围为</p>
@@ -202,6 +203,9 @@
 		</scroll-view>
 		<button class="next-button" @click="doSave">提交</button>
 
+		<uni-popup ref="message" type="message">
+			<uni-popup-message type="warning" :message="messageText" :duration="2000" />
+		</uni-popup>
 	</view>
 
 </template>
@@ -256,7 +260,7 @@
 
 		data() {
 			return {
-
+				messageText: "",
 				recipeTemplate: {} as RecipeItem,
 
 				recipeModel: {
@@ -277,10 +281,19 @@
 				strengthTrainingItems: strengthTrainingItems(),
 				selectAeroSportValues: [],
 				selectStrengthSportValues: [],
+				otherAerobicSportName: "",
 			}
 		},
 		methods: {
+			showMessage(message : string) {
+				this.messageText = message;
+				this.$refs.message.open();
+			},
 			doSave() {
+				uni.showLoading({
+					mask: true,
+					title: "正在提交..."
+				})
 				this.recipeTemplate.aerobicExerciseStepParams = `${this.recipeModel.aerobicExerciseStepParams1},${this.recipeModel.aerobicExerciseStepParams2},${this.recipeModel.aerobicExerciseStepParams3},${this.recipeModel.aerobicExerciseStepParams4}`;
 				this.recipeTemplate.isometricExerciseIntensity = `${this.recipeModel.isometricExerciseIntensity1},${this.recipeModel.isometricExerciseIntensity2}`;
 
@@ -302,11 +315,16 @@
 				this.recipeTemplate.applyRecordId = this.applyRecordItem.id;
 				this.recipeTemplate.createDateTime = null;
 				this.recipeTemplate.id = null;
+				this.recipeTemplate.otherAerobicExerciseEvent = this.otherAerobicSportName;
 				recipeApi.addRecipe(this.recipeTemplate)
 					.then((value) => {
+						uni.hideLoading();
 						uni.navigateBack();
 					})
-					.catch(e => { })
+					.catch(e => {
+						uni.hideLoading();
+						this.showMessage('开方失败');
+					})
 
 			},
 			isSelectAerobic(value) {
@@ -330,9 +348,8 @@
 				this.selectStrengthSportValues = e.detail.value;
 			},
 
-			checkboxChangeAerobic(e) {
-				console.log(e);
-				this.selectAeroSportValues = e.detail.value;
+			radioChangeAerobic(e) {				
+				this.selectAeroSportValues[0] = e.detail.value;
 			},
 		},
 

@@ -1,42 +1,97 @@
 <template>
 	<view>
-		<uni-list v-if="dataList.length>0" :border="false" :scroll-y="true" enableBackToTop="true">
+		<uni-search-bar @confirm="doSearch" :focus="true" v-model="searchValue" @cancel="doSearchCancel"
+			placeholder="请输入手机号或姓名搜索" />
 
-			<view class="uni-flex list-item-divider "
-				style="padding: 10rpx 30rpx; justify-content: space-between;align-items: center;"
-				v-for="(item,index) in dataList" @click="handleItemClick(index)">
-				<view class="uni-flex uni-column">
-					<view class="uni-flex" style="align-items: center;">
-						<view class="label">{{item.userInfo.name}}</view>
+		<view v-show="isInSearchModel">
+			<uni-list v-if="searchResut.length>0" :border="false" :scroll-y="true" enableBackToTop="true">
 
-						<view class="label">{{ sexDesc(item.userInfo)}}</view>
+				<view class="uni-flex list-item-divider "
+					style="padding: 10rpx 30rpx; justify-content: space-between;align-items: center;"
+					v-for="(item,index) in dataList" @click="handleItemClick(index)">
 
-						<view class="label">{{ item.userInfo.phoneNumber}}</view>
-					</view>
-					<view style="height: 10rpx;" />
-					<view class="uni-flex" style="align-items: center;">
+
+					<view class="uni-flex uni-column" style="flex: 3;">
+						<view class="uni-flex" style="align-items: center;">
+							<view class="label">{{item.userInfo.name}}</view>
+
+							<view class="label">{{ sexDesc(item.userInfo)}}</view>
+
+							<view class="label">{{ item.userInfo.phoneNumber}}</view>
+						</view>
+						<view style="height: 10rpx;" />
+
 						<view>{{item.createDateTime}}</view>
 
-						<button v-if="status==0" style="margin-left: 200rpx;"
-							@click.stop="createRecipe($event,index)">开处方</button>
-						<button v-else style="margin-left: 200rpx;" @click.stop="viewRecipe($event,index)">查看处方</button>
-
 					</view>
-					<view style="height: 5rpx;" />
 
+					<view style="margin-right: 20rpx;">
+						<view v-if="status==0"
+							style="color: #FA541C;font-size: 24rpx;background-color: #FFF2E8;padding: 6rpx 16rpx;border-radius: 10rpx;"
+							@click.stop="createRecipe($event,index)">开处方</view>
+						<view v-else
+							style="margin-right: 20rpx; background-color: #CAD6FF;color:#2260FF ; font-size: 24rpx;padding: 6rpx 14rpx;border-radius: 10rpx;text-align: center;"
+							@click.stop="viewRecipe($event,index)">查看处方</view>
+					</view>
+
+
+					<uni-icons :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
 				</view>
 
-				<uni-icons :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
+			</uni-list>
+
+
+			<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 26rpx;">
+				<text>暂无匹配记录</text>
 			</view>
+		</view>
+
+		<view v-show="!isInSearchModel">
+			<uni-list v-if="dataList.length>0" :border="false" :scroll-y="true" enableBackToTop="true">
+
+				<view class="uni-flex list-item-divider "
+					style="padding: 10rpx 30rpx; justify-content: space-between;align-items: center;"
+					v-for="(item,index) in dataList" @click="handleItemClick(index)">
 
 
-			<uni-load-more v-show="isShowLoadMore" @clickLoadMore="clickLoadMore" :status="loadMoreStatus"
-				:content-text="contentText"></uni-load-more>
-		</uni-list>
+					<view class="uni-flex uni-column" style="flex: 3;">
+						<view class="uni-flex" style="align-items: center;">
+							<view class="label">{{item.userInfo.name}}</view>
+
+							<view class="label">{{ sexDesc(item.userInfo)}}</view>
+
+							<view class="label">{{ item.userInfo.phoneNumber}}</view>
+						</view>
+						<view style="height: 10rpx;" />
+
+						<view>{{item.createDateTime}}</view>
+						<!-- <view style="height: 5rpx;" /> -->
+
+					</view>
+
+					<view style="margin-right: 20rpx;">
+						<view v-if="status==0"
+							style="color: #FA541C;font-size: 24rpx;background-color: #FFF2E8;padding: 6rpx 16rpx;border-radius: 10rpx;"
+							@click.stop="createRecipe($event,index)">开处方</view>
+						<view v-else
+							style="margin-right: 20rpx; background-color: #CAD6FF;color:#2260FF ; font-size: 24rpx;padding: 6rpx 14rpx;border-radius: 10rpx;text-align: center;"
+							@click.stop="viewRecipe($event,index)">查看处方</view>
+					</view>
 
 
-		<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 30rpx;">
-			<text>暂无处方申请记录</text>
+
+					<uni-icons :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
+				</view>
+
+
+				<uni-load-more v-show="isShowLoadMore" @clickLoadMore="clickLoadMore" :status="loadMoreStatus"
+					:content-text="contentText"></uni-load-more>
+			</uni-list>
+
+
+			<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 26rpx;">
+				<text>暂无处方申请记录</text>
+			</view>
 		</view>
 
 		<view>
@@ -46,10 +101,14 @@
 						style="font-size: 28rpx; font-weight: bold; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx;">
 						请选择处方模版</view>
 
-					<view v-for="(item,index) in recipeTemplateList"
+					<scroll-view scroll-y="true" style="height: 800rpx;">
+						<uni-list-item v-for="(item) in recipeTemplateList" :title="item.title" clickable
+							@click="handleRedipeTemplateItemClick(item)" show-arrow></uni-list-item>
+					</scroll-view>
+					<!-- <view v-for="(item,index) in recipeTemplateList"
 						:class="index<recipeTemplateList.length-1? 'list-item-divider': ''">
 						<view style="font-size: 24;" @click="handleRedipeTemplateItemClick(item)">{{item.title}}</view>
-					</view>
+					</view> -->
 				</view>
 			</uni-popup>
 		</view>
@@ -103,6 +162,9 @@
 		data() {
 
 			return {
+
+				isInSearchModel: false,
+				searchValue: "",
 				targetApplyRecord: {} as ApplyRecordItem,	//开方目标item
 				recipeTemplateList: [] as RecipeItem[],
 				isReadonly: true,
@@ -121,6 +183,8 @@
 				loadMoreStatus: 'more',
 				isShowLoadMore: false,
 				dataList: [] as ApplyRecordItem[],
+
+				searchResut: [] as ApplyRecordItem[],
 				contentText: {
 					contentdown: '查看更多',
 					contentrefresh: '加载中',
@@ -129,6 +193,30 @@
 			}
 		},
 		methods: {
+
+			doSearchCancel(res) {
+				this.searchResut.length = 0;
+				this.isInSearchModel = false;
+			},
+
+			doSearch(res) {
+				this.isInSearchModel = true;
+				uni.showLoading({
+					title: "加载中"
+				});
+				const keyword = res.value;
+				applyApi.searchApplyRecordsByKeyword(keyword, this.status).then(data => {
+					this.searchResut = data
+					uni.hideLoading()
+				}).catch(e => {
+					this.searchResut.length = 0;
+					uni.hideLoading()
+					uni.showToast({
+						title: "" + e,
+					})
+				});
+			},
+
 			onRadioChange(event) {
 				if (this.isReadonly) {
 					return; // 如果是只读状态，不允许修改
@@ -147,7 +235,7 @@
 				uni.showLoading({
 					title: "加载中"
 				});
-				applyApi.searchApplyRecords(pageIndex, 10, this.status).then(data => {
+				applyApi.searchApplyRecords(pageIndex, 20, this.status).then(data => {
 					if (pageIndex == 0) {
 						this.dataList.length = 0;
 					}
@@ -202,7 +290,7 @@
 					mask: true,
 					title: "loading..."
 				})
-				recipeApi.seachRecipeRecords(applyRecordItem.id,this.userInfo.id)
+				recipeApi.seachRecipeRecords(applyRecordItem.id, this.userInfo.id)
 					.then(value => {
 						uni.hideLoading();
 						var content = value.content as [];
@@ -275,9 +363,8 @@
 		@include flex;
 		// align-items: center;
 		justify-content: start;
-		padding: 15px;
-		width: 400rpx;
-		height: 200px;
+		padding: 10px;
+		width: 600rpx;		
 		border-radius: 10rpx;
 		background-color: #fff;
 	}

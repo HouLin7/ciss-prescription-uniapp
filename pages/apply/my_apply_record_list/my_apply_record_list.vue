@@ -4,14 +4,20 @@
 			<uni-list-item v-if="status == 0" @click="handleItemClick(index)" clickable show-arrow
 				v-for="(item,index) in dataList" :title="item.createDateTime">
 				<template v-slot:footer>
-					<view class="accent-color">{{statusDesc}} </view>
+					<view
+						style="color: #FA541C;font-size: 24rpx;background-color: #FFF2E8;padding: 6rpx 16rpx;border-radius: 10rpx;">
+						{{statusDesc}}
+					</view>
 				</template>
 			</uni-list-item>
 
 			<uni-list-item v-else @click="handleItemClick(index)" clickable show-arrow v-for="(item,index) in dataList"
 				:title="item.createDateTime">
 				<template v-slot:footer>
-					<button style="margin-right: 20rpx; " @click.stop="viewRecipe(item)">查看处方</button>
+					<view
+						style="margin-right: 20rpx; background-color: #CAD6FF;color:#2260FF ; font-size: 24rpx;padding: 6rpx 14rpx;border-radius: 10rpx;text-align: center;"
+						@click.stop="viewRecipe(item)">查看处方
+					</view>
 				</template>
 			</uni-list-item>
 			<uni-load-more v-show="isShowLoadMore" @clickLoadMore="clickLoadMore" :status="loadMoreStatus"

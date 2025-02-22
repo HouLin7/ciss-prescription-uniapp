@@ -13,7 +13,7 @@
 
 		<view class="uni-row uni-flex" style="align-items: center;justify-content: start;">
 			<view style="padding-right: 40rpx;">+86</view>
-			<input placeholder="请输入手机号" type="number" name="phone" value="" @input="handlePhoneInput" />
+			<input v-model="inputPhoneNum" placeholder="请输入手机号" type="number" name="phone" @confirm="handleLogin" />
 		</view>
 
 		<view>
@@ -82,6 +82,10 @@
 			},
 
 			handleLogin() {
+				if (this.inputPhoneNum == '') {
+					this.showMessage("请输入手机号");
+					return;
+				}
 				if (!isValidPhoneNumber(this.inputPhoneNum)) {
 					this.showMessage("请输入有效的手机号");
 					return;

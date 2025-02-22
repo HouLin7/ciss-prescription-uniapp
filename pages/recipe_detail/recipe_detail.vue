@@ -57,18 +57,20 @@
 			<view class="card">
 				<view class="title">运动方案</view>
 				<view class="title">*有氧运动</view>
-				<view class="uni-flex">
+				<view class="uni-flex" style="align-items: center;">
 					<p>1.运动项目选择：</p>
 
-					<label v-for="(item,index) in sportItems" :key="item.value"
+					<view v-if="isSelectAerobic('other')">
+						<view>{{recipeItem.otherAerobicExerciseEvent}}</view>
+					</view>
+					<label v-else v-if="!isSelectAerobic('other')" v-for="(item,index) in sportItems" :key="item.value"
 						style="font-size: 26rpx; font-weight: normal; color: royalblue; margin-right: 15rpx;">
 						{{item.label}}
 					</label>
+
 				</view>
 
-				<view v-show="isSelectAerobic('other')">
-					<input class="uni-input" focus placeholder="输入运动项目" />
-				</view>
+
 				<view class="uni-flex" style="align-items: center;">
 					<p> 2.运动中达到的最佳心率范围为 {{recipeItem.aerobicExerciseHeartRateRange}}次/分</p>
 				</view>
@@ -141,7 +143,9 @@
 				<view class="uni-flex">
 					<p>2.运动强度：</p>
 					<view class="uni-flex">
-						<p class="tableItem">每个肌群锻炼{{recipeModel.isometricExerciseIntensity1}}组，每组进行{{recipeModel.isometricExerciseIntensity2}}次</p>						
+						<p class="tableItem">
+							每个肌群锻炼{{recipeModel.isometricExerciseIntensity1}}组，每组进行{{recipeModel.isometricExerciseIntensity2}}次
+						</p>
 					</view>
 				</view>
 				<view class="uni-flex">

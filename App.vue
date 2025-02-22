@@ -1,12 +1,19 @@
 <script>
 	import {
-		mapMutations
+		mapMutations,
+		mapGetters
 	} from 'vuex';
 	import * as utils from './common/util.js';
+	import httpUtils from './api/http-utils.js';
+
 	export default {
 
 		methods: {
-			...mapMutations(['initLoginToken', 'setPlatformInfo']),
+			...mapMutations(['initLoginToken', 'setPlatformInfo', 'clearToken'])
+		},
+
+		computed: {
+			...mapGetters(['token'])
 		},
 
 		onLaunch: function() {
@@ -30,6 +37,32 @@
 					console.error('获取系统信息失败:', err);
 				}
 			});
+
+			uni.addInterceptor('request', {
+				invoke: (args) => {					
+					if (!args.header) {
+						args.header = {}; // 如果没有 headers，则初始化为空对象
+					}
+					if (this.token) {
+						args.header['Authorization'] = `${this.token}`; // 添加 token 到 Authorization 字段	
+					}
+					return args;
+				},
+
+				// 请求完成后拦截
+				success: (response) => {
+					console.log('请求成功', response);
+					if (response.statusCode == 401) {
+						this.clearToken();
+					}
+					return response;
+				},
+				// fail: (error) => {
+				// 	console.log('请求失败', error);
+				// 	return error;
+				// }
+			});
+
 		},
 		onShow: function() {
 			console.log('App Show')

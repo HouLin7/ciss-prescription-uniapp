@@ -361,18 +361,7 @@
 				tabs: ["风险评估", "健康报告", "体测数据"]
 			}
 		},
-		methods: {
-			setTabWidth() {
-				const currentTabRef = Object.keys(this.$refs['tabItem0'].$el);
-				console.log(currentTabRef, "1111111111111111");
-				// console.log(this.$refs['tabItem0'], "222222222");
-
-				if (currentTabRef) {
-					this.tabWidth = currentTabRef.offsetWidth;
-				}
-				// this.tabWidth = 100;
-			},
-
+		methods: {			
 			setCurrentTab(index) {
 				if (this.current !== index) {
 					this.currentIndex = index;

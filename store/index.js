@@ -53,7 +53,13 @@ const store = new Vuex.Store({
 
 				getters: {
 					isLogin: (state) => state.tokenInfo,
-					token: (state) => state.tokenInfo.token,
+					token: (state) => {
+						if (state.tokenInfo) {
+							return state.tokenInfo.token;
+						} else {
+							return null;
+						}
+					},
 					userInfo: (state) => state.tokenInfo.user,
 				},
 

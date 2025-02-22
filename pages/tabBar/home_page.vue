@@ -53,23 +53,23 @@
 			<view class="uni-flex" style="margin-top: 40rpx; padding: 0rpx 100rpx;justify-content: space-between;">
 
 				<view class="cell_recipe_make_recipe" @click="onChange(0)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply.png"></image>
+					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_make.png"></image>
 					<view class="cell_text">为用户开具处方</view>
 				</view>
 
 				<view class="cell_recipe_make_recipe_done" @click="onChange(1)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply.png"></image>
+					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_make_done.png"></image>
 					<view class="cell_text">已开具的处方</view>
 				</view>
 			</view>
 			<view style="height: 40rpx;" />
 			<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
-			
+
 				<view class="cell_default" @click="onChange(100)">
 					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
 					<view class="cell_text_default">预约服务</view>
 				</view>
-			
+
 				<view class="cell_default" @click="onChange(100)">
 					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_attend.png"></image>
 					<view class="cell_text_default">每日签到</view>
@@ -93,7 +93,8 @@
 			<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
 
 				<view class="cell_recipe_apply_record_done" @click="onChange(2)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply.png"></image>
+					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply_record_done.png">
+					</image>
 					<view class="cell_text">运动处方报告</view>
 				</view>
 
@@ -117,8 +118,8 @@
 
 		<view>
 			<uni-popup ref="popup" type="dialog" background-color="#fff">
-				<uni-popup-dialog ref="inputClose" title="友情提示" content="该功能正在开发中,敬请期待..."></uni-popup-dialog>
-				<!-- <view style="font-size: 26rpx; font-weight: bold; color: #000; padding-bottom: 10rpx;">敬请期待</view> -->
+				<uni-popup-dialog ref="inputClose" title="提示" content="该功能正在开发中,敬请期待..."
+					type="warning"></uni-popup-dialog>
 			</uni-popup>
 		</view>
 
@@ -128,18 +129,33 @@
 
 <script lang="ts">
 	import {
-		mapState, mapGetters
+		mapState, mapGetters, mapMutations
 	} from 'vuex';
 
 	import { AmapPoiItem, DistrictItem } from '../../common/data-model';
 	import { nextTick } from 'vue';
+	import user_api from '../../api/user_api';
 
 	export default {
+
+		onLoad() {
+			if (this.isLogin) {
+				user_api.getUser(this.userInfo.id).then(userData => {
+					this.setUserInfo(userData);
+				}).catch(e => {
+					console.log("同步数据失败" + e);
+				});
+			} else {
+				uni.redirectTo({
+					url: "/pages/login/login-by-phone",
+				});
+			}
+		},
 
 
 		computed: {
 			...mapState(["platformInfo", "isLogin"]),
-			...mapGetters(['userInfo']),
+			...mapGetters(['isLogin', 'userInfo']),
 			userName() {
 				if (this.userInfo) {
 					return this.userInfo.name;
@@ -177,7 +193,16 @@
 			}
 		},
 
+		onShow() {
+			if (!this.isLogin) {
+				uni.redirectTo({
+					url: "/pages/login/login-by-phone"
+				})
+			}
+
+		},
 		methods: {
+			...mapMutations(['setUserInfo']),
 			getDate() {
 				const date = new Date(); // 当前日期
 				const formattedDate = date.toLocaleDateString('zh-CN', {

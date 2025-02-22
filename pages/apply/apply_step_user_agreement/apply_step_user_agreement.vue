@@ -75,16 +75,22 @@
 					})
 					return;
 				}
+				uni.showLoading({
+					mask: true,
+					title: "正在提交..."
+				})
 				applyApi.addApplyRecord(this.tempApplyRecordItem).then(rsp => {
 					uni.showToast({
 						title: "提交成功"
 					});
+					uni.hideLoading();
 					setTimeout(() => {
 						uni.switchTab({
 							url: "/pages/tabBar/home_page"
 						});
 					}, 500);
 				}).catch(e => {
+					uni.hideLoading();
 					uni.showToast({
 						title: `${e}`
 					});
