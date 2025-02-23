@@ -112,9 +112,9 @@
 			userApi.getUser(this.userInfo.id).then(userData => {
 				this.setUserInfo(userData);
 			}).catch(e => {
-				uni.showToast({
-					title: "刷新user数据失败" + e,
-				});
+				// uni.showToast({
+				// 	title: "刷新user数据失败" + e,
+				// });
 			});
 		},
 

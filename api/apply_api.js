@@ -1,4 +1,3 @@
-import config from "./env_config";
 import store from "@/store/index";
 import httpUtils from "@/api/http-utils.js";
 export default {
@@ -10,7 +9,7 @@ export default {
 	addApplyRecord(postData) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record/add",
+				url: "/recipe/apply/record/add",
 				dataType: 'json',
 				method: "POST",
 				header: {
@@ -36,7 +35,7 @@ export default {
 	searchApplyRecordsByKeyword(keyword, status) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record/searchByKeyword",
+				url: "/recipe/apply/record/searchByKeyword",
 				method: "GET",
 				data: {
 					"status": status,
@@ -68,7 +67,7 @@ export default {
 	searchApplyRecords(pageIndex, pageSize, status) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record/search",
+				url: "/recipe/apply/record/search",
 				method: "GET",
 				data: {
 					"status": status,
@@ -97,7 +96,7 @@ export default {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record",
+				url: "/recipe/apply/record",
 				method: "GET",
 				data: params,
 				header: {
@@ -122,7 +121,7 @@ export default {
 	getApplyRecordDetail(id) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record/" + id,
+				url: "/recipe/apply/record/" + id,
 				method: "GET",
 				header: {
 					"Authorization": store.getters.token

@@ -1,4 +1,3 @@
-import config from "./env_config";
 import httpUtils from "@/api/http-utils.js";
 export default {
 	/**
@@ -9,7 +8,7 @@ export default {
 	loginByWx(openID, phoneNum) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/auth/login/weixin",
+				url: "/auth/login/weixin",
 				dataType: 'json',
 				method: "POST",
 				data: {

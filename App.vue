@@ -1,4 +1,6 @@
 <script>
+	import config from './api/env_config.js';
+	
 	import {
 		mapMutations,
 		mapGetters
@@ -39,7 +41,9 @@
 			});
 
 			uni.addInterceptor('request', {
-				invoke: (args) => {					
+				invoke: (args) => {
+					args.url = config['API_BASE_URL'] + args.url
+
 					if (!args.header) {
 						args.header = {}; // 如果没有 headers，则初始化为空对象
 					}
@@ -54,6 +58,15 @@
 					console.log('请求成功', response);
 					if (response.statusCode == 401) {
 						this.clearToken();
+						setTimeout(() => {
+								uni.showToast({
+									title: "token已失效,请您重新登录"
+								});
+							}, 2000),
+
+							uni.reLaunch({
+								url: "/pages/login/login-by-phone"
+							})
 					}
 					return response;
 				},

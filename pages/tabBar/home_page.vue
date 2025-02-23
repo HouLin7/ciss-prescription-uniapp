@@ -192,15 +192,7 @@
 
 			}
 		},
-
-		onShow() {
-			if (!this.isLogin) {
-				uni.redirectTo({
-					url: "/pages/login/login-by-phone"
-				})
-			}
-
-		},
+	
 		methods: {
 			...mapMutations(['setUserInfo']),
 			getDate() {

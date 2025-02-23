@@ -4,12 +4,11 @@
 			placeholder="请输入手机号或姓名搜索" />
 
 		<view v-show="isInSearchModel">
-			<uni-list v-if="searchResut.length>0" :border="false" :scroll-y="true" enableBackToTop="true">
+			<uni-list v-show="searchResut.length>0" :border="false" :scroll-y="true" enableBackToTop="true">
 
 				<view class="uni-flex list-item-divider "
 					style="padding: 10rpx 30rpx; justify-content: space-between;align-items: center;"
-					v-for="(item,index) in dataList" @click="handleItemClick(index)">
-
+					v-for="(item,index) in searchResut" @click="handleItemClick(index)">
 
 					<view class="uni-flex uni-column" style="flex: 3;">
 						<view class="uni-flex" style="align-items: center;">
@@ -40,8 +39,8 @@
 
 			</uni-list>
 
-
-			<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 26rpx;">
+			<view v-show="searchResut.length==0" class="uni-flex"
+				style="justify-content: center; padding: 40rpx; font-size: 26rpx;">
 				<text>暂无匹配记录</text>
 			</view>
 		</view>
@@ -94,24 +93,21 @@
 			</view>
 		</view>
 
-		<view>
-			<uni-popup ref="popup">
-				<view class="popup-content">
-					<view class="list-item-divider"
-						style="font-size: 28rpx; font-weight: bold; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx;">
-						请选择处方模版</view>
 
-					<scroll-view scroll-y="true" style="height: 800rpx;">
-						<uni-list-item v-for="(item) in recipeTemplateList" :title="item.title" clickable
-							@click="handleRedipeTemplateItemClick(item)" show-arrow></uni-list-item>
-					</scroll-view>
-					<!-- <view v-for="(item,index) in recipeTemplateList"
-						:class="index<recipeTemplateList.length-1? 'list-item-divider': ''">
-						<view style="font-size: 24;" @click="handleRedipeTemplateItemClick(item)">{{item.title}}</view>
-					</view> -->
-				</view>
-			</uni-popup>
-		</view>
+		<uni-popup ref="popup">
+			<view class="popup-content">
+				<view class="list-item-divider"
+					style="font-size: 28rpx; font-weight: bold; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx;">
+					请选择处方模版</view>
+
+				<scroll-view scroll-y="true" style="height: 800rpx;">
+					<uni-list-item v-for="(item) in recipeTemplateList" :title="item.title" clickable
+						@click="handleRedipeTemplateItemClick(item)" show-arrow></uni-list-item>
+				</scroll-view>
+
+			</view>
+		</uni-popup>
+
 
 	</view>
 </template>
@@ -206,7 +202,8 @@
 				});
 				const keyword = res.value;
 				applyApi.searchApplyRecordsByKeyword(keyword, this.status).then(data => {
-					this.searchResut = data
+					this.searchResut.length = 0;
+					this.searchResut.push(...data.content);
 					uni.hideLoading()
 				}).catch(e => {
 					this.searchResut.length = 0;
@@ -364,7 +361,7 @@
 		// align-items: center;
 		justify-content: start;
 		padding: 10px;
-		width: 600rpx;		
+		width: 600rpx;
 		border-radius: 10rpx;
 		background-color: #fff;
 	}

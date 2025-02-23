@@ -1,4 +1,3 @@
-import config from "./env_config";
 import store from "@/store/index";
 import httpUtils from "@/api/http-utils.js";
 
@@ -12,9 +11,9 @@ export default {
 	saveUser(name, sex, birthday) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/users/mine/update",
+				url: "/users/mine/update",
 				dataType: 'json',
-				method: "POST",				
+				method: "POST",
 				data: {
 					"name": name,
 					"sex": sex,
@@ -31,17 +30,17 @@ export default {
 				fail(e) {
 					reject(e);
 				}
-	
+
 			})
 		});
 	},
-	
+
 	getUser(userId) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/users/" + userId,
+				url: "/users/" + userId,
 				dataType: 'json',
-				method: "GET",				
+				method: "GET",
 				success(response) {
 					if (httpUtils.isHttpRspSuccess(response)) {
 						resolve(response.data.data);
@@ -52,11 +51,11 @@ export default {
 				fail(e) {
 					reject(e);
 				}
-	
+
 			})
 		});
 	},
-	
+
 
 
 

@@ -1,20 +1,16 @@
-import config from "./env_config";
 import store from "@/store/index";
 import httpUtils from "@/api/http-utils.js";
 export default {
 
 	/**
-	 * 	 
+	 * 	 开方接口
 	 */
 	addRecipe(postData) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/record/add",
+				url: "/recipe/record/add",
 				dataType: 'json',
 				method: "POST",
-				header: {
-					"Authorization": store.getters.token
-				},
 				data: postData,
 				success(response) {
 					console.log(response);
@@ -40,12 +36,9 @@ export default {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record/search",
+				url: "/recipe/apply/record/search",
 				method: "GET",
 				data: params,
-				header: {
-					"Authorization": store.getters.token
-				},
 				success(response) {
 					console.log(response);
 					if (httpUtils.isHttpRspSuccess(response)) {
@@ -66,12 +59,9 @@ export default {
 		console.log("login token : " + store.getters.token);
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/apply/record",
+				url: "/recipe/apply/record",
 				method: "GET",
 				data: params,
-				header: {
-					"Authorization": store.getters.token
-				},
 				success(response) {
 					console.log(response);
 					if (httpUtils.isHttpRspSuccess(response)) {
@@ -94,11 +84,8 @@ export default {
 	seachRecipeRecords(applyRecordId, createRecipeUserId) {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/record/search",
+				url: "/recipe/record/search",
 				method: "GET",
-				header: {
-					"Authorization": store.getters.token
-				},
 				data: {
 					"applyRecordId": applyRecordId,
 					"createRecipeUserId": createRecipeUserId
@@ -125,11 +112,8 @@ export default {
 	getRecipeTemplateList() {
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config['API_BASE_URL'] + "/recipe/template",
+				url: "/recipe/template",
 				method: "GET",
-				header: {
-					"Authorization": store.getters.token
-				},
 				success(response) {
 					console.log(response);
 					if (httpUtils.isHttpRspSuccess(response)) {
