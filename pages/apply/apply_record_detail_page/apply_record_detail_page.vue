@@ -4,7 +4,7 @@
 			<view class="headerLabel">{{userName}}</view>
 			<view class="headerLabel">{{phoneNum}}</view>
 			<view class="headerLabel">{{sex}}</view>
-			<view class="headerLabel">{{age}}</view>
+			<view class="headerLabel">{{age}}岁</view>
 			<view class="headerLabel">{{createDate}}</view>
 		</view>
 		<!-- <view style="justify-content: center;padding: 0rpx 0rpx;"> -->
@@ -79,8 +79,8 @@
 						<view style="height: 20rpx;" />
 						<view class="card">
 							<view class="uni-bold" style="margin-bottom: 10rpx;">身体素质</view>
-							<view v-for="(item,index) in bodyTestData.bodyParamsUnit3"
-								:class="{'list-item-divider': index<bodyTestData.bodyParamsUnit3.length-1 }">
+							<view v-for="(item,index) in custombodyParamsUnit3"
+								:class="{'list-item-divider': index<custombodyParamsUnit3.length-1 }">
 								<labelInputComponent :dataItem="item" :enable="false" />
 							</view>
 						</view>
@@ -124,7 +124,7 @@
 		dateUtils, calculateAge
 	} from '../../../common/util';
 	import labelInputComponent from "@/components/label_input_unit_component.vue"
-	import { BodyTestRecords, QuestionItem, QuestionTypeItem } from "../../../common/data-model";
+	import { BodyTestRecords, LableInputDataItem, QuestionItem, QuestionTypeItem } from "../../../common/data-model";
 
 	export default {
 		components: {
@@ -142,7 +142,7 @@
 			var id = params["id"];
 			applyApi.getApplyRecordDetail(id).then(data => {
 				this.applyRecordItem = data;
-				this.currUser = data.userInfo;
+				this.currUser = { name: data.userName, age: data.userAge, sex: data.userSex };
 				var str = data.riskEvaluation as string;
 				var strRiskArray = str.split(',');
 				var riskQuestions = this.risk_questions as QuestionItem[];
@@ -239,7 +239,26 @@
 					this.bodyTestData.bodyParamsUnit3[8].value = item.responseTime;
 
 
-					let res = {
+					this.custombodyParamsUnit3 = this.bodyTestData.bodyParamsUnit3.filter((e) => {
+						if (e.name == "跪卧撑") {
+							return false;
+						}
+
+						if (this.currUser.sex == 0) {
+							if (this.age && this.age >= 40) {
+								return e.name !== "一分钟仰卧起坐" && e.name != "纵跳" && e.name != "俯卧撑"
+							}
+							return e.name !== "一分钟仰卧起坐"
+						} else {
+							if (this.age && this.age >= 40) {
+								return e.name !== "俯卧撑" && e.name != "纵跳" && e.name != "一分钟仰卧起坐"
+							}
+							return e.name !== "俯卧撑"
+						}
+
+					});
+
+					var res = {
 						categories: ["肺活量", "握力", "跳跃", "俯卧撑", "仰卧起坐", "坐位体前屈", "单脚站立", "反应时间"],
 						series: [
 							{
@@ -249,9 +268,13 @@
 							}
 						]
 					};
+					res.categories.length = 0;
+					res.series[0].data.length = 0;
+					for (var bodyItem of this.custombodyParamsUnit3) {
+						res.categories.push(bodyItem.name);
+						res.series[0].data.push(bodyItem.value);
+					}
 					this.chartData = JSON.parse(JSON.stringify(res));
-
-
 				}
 
 			});
@@ -267,6 +290,7 @@
 		},
 
 		computed: {
+
 			underlineStyle() {
 				return {
 					width: `${this.tabWidth}px`,  // 根据选中标签的宽度来设置下划线的宽度
@@ -290,11 +314,11 @@
 				}
 				return "";
 			},
-			age() {
+			age() {				
 				if (this.currUser) {
-					return calculateAge(this.currUser.birthday) + "岁";
+					return this.currUser.age;
 				} else {
-					return "";
+					return null;
 				}
 			},
 			phoneNum() {
@@ -311,10 +335,9 @@
 				return "";
 			},
 		},
-		data() {
+		data() : { custombodyParamsUnit3 : LableInputDataItem[], currentIndex : number } {
 
 			return {
-				tabWidth: 0,
 				opts: {
 					// color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
 					padding: [5, 5, 5, 5],
@@ -357,11 +380,12 @@
 				risk_questions: [],
 				heath_questions: {},
 				bodyTestData: {},
+				custombodyParamsUnit3: [],
 				currentIndex: 0,
 				tabs: ["风险评估", "健康报告", "体测数据"]
 			}
 		},
-		methods: {			
+		methods: {
 			setCurrentTab(index) {
 				if (this.current !== index) {
 					this.currentIndex = index;

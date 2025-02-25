@@ -25,7 +25,7 @@
 
 				</view>
 				<view style="height: 10rpx;"></view>
-				<view class="uni-flex" style="justify-content: space-between;margin: 0rpx 10rpx">
+				<view v-if="applyRecordItem.bodyTestRecords" class="uni-flex" style="justify-content: space-between;margin: 0rpx 10rpx">
 					<view class="uni-flex" style="align-items: center;">
 						<view class="label">身高:</view>
 						<view class="value">{{bodyHeight}}cm</view>
@@ -58,7 +58,7 @@
 				<view class="title">运动方案</view>
 				<view class="title">*有氧运动</view>
 				<view class="uni-flex" style="align-items: center;">
-					<p>1.运动项目选择：</p>
+					<p>1.运动项目：</p>
 
 					<view v-if="isSelectAerobic('other')">
 						<view>{{recipeItem.otherAerobicExerciseEvent}}</view>
@@ -158,18 +158,25 @@
 			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动风险提示</view>
-				<p>
-					感冒、熬夜、酒后禁止运动。
-				</p>
-				<p>
-					运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。
-				</p>
-				<p>
-					运动后不能立即洗澡，防止出现晕厥跌倒。
-				</p>
-				<p>
-					运动后不要立即大量快速饮水，容易给心脏造成负荷。
-				</p>
+
+				<view v-if="recipeItem.riskWarning">
+					<text>{{recipeItem.riskWarning}}</text>
+				</view>
+				<view v-else>
+					<p>
+						感冒、熬夜、酒后禁止运动。
+					</p>
+					<p>
+						运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。
+					</p>
+					<p>
+						运动后不能立即洗澡，防止出现晕厥跌倒。
+					</p>
+					<p>
+						运动后不要立即大量快速饮水，容易给心脏造成负荷。
+					</p>
+				</view>
+
 			</view>
 			<view style="height: 10rpx;"></view>
 			<view class="card">

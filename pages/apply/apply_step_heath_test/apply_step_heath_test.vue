@@ -38,8 +38,8 @@
 				<view style="height: 20rpx;" />
 				<view class="card">
 					<view class="uni-bold" style="margin-bottom: 10rpx;">身体素质</view>
-					<view v-for="(item,index) in bodyParamsUnit3"
-						:class="{'list-item-divider': index<bodyParamsUnit3.length-1 }">
+					<view v-for="(item,index) in custombodyParamsUnit3"
+						:class="{'list-item-divider': index<custombodyParamsUnit3.length-1 }">
 						<labelInputComponent :dataItem="item" />
 					</view>
 				</view>
@@ -67,10 +67,10 @@
 	} from '../../../common/data-model';
 
 	import { BodyTestRecords } from '../../../common/data-model';
-	import { mapState } from 'vuex';
+	import { mapState, mapGetters } from 'vuex';
 
 	import {
-		dateUtils
+		dateUtils, calculateAge
 	} from '../../../common/util';
 
 	import labelInputComponent from "@/components/label_input_unit_component.vue"
@@ -79,6 +79,8 @@
 		components: {
 			labelInputComponent
 		},
+
+
 		created() {
 			const date = new Date();
 			this.today = dateUtils.formatYYMMDD(date);
@@ -86,17 +88,37 @@
 		},
 
 		computed: {
+			age() {
+				if (this.userInfo.birthday) {
+					return calculateAge(this.userInfo.birthday);
+				} else {
+					return null;
+				}
+			},
 			...mapState(['tempApplyRecordItem']),
-			// ...mapGetters(['userInfo']),
-			// bodyParamsUnit3() {
-			// 	if (this.userInfo.sex == 0) {
-			// 		this._bodyParamsUnit3.findIndex((item)=>{
+			...mapGetters(['userInfo']),
+			custombodyParamsUnit3() : LableInputDataItem[] {
 
-			// 		})
-			// 	} else {
+				return this.bodyParamsUnit3.filter((e) => {
+					if (e.name == "跪卧撑") {
+						return false;
+					}
 
-			// 	}
-			// }
+					if (this.userInfo.sex == 0) {
+						if (this.age && this.age >= 40) {
+							return e.name !== "一分钟仰卧起坐" && e.name != "纵跳" && e.name != "俯卧撑"
+						}
+						return e.name !== "一分钟仰卧起坐"
+					} else {
+						if (this.age && this.age >= 40) {
+							return e.name !== "俯卧撑" && e.name != "纵跳" && e.name != "一分钟仰卧起坐"
+						}
+						return e.name !== "俯卧撑"
+					}
+
+				});
+
+			}
 		},
 
 		data() {
@@ -158,7 +180,7 @@
 						return;
 					}
 				}
-				for (var item of this.bodyParamsUnit3) {
+				for (var item of this.custombodyParamsUnit3) {
 					if (!item.value) {
 						this.showMessage(`请输入${item.name}`);
 						return;
@@ -180,7 +202,7 @@
 				bodyTestData.powerCarTestData = this.bodyParamsUnit2[2].value;
 				bodyTestData.pulse = this.bodyParamsUnit2[3].value;
 				bodyTestData.vitalCapacity = this.bodyParamsUnit2[4].value;
-				
+
 				bodyTestData.gripPower = this.bodyParamsUnit3[0].value;
 				bodyTestData.carryPower = this.bodyParamsUnit3[1].value;
 				bodyTestData.jumpPower = this.bodyParamsUnit3[2].value;

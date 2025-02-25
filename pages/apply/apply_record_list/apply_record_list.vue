@@ -101,7 +101,7 @@
 					请选择处方模版</view>
 
 				<scroll-view scroll-y="true" style="height: 800rpx;">
-					<uni-list-item v-for="(item) in recipeTemplateList" :title="item.title" clickable
+					<uni-list-item v-for="(item) in myRecipeTemplateList" :title="item.title" clickable
 						@click="handleRedipeTemplateItemClick(item)" show-arrow></uni-list-item>
 				</scroll-view>
 
@@ -115,8 +115,9 @@
 <script lang="ts">
 	import applyApi from "../../../api/apply_api.js"
 	import recipeApi from "../../../api/recipe_api.js";
-	import { ApplyRecordItem, RecipeItem } from "../../../common/data-model.js";
+	import { ApplyRecordItem, QuestionItem, RecipeItem } from "../../../common/data-model.js";
 	import { mapGetters } from 'vuex'
+	import { heathAskQuestion } from "../../../common/constants.js";
 	export default {
 
 		onLoad(options) {
@@ -132,13 +133,14 @@
 				}
 			}
 
-			recipeApi.getRecipeTemplateList()
+			recipeApi.getRecipeTemplateList({})
 				.then(data => {
 					this.recipeTemplateList = data.content;
 				})
 				.catch(e => uni.showToast({
 					title: "获取处方模版失败"
 				}));
+			this.heathAskQuestion = heathAskQuestion().questionsUni1;
 		},
 
 		onShow() {
@@ -153,6 +155,13 @@
 				} else {
 					return "已开方";
 				}
+			},
+
+			myRecipeTemplateList() {
+				if (this.customRecipeTemplateList && this.customRecipeTemplateList.length > 0) {
+					return this.customRecipeTemplateList;
+				}
+				return this.recipeTemplateList;
 			}
 		},
 		data() {
@@ -163,6 +172,8 @@
 				searchValue: "",
 				targetApplyRecord: {} as ApplyRecordItem,	//开方目标item
 				recipeTemplateList: [] as RecipeItem[],
+
+				customRecipeTemplateList: [] as RecipeItem[], //筛选过的处方模版
 				isReadonly: true,
 				radioList: [{
 					label: "选项1",
@@ -185,7 +196,8 @@
 					contentdown: '查看更多',
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
-				}
+				},
+				heathAskQuestion: [] as QuestionItem[] //健康问卷第一部分题目
 			}
 		},
 		methods: {
@@ -272,7 +284,27 @@
 			createRecipe(e, index) {
 				var item = this.dataList[index]
 				this.targetApplyRecord = item;
-				this.$refs.popup.open('center');
+
+				if (this.targetApplyRecord.healthQuestion[0]) {
+					var targetIndex = this.targetApplyRecord.healthQuestion.split(",")[0];
+					var name = this.heathAskQuestion[0].answers[targetIndex];
+
+					recipeApi.getRecipeTemplateList({ "title": name })
+						.then(data => {
+							this.customRecipeTemplateList = data.content;
+							this.$refs.popup.open('center');
+						})
+						.catch(e => {
+							this.customRecipeTemplateList = [];
+							uni.showToast({
+								title: "获取处方模版失败"
+							})
+							this.$refs.popup.open('center');
+						});
+				} else {
+					this.$refs.popup.open('center');
+				}
+
 			},
 
 

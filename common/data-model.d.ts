@@ -176,7 +176,8 @@ export interface RecipeItem {
 	isometricExerciseFrequency : string, //阻抗训练频率
 
 	createRecipeUserId : number,//开处方专家id
-	createDateTime : string,
-	otherAerobicExerciseEvent : string
+	createDateTime : string, //创建时间
+	otherAerobicExerciseEvent : string,//自定义有氧运动
+	riskWarning : string,
 
 }

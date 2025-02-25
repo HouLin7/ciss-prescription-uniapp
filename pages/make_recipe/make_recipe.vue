@@ -64,7 +64,8 @@
 					</label>
 				</radio-group>
 				<view v-show="isSelectAerobic('other')">
-					<input class="uni-input" focus placeholder="输入运动项目" v-model="otherAerobicSportName" />
+					<input class="uni-input" focus placeholder="输入运动项目"
+						v-model="recipeTemplate.otherAerobicExerciseEvent" />
 				</view>
 				<view class="uni-flex" style="align-items: center;">
 					<p> 2.运动中达到的最佳心率范围为</p>
@@ -177,18 +178,24 @@
 			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动风险提示</view>
-				<p>
-					感冒、熬夜、酒后禁止运动。
-				</p>
-				<p>
-					运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。
-				</p>
-				<p>
-					运动后不能立即洗澡，防止出现晕厥跌倒。
-				</p>
-				<p>
-					运动后不要立即大量快速饮水，容易给心脏造成负荷。
-				</p>
+				<view v-if="recipeTemplate.riskWarning">
+					<text>{{recipeTemplate.riskWarning}}</text>
+				</view>
+				<view v-else>
+					<p>
+						感冒、熬夜、酒后禁止运动。
+					</p>
+					<p>
+						运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。
+					</p>
+					<p>
+						运动后不能立即洗澡，防止出现晕厥跌倒。
+					</p>
+					<p>
+						运动后不要立即大量快速饮水，容易给心脏造成负荷。
+					</p>
+				</view>
+
 			</view>
 			<view style="height: 10rpx;"></view>
 			<view class="card">
@@ -281,7 +288,6 @@
 				strengthTrainingItems: strengthTrainingItems(),
 				selectAeroSportValues: [],
 				selectStrengthSportValues: [],
-				otherAerobicSportName: "",
 			}
 		},
 		methods: {
@@ -315,7 +321,6 @@
 				this.recipeTemplate.applyRecordId = this.applyRecordItem.id;
 				this.recipeTemplate.createDateTime = null;
 				this.recipeTemplate.id = null;
-				this.recipeTemplate.otherAerobicExerciseEvent = this.otherAerobicSportName;
 				recipeApi.addRecipe(this.recipeTemplate)
 					.then((value) => {
 						uni.hideLoading();
@@ -348,7 +353,7 @@
 				this.selectStrengthSportValues = e.detail.value;
 			},
 
-			radioChangeAerobic(e) {				
+			radioChangeAerobic(e) {
 				this.selectAeroSportValues[0] = e.detail.value;
 			},
 		},

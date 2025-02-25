@@ -109,11 +109,12 @@ export default {
 	/**
 	 * 获取模版列表	 
 	 */
-	getRecipeTemplateList() {
+	getRecipeTemplateList(requestData) {
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: "/recipe/template",
 				method: "GET",
+				data: requestData,
 				success(response) {
 					console.log(response);
 					if (httpUtils.isHttpRspSuccess(response)) {
