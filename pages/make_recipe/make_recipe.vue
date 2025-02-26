@@ -178,22 +178,8 @@
 			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动风险提示</view>
-				<view v-if="recipeTemplate.riskWarning">
+				<view style="font-size: 24rpx;">
 					<text>{{recipeTemplate.riskWarning}}</text>
-				</view>
-				<view v-else>
-					<p>
-						感冒、熬夜、酒后禁止运动。
-					</p>
-					<p>
-						运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。
-					</p>
-					<p>
-						运动后不能立即洗澡，防止出现晕厥跌倒。
-					</p>
-					<p>
-						运动后不要立即大量快速饮水，容易给心脏造成负荷。
-					</p>
 				</view>
 
 			</view>
@@ -223,7 +209,7 @@
 	import applyApi from "../../api/apply_api.js"
 	import { dateUtils } from '../../common/util';
 	import recipeApi from "../../api/recipe_api.js"
-	import { aerobicExerciseItems, strengthTrainingItems } from "@/common/constants.ts"
+	import { aerobicExerciseItems, strengthTrainingItems, defaultRiskWarning } from "@/common/constants.ts"
 
 	export default {
 
@@ -256,6 +242,10 @@
 
 				var temp = this.recipeTemplate.isometricExerciseEvents.split(',')
 				this.selectStrengthSportValues = temp;
+
+				if (!this.recipeTemplate.riskWarning) {
+					this.recipeTemplate.riskWarning = defaultRiskWarning;
+				}
 			}
 
 			var recipeId = params["recipeId"];

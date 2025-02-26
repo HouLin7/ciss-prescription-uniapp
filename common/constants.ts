@@ -394,14 +394,14 @@ export const bodyTestData = function () {
 			"unit": "秒:s",
 			"value:": null,
 			validator: (value : number) => {
-				return value >0 && value < 2000;
+				return value > 0 && value < 2000;
 			},
 		}, {
 			"name": "选择反应时",
 			"unit": "秒:s",
 			"value:": null,
 			validator: (value : number) => {
-				return value >0 && value < 2000;
+				return value > 0 && value < 2000;
 			},
 		},]
 	};
@@ -431,3 +431,5 @@ export const strengthTrainingItems = function () {
 
 	];
 }
+
+export const defaultRiskWarning = "感冒、熬夜、酒后禁止运动。\n运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。\n运动后不能立即洗澡，防止出现晕厥跌倒。\n运动后不要立即大量快速饮水，容易给心脏造成负荷。";

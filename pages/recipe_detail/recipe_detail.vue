@@ -25,7 +25,8 @@
 
 				</view>
 				<view style="height: 10rpx;"></view>
-				<view v-if="applyRecordItem.bodyTestRecords" class="uni-flex" style="justify-content: space-between;margin: 0rpx 10rpx">
+				<view v-if="applyRecordItem.bodyTestRecords" class="uni-flex"
+					style="justify-content: space-between;margin: 0rpx 10rpx">
 					<view class="uni-flex" style="align-items: center;">
 						<view class="label">身高:</view>
 						<view class="value">{{bodyHeight}}cm</view>
@@ -158,25 +159,7 @@
 			<view style="height: 10rpx;"></view>
 			<view class="card">
 				<view class="title">运动风险提示</view>
-
-				<view v-if="recipeItem.riskWarning">
-					<text>{{recipeItem.riskWarning}}</text>
-				</view>
-				<view v-else>
-					<p>
-						感冒、熬夜、酒后禁止运动。
-					</p>
-					<p>
-						运动中出现胸闷、胸痛、气短、恶心等情况应该立即停止运动。
-					</p>
-					<p>
-						运动后不能立即洗澡，防止出现晕厥跌倒。
-					</p>
-					<p>
-						运动后不要立即大量快速饮水，容易给心脏造成负荷。
-					</p>
-				</view>
-
+				<text style="font-size: 24rpx;">{{recipeItem.riskWarning}}</text>
 			</view>
 			<view style="height: 10rpx;"></view>
 			<view class="card">
@@ -198,7 +181,7 @@
 	import { ApplyRecordItem, RecipeItem, UserInfo } from '../../common/data-model';
 	import { calculateAge } from '../../common/util';
 	import { dateUtils } from '../../common/util';
-	import { aerobicExerciseItems, strengthTrainingItems } from "@/common/constants.ts"
+	import { aerobicExerciseItems, strengthTrainingItems, defaultRiskWarning } from "@/common/constants.ts"
 
 	export default {
 
@@ -226,6 +209,9 @@
 
 			this.sportItems = this.sportItems.filter((item) => this.isSelectAerobic(item.value));
 			this.strengthTrainingItems = this.strengthTrainingItems.filter((item) => this.isSelectStrength(item.value));
+			if (!this.recipeItem.riskWarning) {
+				this.recipeItem.riskWarning = defaultRiskWarning;
+			}
 		},
 
 		data() {

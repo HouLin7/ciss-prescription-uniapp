@@ -96,7 +96,7 @@
 
 		<uni-popup ref="popup">
 			<view class="popup-content">
-				<view class="list-item-divider"
+				<view 
 					style="font-size: 28rpx; font-weight: bold; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx;">
 					请选择处方模版</view>
 
