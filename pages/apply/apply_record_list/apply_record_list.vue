@@ -89,7 +89,7 @@
 
 
 			<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 26rpx;">
-				<text>暂无处方申请记录</text>
+				<text>暂无处理记录</text>
 			</view>
 		</view>
 
@@ -121,6 +121,7 @@
 	export default {
 
 		onLoad(options) {
+			
 			uni.setNavigationBarTitle({
 				title: "待开方记录"
 			})

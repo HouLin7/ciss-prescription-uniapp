@@ -34,7 +34,7 @@
 
 				<view class="big_card">
 
-					<view class="">
+					<view>
 						<view class=" uni-flex uni-row" style="align-items: center;justify-content: center;">
 							<view style="color: #2260FF;font-weight: bold;font-size: 28rpx;">健康小贴士</view>
 						</view>
@@ -367,9 +367,9 @@
 		flex-direction: column;
 		justify-content: center;
 		background-color: white;
-		height: 220rpx;
+		height: 180rpx;
 		margin: 0 60rpx;
-		padding: 10rpx 50rpx;
+		padding: 10rpx 40rpx;
 	}
 
 	.cell_text {

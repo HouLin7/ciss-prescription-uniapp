@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-list style="margin-top: 10rpx;">
+		<uni-list v-if="dataList.length>0" style="margin-top: 10rpx;">
 			<uni-list-item v-if="status == 0" @click="handleItemClick(index)" clickable show-arrow
 				v-for="(item,index) in dataList" :title="item.createDateTime">
 				<template v-slot:footer>
@@ -23,7 +23,9 @@
 			<uni-load-more v-show="isShowLoadMore" @clickLoadMore="clickLoadMore" :status="loadMoreStatus"
 				:content-text="contentText"></uni-load-more>
 		</uni-list>
-
+		<view v-else class="uni-flex" style="justify-content: center; padding: 40rpx; font-size: 26rpx;">
+			<text>暂无申请记录</text>
+		</view>
 	</view>
 </template>
 
