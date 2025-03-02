@@ -326,8 +326,8 @@
 						var content = value.content as [];
 						if (content.length > 0) {
 							var firstItem = content.shift();
-							console.log(firstItem);
-							console.log(applyRecordItem);
+							// console.log(firstItem);
+							// console.log(applyRecordItem);
 							uni.navigateTo({
 								url: `/pages/recipe_detail/recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeItem=${JSON.stringify(firstItem)}`
 							});

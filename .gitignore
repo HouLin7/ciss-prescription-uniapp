@@ -56,4 +56,5 @@ app/dev/
 /app/.DS_Store
 *.DS_Store
 unpackage/
+uni_modules/
 

@@ -1,7 +1,7 @@
 <template>
 
 	<view class="root-container">
-		<view style="width: 100%;height: 520rpx; position: relative;">
+		<view style="width: 100%;height: 40vh; position: relative;">
 
 			<image style="position:absolute;height: 100%; width: 100% ;" mode="scaleToFill"
 				:src=" userInfo.roleFlag == 1?'/static/banner_2.png':'/static/banner_1.png'">
@@ -47,63 +47,95 @@
 			</view>
 		</view>
 
-		<view style="height: 20rpx;"></view>
+		<view style="height: 10rpx;"></view>
 
-		<view v-if="isProfessor">
-			<view class="uni-flex" style="margin-top: 40rpx; padding: 0rpx 100rpx;justify-content: space-between;">
+		<scroll-view scroll-y="true" style="height: 55vh; padding: 10rpx 0rpx;">
+			<view v-if="isProfessor">
+				<view class="uni-flex" style="margin-top: 40rpx; padding: 0rpx 100rpx;justify-content: space-between;">
 
-				<view class="cell_recipe_make_recipe" @click="onChange(0)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_make.png"></image>
-					<view class="cell_text">为用户开具处方</view>
+					<view class="cell_recipe_make_recipe" @click="onChange(0)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_make.png"></image>
+						<view class="cell_text">为用户开具处方</view>
+					</view>
+
+					<view class="cell_recipe_make_recipe_done" @click="onChange(1)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_make_done.png"></image>
+						<view class="cell_text">已开具的处方</view>
+					</view>
 				</view>
+				<view style="height: 40rpx;" />
+				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
 
-				<view class="cell_recipe_make_recipe_done" @click="onChange(1)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_make_done.png"></image>
-					<view class="cell_text">已开具的处方</view>
-				</view>
-			</view>
-			<view style="height: 40rpx;" />
-			<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
+						<view class="cell_text_default">预约服务</view>
+					</view>
 
-				<view class="cell_default" @click="onChange(100)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
-					<view class="cell_text_default">预约服务</view>
-				</view>
-
-				<view class="cell_default" @click="onChange(100)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_attend.png"></image>
-					<view class="cell_text_default">每日签到</view>
-				</view>
-			</view>
-		</view>
-		<view v-else>
-			<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
-
-				<view class="cell_recipe_apply" @click="onChange(0)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply.png"></image>
-					<view class="cell_text">运动处方申请</view>
-				</view>
-
-				<view class="cell_recipe_apply_record" @click="onChange(1)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply_record.png"></image>
-					<view class="cell_text">处方申请记录</view>
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_attend.png"></image>
+						<view class="cell_text_default">每日签到</view>
+					</view>
 				</view>
 			</view>
-			<view style="height: 40rpx;" />
-			<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
+			<view v-else>
+				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
 
-				<view class="cell_recipe_apply_record_done" @click="onChange(2)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply_record_done.png">
-					</image>
-					<view class="cell_text">运动处方报告</view>
+					<view class="cell_recipe_apply" @click="onChange(0)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply.png"></image>
+						<view class="cell_text">运动处方申请</view>
+					</view>
+
+					<view class="cell_recipe_apply_record" @click="onChange(1)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply_record.png">
+						</image>
+						<view class="cell_text">处方申请记录</view>
+					</view>
 				</view>
+				<view style="height: 40rpx;" />
+				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
 
-				<view class="cell_default" @click="onChange(100)">
-					<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
-					<view class="cell_text_default">预约服务</view>
+					<view class="cell_recipe_apply_record_done" @click="onChange(2)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_recipe_apply_record_done.png">
+						</image>
+						<view class="cell_text">运动处方报告</view>
+					</view>
+
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
+						<view class="cell_text_default">预约服务</view>
+					</view>
+				</view>
+				<view style="height: 40rpx;" />
+				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
+				
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
+						<view class="cell_text_default">每日签到</view>
+					</view>
+				
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/logo.png"></image>
+						<view class="cell_text_default">首档建方</view>
+					</view>
+				</view>
+				<view style="height: 40rpx;" />
+				
+				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
+				
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/logo.png"></image>
+						<view class="cell_text_default">处方咨询</view>
+					</view>
+				
+					<view class="cell_default" @click="onChange(100)">
+						<image style="width: 80rpx;height: 80rpx;" src="/static/logo.png"></image>
+						<view class="cell_text_default">健身科普</view>
+					</view>
 				</view>
 			</view>
-		</view>
+			
+		</scroll-view>
+
 
 
 		<!-- <view style="padding: 40rpx 20rpx;">
@@ -192,7 +224,7 @@
 
 			}
 		},
-	
+
 		methods: {
 			...mapMutations(['setUserInfo']),
 			getDate() {
@@ -277,7 +309,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: white;
-		height: 90vh;
+		height: 95vh;
 		/* 设置页面的高度为全屏 */
 	}
 

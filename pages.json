@@ -31,7 +31,7 @@
 		{
 			"path": "pages/login/login-by-phone",
 			"style": {
-				"navigationBarTitleText": "登陆",
+				"navigationBarTitleText": "登录",
 				"backgroundColor": "#fff"
 			}
 		},
