@@ -131,16 +131,14 @@
 					mask: true,
 					title: "loading..."
 				})
-				recipeApi.seachRecipeRecords(applyRecordItem.id, null)
+				recipeApi.seachCustomRecipeRecords(applyRecordItem.id, null)
 					.then(value => {
 						uni.hideLoading();
 						var content = value.content as [];
 						if (content.length > 0) {
-							var firstItem = content.shift();
-							console.log(firstItem);
-							console.log(applyRecordItem);
+							var firstItem = content.shift();							
 							uni.navigateTo({
-								url: `/pages/recipe_detail/recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeItem=${JSON.stringify(firstItem)}`
+								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeId=${firstItem.id}`
 							});
 						} else {
 							uni.showToast({

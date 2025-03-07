@@ -101,19 +101,31 @@ export interface BaseHttpRsp {
 	data : Object
 }
 
+export interface SystemConfigItem {
+	code : string,
+	name : string
+}
+
 export interface ApplyRecordItem {
 	id : number,
 	userId : number,
+	userName : string,
+	userAge : number,
+	userSex : number,
+	sickCode : string,
+	sickName : string,
+	sportCode : string,
+	sportName : string,
 	healthQuestion : string,
 	riskEvaluation : string,
 	appVersionCode : string,
 	status : string,
 	createDateTime : string,
 	bodyTestRecords : BodyTestRecords,
-	userInfo : UserInfo
+
 }
 
-export interface BodyTestRecords {
+export declare interface BodyTestRecords {
 	id : number,
 	applyRecordId : number,
 	height : number,
@@ -133,12 +145,13 @@ export interface BodyTestRecords {
 	gripPowerScore : number,//握力得分
 
 	carryPower : number,//背力
+	carryPowerScore : number,//背力得分
 
 	jumpPower : number,//跳跃	
 	jumpPowerScore : number,//跳跃
 
-	pushUpCount : number,//俯卧撑
-	pushUpCountScore : number,//俯卧撑
+	pushUpCount : number,//俯卧撑	
+	pushUpCountScore : number,//俯卧撑得分
 
 	kneelUpCount : number,//跪卧撑
 
@@ -158,7 +171,7 @@ export interface BodyTestRecords {
 
 }
 
-export interface RecipeItem {
+export declare interface RecipeItem {
 	id : number,
 	applyRecordId : number,
 	title : string,
@@ -179,5 +192,31 @@ export interface RecipeItem {
 	createDateTime : string, //创建时间
 	otherAerobicExerciseEvent : string,//自定义有氧运动
 	riskWarning : string,
+
+}
+
+export declare interface TemplateFieldItem {
+	id : number,
+	mainId : number,
+	label : string,
+	content : string,
+	orderNum : string,
+}
+
+export declare interface CustomTemplate {
+	id : number,
+	applyRecordId : number,
+	createRecipeUserId : string,
+	title : string,
+	sex : number,
+	minAge : number,
+	maxAge : number,
+	sickCode : number,
+	sickName : string,
+	sportCode : number,
+	sportName : string,
+	createDateTime : string,
+	updateDateTime : string,
+	fieldItems : TemplateFieldItem[],
 
 }

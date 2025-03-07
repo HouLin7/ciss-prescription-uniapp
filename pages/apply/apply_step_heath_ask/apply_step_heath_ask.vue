@@ -16,7 +16,7 @@
 					<QuestionItemTowCompoment v-for="(item,index) in questionsUni2" :key="index" :questions="item.data"
 						:typeTitle="item.typeTitle" />
 					<view style="height: 10rpx;"></view>
-					<QuestionItemCompoment :questions="questionsUni3" answerLayout="flex" bold-title="true" />
+					<QuestionItemCompoment :questions="questionsUni3" answerLayout="flex" :bold-title="true" />
 				</view>
 			</view>
 		</scroll-view>
@@ -38,7 +38,7 @@
 	import { ApplyRecordItem, QuestionTypeItem } from '../../../common/data-model';
 	import { QuestionItem } from "../../../common/data-model";
 	import { heathAskQuestion } from '../../../common/constants';
-	import { mapState } from 'vuex';
+	import { mapState, mapGetters } from 'vuex';
 	export default {
 		components: {
 			QuestionItemCompoment, QuestionItemTowCompoment
@@ -47,8 +47,11 @@
 		created() {
 			this.questionsUni1 = heathAskQuestion().questionsUni1;
 			this.questionsUni2 = heathAskQuestion().questionsUni2;
-			this.questionsUni3 = heathAskQuestion().questionsUni3;
+			this.questionsUni3 = heathAskQuestion().questionsUni3;			
+			// console.log(JSON.stringify(this.sickConfig));						
+			this.questionsUni1[0].answers = (this.sickConfig).map((value) => value.name);
 		},
+
 		data() {
 			return {
 				messageText: "",
@@ -71,22 +74,16 @@
 
 		computed: {
 			...mapState(['tempApplyRecordItem']),
+			...mapGetters(['sickConfig']),
 		},
 
 		methods: {
-			showMessage(message:string) {
+			showMessage(message : string) {
 				this.messageText = message;
 				this.$refs.message.open();
 			},
-			
-			doNext() {
 
-				for (var item of this.questionsUni1) {
-					if (item.selectIndexSet.length == 0) {
-						this.showMessage("请先完成单选部分");
-						return;
-					}
-				}
+			doNext() {
 
 				var unitAnswers = [];
 				for (var item of this.questionsUni1) {
@@ -98,7 +95,6 @@
 					}
 					unitAnswers.push(item.selectIndexSet[0]);
 				}
-
 
 				for (var typeItem of this.questionsUni2) {
 					for (var dataItem of typeItem.data) {
@@ -120,6 +116,8 @@
 
 				if (this.tempApplyRecordItem) {
 					(this.tempApplyRecordItem as ApplyRecordItem).healthQuestion = unitAnswers.join(',');
+					var sickSelectIndex = this.questionsUni1[0].selectIndexSet[0]; //用户选择的病证索引
+					(this.tempApplyRecordItem as ApplyRecordItem).sickCode = this.sickConfig[sickSelectIndex].code;
 				} else {
 					uni.showToast({
 						title: "保存基础对象为空"

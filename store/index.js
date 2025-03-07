@@ -21,10 +21,15 @@ const store = new Vuex.Store({
 					 * 临时的缓存（一次处方申请记录）
 					 */
 					tempApplyRecordItem: null,
-					platformInfo: 'devtools'
+					platformInfo: 'devtools',
+					systemConfig: [], //系统字典
 				},
 
 				mutations: {
+					setSystemConfig(state, item) {
+						state.systemConfig = item;
+					},
+
 					setTempApplyRecordItem(state, item) {
 						state.tempApplyRecordItem = item;
 					},
@@ -61,6 +66,12 @@ const store = new Vuex.Store({
 						}
 					},
 					userInfo: (state) => state.tokenInfo.user,
+					sickConfig: (state) => {						
+						return (state.systemConfig).filter((value) => value.type == "sick")
+					},
+					sportConfig: (sate) => {
+						return (state.systemConfig).filter((value) => value.type == "sport")
+					},
 				},
 
 				actions: {

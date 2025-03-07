@@ -102,6 +102,19 @@
 			"style": {
 				"navigationBarTitleText": "查看运动处方"
 			}
+		},
+
+		{
+			"path": "pages/make_recipe/make_custom_recipe",
+			"style": {
+				"navigationBarTitleText": "开运动处方"
+			}
+		},
+		{
+			"path": "pages/recipe_detail/custom_recipe_detail",
+			"style": {
+				"navigationBarTitleText": "查看运动处方"
+			}
 		}
 	],
 

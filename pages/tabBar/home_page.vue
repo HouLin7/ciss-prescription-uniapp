@@ -68,12 +68,12 @@
 
 					<view class="cell_default" @click="onChange(100)">
 						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
-						<view class="cell_text_default">预约服务</view>
+						<view class="cell_text_default">科普服务</view>
 					</view>
 
 					<view class="cell_default" @click="onChange(100)">
 						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_attend.png"></image>
-						<view class="cell_text_default">每日签到</view>
+						<view class="cell_text_default">处方咨询</view>
 					</view>
 				</view>
 			</view>
@@ -102,11 +102,11 @@
 
 					<view class="cell_default" @click="onChange(100)">
 						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
-						<view class="cell_text_default">预约服务</view>
+						<view class="cell_text_default">每日签到</view>
 					</view>
 				</view>
 				<view style="height: 40rpx;" />
-				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
+				<!-- <view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
 				
 					<view class="cell_default" @click="onChange(100)">
 						<image style="width: 80rpx;height: 80rpx;" src="/static/icons/ic_order_service.png"></image>
@@ -118,7 +118,7 @@
 						<view class="cell_text_default">首档建方</view>
 					</view>
 				</view>
-				<view style="height: 40rpx;" />
+				<view style="height: 40rpx;" /> -->
 				
 				<view class="uni-flex" style="padding: 0rpx 100rpx;justify-content: space-between;">
 				

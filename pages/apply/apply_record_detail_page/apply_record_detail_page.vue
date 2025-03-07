@@ -112,9 +112,7 @@
 	import QuestionItemTowCompoment from "@/components/question_answer_list_tow_componet.vue"
 
 	import applyApi from "@/api/apply_api.js";
-	// import userApi from "../../../api/user_api.js";
-
-
+	import { mapGetters } from 'vuex';
 	import {
 		heathAskQuestion,
 		bodyTestData,
@@ -226,17 +224,35 @@
 					this.bodyTestData.bodyParamsUnit2[2].value = item.powerCarTestData;
 					this.bodyTestData.bodyParamsUnit2[3].value = item.pulse;
 					this.bodyTestData.bodyParamsUnit2[4].value = item.vitalCapacity;
+					this.bodyTestData.bodyParamsUnit2[4].score = item.vitalCapacityScore;
 
 					this.bodyTestData.bodyParamsUnit3[0].value = item.gripPower;
+					this.bodyTestData.bodyParamsUnit3[0].score = item.gripPowerScore;
+
 					this.bodyTestData.bodyParamsUnit3[1].value = item.carryPower;
+					this.bodyTestData.bodyParamsUnit3[1].score = item.carryPowerScore;
+
 					this.bodyTestData.bodyParamsUnit3[2].value = item.jumpPower;
+					this.bodyTestData.bodyParamsUnit3[2].score = item.jumpPowerScore;
+
 					this.bodyTestData.bodyParamsUnit3[3].value = item.pushUpCount;
+					this.bodyTestData.bodyParamsUnit3[3].score = item.pushUpCountScore;
+
 					this.bodyTestData.bodyParamsUnit3[4].value = item.kneelUpCount;
 
+
 					this.bodyTestData.bodyParamsUnit3[5].value = item.sitUpCount;
+					this.bodyTestData.bodyParamsUnit3[5].score = item.sitUpCountScore;
+
 					this.bodyTestData.bodyParamsUnit3[6].value = item.sitAndReach;
+					this.bodyTestData.bodyParamsUnit3[6].score = item.sitAndReachScore;
+
 					this.bodyTestData.bodyParamsUnit3[7].value = item.standOnOne;
+					this.bodyTestData.bodyParamsUnit3[7].score = item.standOnOneScore;
+
 					this.bodyTestData.bodyParamsUnit3[8].value = item.responseTime;
+					this.bodyTestData.bodyParamsUnit3[8].score = item.responseTimeScore;
+
 
 
 					this.custombodyParamsUnit3 = this.bodyTestData.bodyParamsUnit3.filter((e) => {
@@ -268,11 +284,18 @@
 							}
 						]
 					};
-					res.categories.length = 0;
-					res.series[0].data.length = 0;
+
+					console.log(res);
+					res.categories = [];
+					res.series[0].data = [];
+					res.categories.push("肺活量");
+					res.series[0].data.push(item.vitalCapacityScore);
 					for (var bodyItem of this.custombodyParamsUnit3) {
+						if (bodyItem.name == "背力") {
+							continue;
+						}
 						res.categories.push(bodyItem.name);
-						res.series[0].data.push(bodyItem.value);
+						res.series[0].data.push(bodyItem.score);
 					}
 					this.chartData = JSON.parse(JSON.stringify(res));
 				}
@@ -285,12 +308,14 @@
 
 			this.heath_questions = heathAskQuestion();
 
+			this.heath_questions.questionsUni1[0].answers = (this.sickConfig).map((value) => value.name);
+
 			this.bodyTestData = bodyTestData();
 
 		},
 
 		computed: {
-
+			...mapGetters(['sickConfig']),
 			underlineStyle() {
 				return {
 					width: `${this.tabWidth}px`,  // 根据选中标签的宽度来设置下划线的宽度
@@ -314,7 +339,7 @@
 				}
 				return "";
 			},
-			age() {				
+			age() {
 				if (this.currUser) {
 					return this.currUser.age;
 				} else {

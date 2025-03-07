@@ -1,17 +1,18 @@
 <script>
 	import config from './api/env_config.js';
-	
+
 	import {
 		mapMutations,
 		mapGetters
 	} from 'vuex';
-	import * as utils from './common/util.js';
+
 	import httpUtils from './api/http-utils.js';
+	import loginApi from './api/login_api.js';
 
 	export default {
 
 		methods: {
-			...mapMutations(['initLoginToken', 'setPlatformInfo', 'clearToken'])
+			...mapMutations(['initLoginToken', 'setPlatformInfo', 'clearToken', 'setSystemConfig'])
 		},
 
 		computed: {
@@ -70,12 +71,13 @@
 					}
 					return response;
 				},
-				// fail: (error) => {
-				// 	console.log('请求失败', error);
-				// 	return error;
-				// }
+
 			});
 
+			loginApi.getSysConfig().then((res) => {
+				this.setSystemConfig(res);
+				// console.log(JSON.stringify(res));
+			});
 		},
 		onShow: function() {
 			console.log('App Show')

@@ -38,5 +38,28 @@ export default {
 		});
 	},
 
+	getSysConfig() {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: "/sysConfig/all",
+				method: "GET",
+				success(response) {
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data)
+					} else {
+						uni.showToast({
+							title: response.data.msg
+						})
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+
+	}
+
 
 }

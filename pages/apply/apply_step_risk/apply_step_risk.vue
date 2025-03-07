@@ -82,8 +82,7 @@
 				var content = allSelectAnswers.join(',');
 				applyItem.riskEvaluation = content;
 				this.setTempApplyRecordItem(applyItem);
-				console.log(JSON.stringify(applyItem));
-
+				// console.log(JSON.stringify(applyItem));
 				uni.navigateTo({
 					url: "/pages/apply/apply_step_heath_ask/apply_step_heath_ask"
 				})

@@ -344,6 +344,7 @@ export const bodyTestData = function () {
 			"name": "握力",
 			"unit": "千克:kg",
 			"value": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 100;
 			},
@@ -351,6 +352,7 @@ export const bodyTestData = function () {
 			"name": "背力",
 			"unit": "千克:kg",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 500;
 			},
@@ -358,6 +360,7 @@ export const bodyTestData = function () {
 			"name": "纵跳",
 			"unit": "厘米:cm",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 300;
 			},
@@ -365,6 +368,7 @@ export const bodyTestData = function () {
 			"name": "俯卧撑",
 			"unit": "次",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 1000;
 			},
@@ -372,6 +376,7 @@ export const bodyTestData = function () {
 			"name": "跪卧撑",
 			"unit": "次",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 1000;
 			},
@@ -379,6 +384,7 @@ export const bodyTestData = function () {
 			"name": "一分钟仰卧起坐",
 			"unit": "次",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 1000;
 			},
@@ -386,6 +392,7 @@ export const bodyTestData = function () {
 			"name": "坐位体前屈",
 			"unit": "厘米:cm",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > -50 && value < 200;
 			},
@@ -393,6 +400,7 @@ export const bodyTestData = function () {
 			"name": "闭眼单脚站立",
 			"unit": "秒:s",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 2000;
 			},
@@ -400,6 +408,7 @@ export const bodyTestData = function () {
 			"name": "选择反应时",
 			"unit": "秒:s",
 			"value:": null,
+			"score": 0,
 			validator: (value : number) => {
 				return value > 0 && value < 2000;
 			},

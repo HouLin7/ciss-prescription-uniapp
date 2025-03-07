@@ -96,13 +96,26 @@
 
 		<uni-popup ref="popup">
 			<view class="popup-content">
-				<view 
-					style="font-size: 28rpx; font-weight: bold; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx;">
-					请选择处方模版</view>
+				<view class="uni-flex"
+					style="font-size: 28rpx; color: #000; padding-bottom: 10rpx; margin-bottom: 10rpx; align-items: center;">
+					<view>请选择处方模版</view>
+					<span style="font-size: 22rpx;color: cadetblue; margin-left: 20rpx;"
+						v-if="customRecipeTemplateList.length>0">精准推荐</span>
+				</view>
 
 				<scroll-view scroll-y="true" style="height: 800rpx;">
-					<uni-list-item v-for="(item) in myRecipeTemplateList" :title="item.title" clickable
-						@click="handleRedipeTemplateItemClick(item)" show-arrow></uni-list-item>
+					<uni-list-item v-for="(item) in myRecipeTemplateList" clickable
+						@click="handleRedipeTemplateItemClick(item)" show-arrow>
+						<template v-slot:body>
+							<view class="uni-flex uni-column">
+								<text> {{item.title}}</text>
+								<view style="color: #666; font-size: 26rpx;">{{item.sex==0?"男":"女"}} {{item.sickName}}
+									{{item.sportName}} {{item.minAge}}-{{item.maxAge}}岁
+								</view>
+							</view>
+
+						</template>
+					</uni-list-item>
 				</scroll-view>
 
 			</view>
@@ -115,13 +128,14 @@
 <script lang="ts">
 	import applyApi from "../../../api/apply_api.js"
 	import recipeApi from "../../../api/recipe_api.js";
-	import { ApplyRecordItem, QuestionItem, RecipeItem } from "../../../common/data-model.js";
+	import templateApi from "../../../api/template_api.js";
+	import { ApplyRecordItem, CustomTemplate, QuestionItem, RecipeItem } from "../../../common/data-model.js";
 	import { mapGetters } from 'vuex'
 	import { heathAskQuestion } from "../../../common/constants.js";
 	export default {
 
 		onLoad(options) {
-			
+
 			uni.setNavigationBarTitle({
 				title: "待开方记录"
 			})
@@ -134,13 +148,19 @@
 				}
 			}
 
-			recipeApi.getRecipeTemplateList({})
-				.then(data => {
-					this.recipeTemplateList = data.content;
-				})
-				.catch(e => uni.showToast({
-					title: "获取处方模版失败"
-				}));
+			// recipeApi.getRecipeTemplateList({})
+			// 	.then(data => {
+			// 		this.recipeTemplateList = data.content;
+			// 	})
+			// 	.catch(e => uni.showToast({
+			// 		title: "获取处方模版失败"
+			// 	}));
+
+
+			templateApi.searchCustomTemplate({}).then((data) => {
+				this.recipeTemplateList = data.content;
+			});
+
 			this.heathAskQuestion = heathAskQuestion().questionsUni1;
 		},
 
@@ -158,7 +178,7 @@
 				}
 			},
 
-			myRecipeTemplateList() {
+			myRecipeTemplateList() : CustomTemplate[] {
 				if (this.customRecipeTemplateList && this.customRecipeTemplateList.length > 0) {
 					return this.customRecipeTemplateList;
 				}
@@ -172,9 +192,10 @@
 				isInSearchModel: false,
 				searchValue: "",
 				targetApplyRecord: {} as ApplyRecordItem,	//开方目标item
-				recipeTemplateList: [] as RecipeItem[],
+				recipeTemplateList: [] as CustomTemplate[],
 
-				customRecipeTemplateList: [] as RecipeItem[], //筛选过的处方模版
+				customRecipeTemplateList: [] as CustomTemplate[], //筛选过的处方模版
+
 				isReadonly: true,
 				radioList: [{
 					label: "选项1",
@@ -285,26 +306,31 @@
 			createRecipe(e, index) {
 				var item = this.dataList[index]
 				this.targetApplyRecord = item;
-
-				if (this.targetApplyRecord.healthQuestion[0]) {
-					var targetIndex = this.targetApplyRecord.healthQuestion.split(",")[0];
-					var name = this.heathAskQuestion[0].answers[targetIndex];
-
-					recipeApi.getRecipeTemplateList({ "title": name })
-						.then(data => {
-							this.customRecipeTemplateList = data.content;
-							this.$refs.popup.open('center');
-						})
-						.catch(e => {
-							this.customRecipeTemplateList = [];
-							uni.showToast({
-								title: "获取处方模版失败"
-							})
-							this.$refs.popup.open('center');
-						});
-				} else {
+				templateApi.getCustomTemplate(item.id).then((data) => {
+					this.customRecipeTemplateList = data;
 					this.$refs.popup.open('center');
-				}
+				});
+
+
+				// if (this.targetApplyRecord.healthQuestion[0]) {
+				// 	var targetIndex = this.targetApplyRecord.healthQuestion.split(",")[0];
+				// 	var name = this.heathAskQuestion[0].answers[targetIndex];
+
+				// 	recipeApi.getRecipeTemplateList({ "title": name })
+				// 		.then(data => {
+				// 			this.customRecipeTemplateList = data.content;
+				// 			this.$refs.popup.open('center');
+				// 		})
+				// 		.catch(e => {
+				// 			this.customRecipeTemplateList = [];
+				// 			uni.showToast({
+				// 				title: "获取处方模版失败"
+				// 			})
+				// 			this.$refs.popup.open('center');
+				// 		});
+				// } else {
+				// 	this.$refs.popup.open('center');
+				// }
 
 			},
 
@@ -320,16 +346,16 @@
 					mask: true,
 					title: "loading..."
 				})
-				recipeApi.seachRecipeRecords(applyRecordItem.id, this.userInfo.id)
+				recipeApi.seachCustomRecipeRecords(applyRecordItem.id, this.userInfo.id)
 					.then(value => {
 						uni.hideLoading();
-						var content = value.content as [];
+						var content = value.content as CustomTemplate[];
 						if (content.length > 0) {
 							var firstItem = content.shift();
 							// console.log(firstItem);
 							// console.log(applyRecordItem);
 							uni.navigateTo({
-								url: `/pages/recipe_detail/recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeItem=${JSON.stringify(firstItem)}`
+								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeId=${firstItem.id}`
 							});
 						} else {
 							uni.showToast({
@@ -348,10 +374,10 @@
 
 			},
 
-			handleRedipeTemplateItemClick(item : RecipeItem) {
+			handleRedipeTemplateItemClick(item : CustomTemplate) {
 				this.$refs.popup.close();
 				uni.navigateTo({
-					url: `/pages/make_recipe/make_recipe?applyRecordId=${this.targetApplyRecord.id}&template=${JSON.stringify(item)}`
+					url: `/pages/make_recipe/make_custom_recipe?applyRecordId=${this.targetApplyRecord.id}&template=${JSON.stringify(item)}`
 				})
 			}
 

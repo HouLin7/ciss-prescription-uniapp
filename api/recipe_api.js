@@ -2,6 +2,29 @@ import store from "@/store/index";
 import httpUtils from "@/api/http-utils.js";
 export default {
 
+	addRecipeV1(postData) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: "/recipe/record/add/v1",
+				dataType: 'json',
+				method: "POST",
+				data: postData,
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+	},
+
 	/**
 	 * 	 开方接口
 	 */
@@ -85,6 +108,58 @@ export default {
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: "/recipe/record/search",
+				method: "GET",
+				data: {
+					"applyRecordId": applyRecordId,
+					"createRecipeUserId": createRecipeUserId
+				},
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+	},
+
+	/**
+	 * @param {Object} recipeId  处方ID
+	 */
+	getCustomRecipeDetail(recipeId) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: "/recipe/record/v1/"+recipeId,
+				method: "GET",				
+				success(response) {
+					console.log(response);
+					if (httpUtils.isHttpRspSuccess(response)) {
+						resolve(response.data.data);
+					} else {
+						reject(response.data.msg);
+					}
+				},
+				fail(e) {
+					reject(e);
+				}
+
+			})
+		});
+	},
+
+	/**
+	 * @param {Object} applyRecordId  申请记录ID
+	 */
+	seachCustomRecipeRecords(applyRecordId, createRecipeUserId) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: "/recipe/record/search/v1",
 				method: "GET",
 				data: {
 					"applyRecordId": applyRecordId,
