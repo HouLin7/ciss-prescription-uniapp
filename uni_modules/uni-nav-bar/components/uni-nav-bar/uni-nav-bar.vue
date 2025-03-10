@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-navbar" :class="{'uni-dark':dark, 'uni-nvue-fixed': fixed}">
 		<view class="uni-navbar__content" :class="{ 'uni-navbar--fixed': fixed, 'uni-navbar--shadow': shadow, 'uni-navbar--border': border }"
-			:style="{ 'background-color': themeBgColor }" >
+			:style="{ 'background-color': themeBgColor, 'border-bottom-color':themeColor }" >
 			<status-bar v-if="statusBar" />
 			<view :style="{ color: themeColor,backgroundColor: themeBgColor ,height:navbarHeight}"
 				class="uni-navbar__header">
@@ -318,7 +318,7 @@
 
 	.uni-navbar--fixed {
 		position: fixed;
-		z-index: 998;
+		z-index: 99;
 		/* #ifdef H5 */
 		left: var(--window-left);
 		right: var(--window-right);
