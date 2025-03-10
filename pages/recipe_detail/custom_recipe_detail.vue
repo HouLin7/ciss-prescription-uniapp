@@ -45,19 +45,24 @@
 			</view>
 
 			<view style="height: 5rpx;"></view>
-			<view class="uni-flex uni-column card" style="margin-top: 10rpx;margin-bottom: 15rpx;"
-				v-for="(item,index) in recipeItem.fieldItems" :key="index">
+
+
+			<view v-if="!isMarkdownContent" class="uni-flex uni-column card"
+				style="margin-top: 10rpx;margin-bottom: 15rpx;" v-for="(item,index) in recipeItem.fieldItems"
+				:key="index">
 				<h4>{{item.label}}</h4>
-				<text class="custom-textarea" auto-height> {{item.content}}</text>
+				<text class="custom-textarea" style="margin-left: 10rpx;" auto-height> {{item.content}}</text>
+			</view>
+			<view v-else class="uni-flex uni-column card" style="margin-top: 10rpx;">
+				<view v-html="markdownContent"></view>
 			</view>
 			<view style="height: 10rpx;"></view>
 			<view class="card">
-				<p>
+				<view>
 					本运动处方有效期为1个星期，到期后请及时到医院复查并调整运动处方。
-				</p>
+				</view>
 				<view class="uni-flex uni-column"
-					style="justify-content: flex-start;padding-right: 10rpx;align-items: end;">
-					<view style="height: 10rpx;" />
+					style="justify-content: flex-start;padding-right: 10rpx;align-items: end; margin-top: 10rpx;">
 					<p>开方专家：{{createUserName}}</p>
 					<p>{{currDateStr}}</p>
 				</view>
@@ -75,7 +80,7 @@
 	import { aerobicExerciseItems, strengthTrainingItems, defaultRiskWarning } from "@/common/constants.ts"
 	import recipeApi from "@/api/recipe_api.js";
 	import userApi from "@/api/user_api.js"
-
+	import { marked } from 'marked';
 	export default {
 
 		onLoad(params : Map<string, string>) {
@@ -95,9 +100,10 @@
 
 		},
 
+
+
 		data() {
 			return {
-
 				recipeItem: {} as CustomTemplate,
 				createUser: {} as UserInfo,
 				currUser: {} as UserInfo,
@@ -108,10 +114,22 @@
 		},
 		methods: {
 
-
 		},
 
 		computed: {
+			markdownContent() {
+				if (this.recipeItem.markdownContent) {
+					return marked(this.recipeItem.markdownContent);
+				}
+				return "";
+			},
+
+			isMarkdownContent() {
+				if (this.recipeItem.markdownContent) {
+					return true;
+				}
+				return false;
+			},
 
 			createUserName() {
 				if (this.createUser.name) {
@@ -183,7 +201,7 @@
 </script>
 
 <style lang="scss">
-	p {
+	.p {
 		font-size: 26rpx;
 	}
 

@@ -217,6 +217,7 @@ export declare interface CustomTemplate {
 	sportName : string,
 	createDateTime : string,
 	updateDateTime : string,
+	markdownContent : string,
 	fieldItems : TemplateFieldItem[],
 
 }

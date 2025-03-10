@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "marked": "^15.0.7",
     "vconsole": "^3.15.1"
   }
 }

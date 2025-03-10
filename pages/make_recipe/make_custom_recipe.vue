@@ -46,9 +46,15 @@
 
 			<view style="height: 10rpx;"></view>
 
-			<view class="uni-flex uni-column card" v-for="(item,index) in recipeTemplate.fieldItems" :key="index">
+			<view v-if="!isMarkdownContent" class="uni-flex uni-column card"
+				v-for="(item,index) in recipeTemplate.fieldItems" :key="index">
 				<h4>{{item.label}}</h4>
-				<textarea class="custom-textarea" placeholder="请输入" type="text" v-model="item.content" auto-height />
+				<textarea class="custom-textarea" style="margin-left: 10rpx;" placeholder="请输入" type="text"
+					v-model="item.content" auto-height />
+				<!-- <mp-html :content="item.content" /> -->
+			</view>
+			<view v-else class="uni-flex uni-column card">
+				<view v-html="markdownContent"></view>
 			</view>
 			<view style="height: 10rpx;"></view>
 			<view class="card">
@@ -76,7 +82,7 @@
 	import applyApi from "../../api/apply_api.js"
 	import { dateUtils } from '../../common/util';
 	import recipeApi from "../../api/recipe_api.js"
-	import { aerobicExerciseItems, strengthTrainingItems, defaultRiskWarning } from "@/common/constants.ts"
+	import { marked } from 'marked';
 
 	export default {
 
@@ -139,7 +145,20 @@
 		},
 
 		computed: {
+			markdownContent() {
+				if (this.recipeTemplate.markdownContent) {
+					var result = marked(this.recipeTemplate.markdownContent);
+					return result;
+				}
+				return "";
+			},
 
+			isMarkdownContent() {
+				if (this.recipeTemplate.markdownContent) {
+					return true;
+				}
+				return false;
+			},
 			currDateStr() {
 				var now = new Date();
 				return dateUtils.formatYYMMDD(now);
