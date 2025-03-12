@@ -51,7 +51,7 @@
 				<h4>{{item.label}}</h4>
 				<textarea class="custom-textarea" style="margin-left: 10rpx;" placeholder="请输入" type="text"
 					v-model="item.content" auto-height />
-				<!-- <mp-html :content="item.content" /> -->
+				
 			</view>
 			<view v-else class="uni-flex uni-column card">
 				<view v-html="markdownContent"></view>
@@ -83,7 +83,7 @@
 	import { dateUtils } from '../../common/util';
 	import recipeApi from "../../api/recipe_api.js"
 	import { marked } from 'marked';
-
+	import { encodeBase64Modern, decodeBase64Modern } from "@/utils/base64.js";
 	export default {
 
 		onLoad(params : Map<string, string>) {
@@ -95,9 +95,15 @@
 				this.editModel = 0
 				applyApi.getApplyRecordDetail(id).then(data => {
 					this.applyRecordItem = data;
-				});
-
-				this.recipeTemplate = JSON.parse(params["template"]);
+				});									
+			
+				this.recipeTemplate = JSON.parse( decodeURIComponent(params["template"]));												
+				this.recipeTemplate.markdownContent = decodeBase64Modern(this.recipeTemplate.markdownContent);				
+				if (this.recipeTemplate.fieldItems) {
+					for (const item of this.recipeTemplate.fieldItems) {
+						item.content = decodeBase64Modern(item.content)
+					}
+				}
 			}
 
 		},
@@ -130,7 +136,18 @@
 						item.id = null;
 					}
 				}
-				recipeApi.addRecipeV1(this.recipeTemplate)
+
+				var temp = Object.assign({}, this.recipeTemplate);
+				temp.markdownContent = encodeBase64Modern(temp.markdownContent);
+				temp.fieldItems = [];
+				if (this.recipeTemplate.fieldItems) {
+					for (const item of this.recipeTemplate.fieldItems) {
+						const copyItem = Object.assign({}, item);
+						copyItem.content = encodeBase64Modern(copyItem.content);
+						temp.fieldItems.push(copyItem);
+					}
+				}
+				recipeApi.addRecipeV1(temp)
 					.then((value) => {
 						uni.hideLoading();
 						uni.navigateBack();

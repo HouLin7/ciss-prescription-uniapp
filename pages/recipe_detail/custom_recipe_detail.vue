@@ -51,7 +51,7 @@
 				style="margin-top: 10rpx;margin-bottom: 15rpx;" v-for="(item,index) in recipeItem.fieldItems"
 				:key="index">
 				<h4>{{item.label}}</h4>
-				<text class="custom-textarea" style="margin-left: 10rpx;" auto-height> {{item.content}}</text>
+				<text style="margin-left: 10rpx;" auto-height v-html="item.content"></text>
 			</view>
 			<view v-else class="uni-flex uni-column card" style="margin-top: 10rpx;">
 				<view v-html="markdownContent"></view>
@@ -79,8 +79,9 @@
 	import { calculateAge, dateUtils } from '../../common/util';
 	import { aerobicExerciseItems, strengthTrainingItems, defaultRiskWarning } from "@/common/constants.ts"
 	import recipeApi from "@/api/recipe_api.js";
-	import userApi from "@/api/user_api.js"
+	import userApi from "@/api/user_api.js";
 	import { marked } from 'marked';
+	import { encodeBase64Modern, decodeBase64Modern } from "@/utils/base64.js";
 	export default {
 
 		onLoad(params : Map<string, string>) {
@@ -91,6 +92,13 @@
 
 			recipeApi.getCustomRecipeDetail(id).then((res) => {
 				this.recipeItem = res;
+
+				this.recipeItem.markdownContent = decodeBase64Modern(this.recipeItem.markdownContent);
+				if (this.recipeItem.fieldItems) {
+					for (const item of this.recipeItem.fieldItems) {
+						item.content = decodeBase64Modern(item.content)
+					}
+				}
 
 				userApi.getUser(this.recipeItem.createRecipeUserId).then((res) => {
 					this.createUser = res;

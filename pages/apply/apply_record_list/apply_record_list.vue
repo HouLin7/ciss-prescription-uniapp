@@ -132,6 +132,8 @@
 	import { ApplyRecordItem, CustomTemplate, QuestionItem, RecipeItem } from "../../../common/data-model.js";
 	import { mapGetters } from 'vuex'
 	import { heathAskQuestion } from "../../../common/constants.js";
+	import { encodeBase64Modern, decodeBase64Modern } from "@/utils/base64.js";
+
 	export default {
 
 		onLoad(options) {
@@ -352,8 +354,6 @@
 						var content = value.content as CustomTemplate[];
 						if (content.length > 0) {
 							var firstItem = content.shift();
-							// console.log(firstItem);
-							// console.log(applyRecordItem);
 							uni.navigateTo({
 								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeId=${firstItem.id}`
 							});
@@ -376,8 +376,9 @@
 
 			handleRedipeTemplateItemClick(item : CustomTemplate) {
 				this.$refs.popup.close();
+				var templateStr = encodeURIComponent(JSON.stringify(item)) 
 				uni.navigateTo({
-					url: `/pages/make_recipe/make_custom_recipe?applyRecordId=${this.targetApplyRecord.id}&template=${JSON.stringify(item)}`
+					url: `/pages/make_recipe/make_custom_recipe?applyRecordId=${this.targetApplyRecord.id}&template=${templateStr}`
 				})
 			}
 
