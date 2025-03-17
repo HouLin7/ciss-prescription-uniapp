@@ -21,8 +21,7 @@
 
 		onLaunch: function() {
 			console.log('App Launch')
-			var tokenInfo = uni.getStorageSync("tokenInfo");
-			console.log("app init  from cache token ：" + JSON.stringify(tokenInfo));
+			var tokenInfo = uni.getStorageSync("tokenInfo");			
 			if (tokenInfo) {
 				this.initLoginToken(tokenInfo);
 			}
@@ -75,8 +74,7 @@
 			});
 
 			loginApi.getSysConfig().then((res) => {
-				this.setSystemConfig(res);
-				// console.log(JSON.stringify(res));
+				this.setSystemConfig(res);				
 			});
 		},
 		onShow: function() {

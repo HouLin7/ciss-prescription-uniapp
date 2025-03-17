@@ -51,9 +51,9 @@
 				<h4>{{item.label}}</h4>
 				<textarea class="custom-textarea" style="margin-left: 10rpx;" placeholder="请输入" type="text"
 					v-model="item.content" auto-height />
-				
+
 			</view>
-			<view v-else class="uni-flex uni-column card">
+			<view v-else class="uni-flex uni-column card" @click="handleMarkdownEdit">
 				<view v-html="markdownContent"></view>
 			</view>
 			<view style="height: 10rpx;"></view>
@@ -95,10 +95,10 @@
 				this.editModel = 0
 				applyApi.getApplyRecordDetail(id).then(data => {
 					this.applyRecordItem = data;
-				});									
-			
-				this.recipeTemplate = JSON.parse( decodeURIComponent(params["template"]));												
-				this.recipeTemplate.markdownContent = decodeBase64Modern(this.recipeTemplate.markdownContent);				
+				});
+
+				this.recipeTemplate = JSON.parse(decodeURIComponent(params["template"]));
+				this.recipeTemplate.markdownContent = decodeBase64Modern(this.recipeTemplate.markdownContent);
 				if (this.recipeTemplate.fieldItems) {
 					for (const item of this.recipeTemplate.fieldItems) {
 						item.content = decodeBase64Modern(item.content)
@@ -108,6 +108,13 @@
 
 		},
 
+		onShow() {
+			var result = uni.getStorageSync("fromMakedownEditPage");
+			if (result) {
+				this.recipeTemplate.markdownContent = result;
+				uni.removeStorageSync("fromMakedownEditPage");
+			}
+		},
 		data() {
 			return {
 				messageText: "",
@@ -117,6 +124,14 @@
 			}
 		},
 		methods: {
+
+			handleMarkdownEdit() {
+				const content = encodeURIComponent(this.recipeTemplate.markdownContent);
+				uni.navigateTo({
+					url: "/pages/make_recipe/markdown_content_edit?markdown=" + content
+				})
+			},
+
 			showMessage(message : string) {
 				this.messageText = message;
 				this.$refs.message.open();

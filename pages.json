@@ -115,7 +115,14 @@
 			"style": {
 				"navigationBarTitleText": "查看运动处方"
 			}
+		},
+		{
+			"path": "pages/make_recipe/markdown_content_edit",
+			"style": {
+				"navigationBarTitleText": "编辑模版"
+			}
 		}
+		
 	],
 
 	"tabBar": {
