@@ -355,7 +355,7 @@
 						if (content.length > 0) {
 							var firstItem = content.shift();
 							uni.navigateTo({
-								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeId=${firstItem.id}`
+								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${encodeURIComponent(JSON.stringify(applyRecordItem))}&recipeId=${firstItem.id}`
 							});
 						} else {
 							uni.showToast({

@@ -35,6 +35,7 @@
 		dateUtils
 	} from "../../../common/util.js";
 	import recipeApi from "../../../api/recipe_api.js";
+	import { encodeBase64Modern, decodeBase64Modern } from "@/utils/base64.js";
 
 	export default {
 
@@ -136,9 +137,9 @@
 						uni.hideLoading();
 						var content = value.content as [];
 						if (content.length > 0) {
-							var firstItem = content.shift();							
+							var firstItem = content.shift();
 							uni.navigateTo({
-								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${JSON.stringify(applyRecordItem)}&recipeId=${firstItem.id}`
+								url: `/pages/recipe_detail/custom_recipe_detail?applyRecordItem=${encodeURIComponent(JSON.stringify(applyRecordItem))}&recipeId=${firstItem.id}`
 							});
 						} else {
 							uni.showToast({

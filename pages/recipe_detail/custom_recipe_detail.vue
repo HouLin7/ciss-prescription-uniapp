@@ -86,7 +86,7 @@
 
 		onLoad(params : Map<string, string>) {
 
-			this.applyRecordItem = JSON.parse(params["applyRecordItem"]);
+			this.applyRecordItem = JSON.parse( decodeURIComponent(params["applyRecordItem"]));
 
 			let id = JSON.parse(params["recipeId"]);
 
